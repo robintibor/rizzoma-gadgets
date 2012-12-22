@@ -15,12 +15,16 @@
    limitations under the License.
 -->
 <Module>
-  <ModulePrefs title="Napkin Gadget" height="500">
+  <ModulePrefs title="Napkin Gadget" height="2000" scrolling="true">
     <Require feature="wave" /> 
     <Require feature="flash" />
+    <Require feature="dynamic-height"/>
   </ModulePrefs>
   <Content type="html">
     <![CDATA[     
+    <style type="text/css">
+        #NapkinGadget-container { height:300px; }
+    </style>
     <script type="text/javascript"
        src="https://wave-api.appspot.com/public/wave.js"></script>
     <script type="text/javascript"
@@ -53,6 +57,7 @@
 				}
 			);
 		  }
+          gadgets.window.adjustHeight();
 		}
 
 		gadgets.util.registerOnLoadHandler(main);    
