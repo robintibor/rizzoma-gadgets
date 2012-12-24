@@ -53,7 +53,7 @@
 					height:"100%", 
 					allowscriptaccess:"always",
 					wmode:"transparent",
-					flashvars:"gadgetName=NapkinGadget&debugMode=true"
+					flashvars:"gadgetName=NapkinGadget"
 				}
 			);
 		  }
