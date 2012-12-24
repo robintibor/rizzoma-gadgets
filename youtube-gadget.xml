@@ -74,6 +74,7 @@ function onLoadFailed(){if(loadTimeout!=null){$("#loadlbl").text("Error: Failed 
 <div style="clear:both"></div>
 </div>
 <div id="maincont">
+<!--
 <div id="note"><b>Note:</b> WaveTube is a <em>collaborative</em> YouTube player for Google Wave. When you start playing the video, your current playback position will be shared with the rest of the users on the wave.</div>
 <div id='sliders'><h4>Who's watching:</h4></div>
 <div id="annotform">
@@ -82,12 +83,14 @@ function onLoadFailed(){if(loadTimeout!=null){$("#loadlbl").text("Error: Failed 
 <div class="annot-form-input" style="margin-right:0 !important;">&nbsp;Duration<br>
 <select style="width:46px" id="annotduration">
 <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="5" selected>5</option><option value="7">7</option><option value="10">10</option>
-</select>
+</select>-->
 </div>
 <div style="clear:both;text-align:right;margin-right:5px;">
 <span id="errormsg">Error in input</span>
+<!--
 <button id="annotbtn">OK</button>
 <button id="annotcancel">Cancel</button>
+--> 
 </div>
 </div>
 <div id='helpbar' ><a href="https://everybodywave.appspot.com/index/wavetube.html" target='_blank'>about</a> | <a href="https://wave.google.com/wave/#restored:wave:googlewave.com!w%252Bh2RZJhpEA" target='_blank'>install</a></div>
