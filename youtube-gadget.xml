@@ -69,7 +69,7 @@ function onLoadFailed(){if(loadTimeout!=null){$("#loadlbl").text("Error: Failed 
 </div><div style="clear:both"></div></li>
 </ul>
 <div style="float:left;width:240px"><button id="yturlGo">Go</button>&nbsp;<span id="loadlbl"></span></div>
-<div id="helpbarform"><a href="https://everybodywave.appspot.com/index/wavetube.html" target="_blank">Help</a> | <a href="https://wave.google.com/wave/#restored:wave:googlewave.com!w%252BalFptV0sA" target="_blank">Install</a> 
+<div id="helpbarform"><a href="https://everybodywave.appspot.com/index/wavetube.html" target="_blank">Help</a> <!-- | <a href="https://wave.google.com/wave/#restored:wave:googlewave.com!w%252BalFptV0sA" target="_blank">Install</a> -->
 </div>
 <div style="clear:both"></div>
 </div>
