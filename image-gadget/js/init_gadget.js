@@ -1,3 +1,11 @@
+/*
+ * init_gadget.js
+ *
+ * Licensed under the MIT license (http://www.opensource.org/licenses/mit-license.php)
+ * Originally Feb 2010 Eyal Zach (eyalzh@gmail.com) for everybodywave.net
+ * modified for rizzoma.com by Robin Tibor Schirrmeister (robintibor@gmail.com)
+ */
+ 
 Settings = {
    'alwaysShowAnnotations': false
  };
@@ -28,8 +36,8 @@ Settings = {
  }
 
 function setWaveEventHandlers() {
-     wave.setStateCallback(onStateChange);
-     wave.setModeCallback(onModeChange);
+     wave.setStateCallback(loadImageAndAnnotations);
+     wave.setModeCallback(setMode);
 }
 
 function setUIEventHandlers() {
@@ -45,22 +53,57 @@ function setUIEventHandlers() {
      });
 }
 
- function onStateChange() {
-   var state = wave.getState();
-   var imgSrcState = state.get("imgUrl");
-   var imgHeightState = state.get("imgHeight");
-   var imgWidthState = state.get("imgWidth");
+function loadImageAndAnnotations() {
+    loadImageFromState();
+    loadAnnotationsFromState();
+ }
 
+function loadImageFromState() {
+   var state = wave.getState();
+   var imageSrc = state.get("imgUrl");
+   var imageWidth = state.get("imgWidth");
+   var imageHeight = state.get("imgHeight");
+   loadImage(imageSrc, imageWidth, imageHeight);
+}
+
+function loadImage(imageSource, imageWidth, imageHeight) {
+    enterImageSourceInTextBox(imageSource);
+     if (imageSource.length > 0) {
+        if (curMode == GadMode.EDIT) {
+            $("#loadlbl").show();
+        }
+        $("#loader").show();
+        theImg = new Image();
+        theImg.src = imageSource;
+        theImg.onload = showImage;
+        annotateModel.reset();
+        setImageSize(imageWidth, imageHeight);
+    }
+}
+
+function showImage() {
+    $("#loader").hide();
+
+   $("#imgo").attr("src", theImg.src);
+   console.log("$", $);
+   console.log("setting attribute of", $("#imgo"));
+   //annotateModel.loadFromWave();
+
+   $("#loadlbl").hide();
+   $("#eimg").show();
+   $("#imgo").fadeIn(300);
+}
+
+function enterImageSourceInTextBox(imageSource) {
+   if (imageSource) {
+     $("#imgurl").val(imageSource);
+   }
+}
+
+function loadAnnotationsFromState() {
+   var state = wave.getState();
    annotateModel = annotateModel || new AnnotateModel();
    annotateView = annotateView || new AnnotateView("#eimg");
-
-   if (imgSrcState) {
-     $("#imgurl").val(imgSrcState);
-     loadImageByEnteredURL(true);
-   }
-
-   setImageSize(imgWidthState, imgHeightState);
-
    annotateView.reset();
    annotateModel.loadFromWave();
    var annControl;
@@ -89,10 +132,9 @@ function setUIEventHandlers() {
    }
 
    if (wave.getMode() == wave.Mode.PLAYBACK) annotateView.showall(true);
+}
 
- }
-
- function onModeChange() {
+ function setMode() {
    switchMode(wave.getMode() == wave.Mode.EDIT ? GadMode.EDIT : GadMode.VIEW);
  }
 
@@ -149,18 +191,16 @@ function setUIEventHandlers() {
      theImg.onload = function () {
        onImgLoad(fromState)
      };
-
      annotateModel.reset();
-
-
    }
-
  }
 
  function onImgLoad(fromState) {
    $("#loader").hide();
 
    $("#imgo").attr("src", theImg.src);
+   console.log("$", $);
+   console.log("setting attribute of", $("#imgo"));
 
    if (!fromState) {
      setImageSize(theImg.width, theImg.height);
@@ -221,7 +261,9 @@ function setUIEventHandlers() {
  function setImageSize(width, height) {
    if (curMode == GadMode.EDIT) $("#imgo").resizable('destroy');
 
-   if (width) $("#imgo").css("width", width).attr("width", width);
+   if (width) { 
+       $("#imgo").css("width", width).attr("width", width);
+   }
    if (height) {
      imgHeight = height;
      $("#imgo").css("height", height).attr("height", height);
@@ -315,4 +357,4 @@ function setUIEventHandlers() {
    gadgets.window.adjustHeight(lastHeightSet);
  }
 
- gadgets.util.registerOnLoadHandler(init);console.log("hi!");
+ gadgets.util.registerOnLoadHandler(init);
