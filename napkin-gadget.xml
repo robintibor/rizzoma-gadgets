@@ -63,7 +63,7 @@
           gadgets.window.adjustHeight();
 		}
 
-		gadgets.util.registerOnLoadHandler(main);    
+		gadgets.util.registerOnLoadHandler(main);
     </script>
 	<div id="NapkinGadget-container">
 	   <canvas id="napkinViewerCanvas">You must either have Flash or
