@@ -1,0 +1,37 @@
+small {font-size:10px;color:#666}
+button {border:1px solid black;cursor:pointer;height:20px}
+#eimg {float:left;display:none}
+#edit {display:none;font-size:12px;font-family:Arial;background:#C9E2FC; padding-left:6px;margin-bottom:3px;border-bottom: 1px solid #7992BC;padding-top:2px;padding-bottom:2px}
+#edit a {font-size:11px}
+#imgurlcont {float:left;margin-right:3px}
+#imgurl {width:300px;height:20px}
+#settings {clear:both;margin-left:28px;float:left}
+#loadlbl {display:none;font-size:12px;font-family:Arial;color:#333}
+#viewNote {top:0px;left:4px;font-size:11px}
+#editNote {top:64px;left:16px;font-size:12px}
+#annotext {width:182px;height:20px;font-size:12px}
+#isannalways {position:relative;top:1px}
+#helpbar {position:relative; left:127px;top:2px;float:left}
+.float-note {display:none;position:absolute;font-family:Arial;color:#000;background-color:#fff;border:1px solid #666;padding:1px;opacity:0.85;filter:alpha(opacity=85);z-index:80}
+.softb {border: 1px solid #CCCCCC;float:left}
+.dimimg {opacity:0.50;filter:alpha(opacity=50)}
+.ui-resizable {position: relative}
+.ui-resizable-handle {position:absolute;font-size:0.1px;z-index:99999;display:block}
+.ui-resizable-disabled .ui-resizable-handle, .ui-resizable-autohide .ui-resizable-handle {display: none}
+.ui-resizable-n {cursor:n-resize;height:7px;width:100%;top:-5px;left:0px}
+.ui-resizable-s {cursor:s-resize;height:7px;width:100%;bottom:-5px;left:0px}
+.ui-resizable-e {cursor:e-resize;width:7px;right:-5px;top: 0px;height:100%}
+.ui-resizable-w {cursor:w-resize;width:7px;left:-5px;top: 0px;height:100%}
+.ui-resizable-se {cursor:se-resize;width:12px;height:12px;right: 1px;bottom:1px}
+.ui-resizable-sw {cursor:sw-resize;width:9px;height:9px;left:-5px; bottom:-5px}
+.ui-resizable-nw {cursor:nw-resize;width:9px;height:9px;left:-5px; top:-5px}
+.ui-resizable-ne {cursor:ne-resize;width:9px;height:9px;right:-5px; top:-5px}
+.ui-icon {width:16px;height:16px;background-image:url(http://everybodywave.appspot.com/gadget/image/ui-icons.png)}
+.ui-icon-gripsmall-diagonal-se {background-position:-80px -224px}
+.ui-draggable {cursor:move}
+.annot-edit {position:absolute;border:1px solid black;width:20px;height:20px;z-index:98}
+.annot-out {display:none;position:absolute;border:1px solid #fff;z-index:70}
+.annot-in {border:1px solid #000;z-index:70;cursor:pointer}
+.annot-text {position:absolute;max-width:200px;overflow:hidden;background:#FFFEE3;border:1px solid #000;padding:3px;z-index:95;font-family:Arial;font-size:11px;color:#000;display:none}
+.lolcat {font-family: impact, arial;color:white; font-size:32px;text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;-moz-user-select: none}
+#annotform {position:absolute;display:none;border:1px solid #000;padding:1px;z-index:98;background:#FFFEE3}
