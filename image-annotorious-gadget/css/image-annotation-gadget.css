@@ -4,4 +4,6 @@
 
 #imageDiv {
   margin-top:10px;
+  overflow-x: auto;
+  overflow-y: hidden;
 }
