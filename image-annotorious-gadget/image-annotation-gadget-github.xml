@@ -6,8 +6,8 @@
 <Content type="html">
 <![CDATA[
   <head>
-    <link href="https://rawgithub.com/robintibor/rizzoma-gadgets/master/image-annotorious-gadget/css/image-annotation-gadget.css" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" type="text/css" href="https://rawgithub.com/robintibor/rizzoma-gadgets/master/image-annotorious-gadget/annotorious/css/annotorious.css" />
+    <link href="https://dl.dropbox.com/u/34637013/publish/rizzoma-gadgets/image-annotorious-gadget/css/image-annotation-gadget.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="https://dl.dropbox.com/u/34637013/publish/rizzoma-gadgets/image-annotorious-gadget/annotorious/css/annotorious.css" />
   </head>
   <body>
     <input type="text" id="imageUrlText" placeholder="Enter Image URL..."></input>
