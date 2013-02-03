@@ -19,7 +19,7 @@
     <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.0/jquery-ui.min.js"></script>
     <script src="https://c9.io/robintibor/rizzoma-gadget/workspace/image-annotorious-gadget/annotorious/annotorious.0.3.min.js"></script>
     <script src="https://c9.io/robintibor/rizzoma-gadget/workspace/image-annotorious-gadget/js/load-image.js"></script>
-    <!--<script src="https://c9.io/robintibor/rizzoma-gadget/workspace/image-annotorious-gadget/js/save-load-annotations.js"></script>-->
+    <script src="https://c9.io/robintibor/rizzoma-gadget/workspace/image-annotorious-gadget/js/save-load-annotations.js"></script>
   </body>
 ]]>
 </Content>
