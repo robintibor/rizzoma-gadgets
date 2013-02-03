@@ -61,7 +61,6 @@ imageHasBeenStored = ->
   return imageSource?
 
 loadImageFromState = ->
-  console.log("in loadingImageFrom State :)")
   [imageSrc, imageWidth, imageHeight] = getImageDataFromWave()
   loadImage(imageSrc, imageWidth, imageHeight)
 
@@ -70,8 +69,6 @@ getImageDataFromWave = ->
   imageSrc = state.get("imgUrl")
   imageWidth = state.get("imgWidth")
   imageHeight = state.get("imgHeight")
-  console.log("imageWidth", imageWidth);
-  console.log("imageHeight", imageHeight);
   return [imageSrc, imageWidth, imageHeight]
  
 loadImage = (imageSource, imageWidth, imageHeight) ->
@@ -107,14 +104,12 @@ hideLoadItems = ->
   $("#loadlbl").hide()
 
 setImageSize = (imageWidth, imageHeight) ->
-  console.log("setting image size to", imageWidth, imageHeight)
   $("#imgo").resizable("destroy")  if curMode is GadMode.EDIT
   $("#imgo").css("width", imageWidth)  if imageWidth
   if imageHeight
     imgHeight = imageHeight
     $("#imgo").css("height", imageHeight)
     $("#viewNote").css("top", (imgHeight - 22) + "px")
-    console.log("have set image size to", imageWidth, imageHeight)
     fixHeight()
 
 makeImageResizable = ->
@@ -224,8 +219,6 @@ loadImageByEnteredURL = (fromState) ->
 onImgLoad = (fromState) ->
   $("#loader").hide()
   $("#imgo").attr "src", theImg.src
-  console.log "$", $
-  console.log "setting attribute of", $("#imgo")
   unless fromState
     setImageSize theImg.width, theImg.height
     delta =
