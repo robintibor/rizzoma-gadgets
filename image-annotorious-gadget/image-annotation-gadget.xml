@@ -10,7 +10,7 @@
     <link rel="stylesheet" type="text/css" href="https://c9.io/robintibor/rizzoma-gadget/workspace/image-annotorious-gadget/annotorious/css/annotorious.css" />
   </head>
   <body>
-    <input type="text" id="imageUrlText" placeholder="Type Image URL..."></input>
+    <input type="text" id="imageUrlText" placeholder="Enter Image URL..."></input>
     <button id="loadImageButton">Load Image</button>
     <div id="imageDiv">
       <img id="imageToAnnotate"></img>

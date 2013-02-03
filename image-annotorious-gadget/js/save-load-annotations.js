@@ -2,10 +2,7 @@
   var __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
   jQuery(document).ready(function($) {
-    /* annotation part
-    */
-
-    var addNewAnnotations, addOrRemoveAnnotationsInPicture, annotableImageExists, getAnnotationsFromState, removeAnnotationFromWave, removeMissingAnnotations, saveAnnotationsOnChange, saveAnnotationsToWave, saveNewAnnotationToWave;
+    var addNewAnnotations, addOrRemoveAnnotationsInPicture, annotableImageExists, getAnnotationsFromState, getExistingAnnotations, removeAnnotationFromWave, removeMissingAnnotations, saveAnnotationsOnChange, saveAnnotationsToWave, syncAnnotationsWithWave;
     window.loadAnnotationsFromState = function() {
       var annotations;
       annotations = getAnnotationsFromState();
@@ -23,8 +20,8 @@
       return $('.annotorious-annotationlayer').length > 0;
     };
     addOrRemoveAnnotationsInPicture = function(annotationsFromWave) {
-      addNewAnnotations(annotationsFromWave);
-      return removeMissingAnnotations(annotationsFromWave);
+      removeMissingAnnotations(annotationsFromWave);
+      return addNewAnnotations(annotationsFromWave);
     };
     addNewAnnotations = function(annotationsFromWave) {
       var annotation, existingAnnotationStrings, existingAnnotations, _i, _len, _ref, _results;
@@ -73,17 +70,29 @@
       return _results;
     };
     saveAnnotationsOnChange = function() {
-      anno.addHandler('onAnnotationCreated', saveNewAnnotationToWave);
+      anno.addHandler('onAnnotationCreated', syncAnnotationsWithWave);
       return anno.addHandler('onAnnotationRemoved', removeAnnotationFromWave);
     };
-    saveNewAnnotationToWave = function(annotation) {
+    syncAnnotationsWithWave = function(annotation) {
       var annotations;
-      console.log("add annotation!");
-      annotations = getAnnotationsFromState() || [];
-      if (__indexOf.call(annotations, annotation) < 0) {
-        annotations.push(annotation);
-      }
+      annotations = getExistingAnnotations();
       return saveAnnotationsToWave(annotations);
+    };
+    getExistingAnnotations = function() {
+      var annotation, cleanExistingAnnotations, existingAnnotations;
+      existingAnnotations = anno.getAnnotations();
+      cleanExistingAnnotations = (function() {
+        var _i, _len, _results;
+        _results = [];
+        for (_i = 0, _len = existingAnnotations.length; _i < _len; _i++) {
+          annotation = existingAnnotations[_i];
+          if (annotation != null) {
+            _results.push(annotation);
+          }
+        }
+        return _results;
+      })();
+      return cleanExistingAnnotations;
     };
     saveAnnotationsToWave = function(annotations) {
       var annotationsString;
@@ -92,7 +101,6 @@
     };
     removeAnnotationFromWave = function(annotationToRemove) {
       var annotations, annotationsWithoutRemovedOne;
-      console.log("removing annotation!");
       annotations = getAnnotationsFromState();
       annotationsWithoutRemovedOne = annotations.filter(function(oldAnnotation) {
         return JSON.stringify(oldAnnotation) !== JSON.stringify(annotationToRemove);

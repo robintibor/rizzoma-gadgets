@@ -1,6 +1,5 @@
 jQuery(document).ready(($) ->
 
-  ### annotation part ###
   # called from load-image.js atm
   window.loadAnnotationsFromState = ->
     annotations = getAnnotationsFromState()
@@ -16,8 +15,8 @@ jQuery(document).ready(($) ->
     return $('.annotorious-annotationlayer').length > 0
   
   addOrRemoveAnnotationsInPicture = (annotationsFromWave) ->
-    addNewAnnotations(annotationsFromWave)
     removeMissingAnnotations(annotationsFromWave)
+    addNewAnnotations(annotationsFromWave)
   
   addNewAnnotations = (annotationsFromWave) ->
     existingAnnotations = anno.getAnnotations()
@@ -35,22 +34,25 @@ jQuery(document).ready(($) ->
         anno.removeAnnotation(annotation)
   
   saveAnnotationsOnChange = ->
-    anno.addHandler('onAnnotationCreated', saveNewAnnotationToWave)
+    anno.addHandler('onAnnotationCreated', syncAnnotationsWithWave)
     anno.addHandler('onAnnotationRemoved', removeAnnotationFromWave)
   
-  saveNewAnnotationToWave = (annotation) ->
-    console.log("add annotation!")
-    annotations = getAnnotationsFromState() || []
-    if annotation not in annotations
-      annotations.push(annotation)
+  syncAnnotationsWithWave = (annotation) ->
+    annotations = getExistingAnnotations()
     saveAnnotationsToWave(annotations)
+  
+  getExistingAnnotations = ->
+    existingAnnotations = anno.getAnnotations()
+    # remove one undefined annotation which is for some reason always
+    # at the end of these annotations :)
+    cleanExistingAnnotations = (annotation for annotation in existingAnnotations when annotation?)
+    return cleanExistingAnnotations
   
   saveAnnotationsToWave = (annotations) ->
     annotationsString = JSON.stringify(annotations)
     wave.getState().submitValue("annotations", annotationsString)
     
   removeAnnotationFromWave = (annotationToRemove) ->
-    console.log("removing annotation!")
     annotations = getAnnotationsFromState()
     annotationsWithoutRemovedOne = annotations.filter((oldAnnotation) ->
       JSON.stringify(oldAnnotation) != JSON.stringify(annotationToRemove))
