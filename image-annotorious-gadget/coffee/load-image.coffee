@@ -27,7 +27,7 @@ jQuery(document).ready(($) ->
   
   adjustGadgetHeightForImage = ->
     bodyHeight = $('body').height()
-    gadgets.window.adjustHeight(bodyHeight + 90)
+    gadgets.window.adjustHeight(bodyHeight + 0)
   
   makeImageAnnotatable = ->
     image = $('#imageToAnnotate')[0]
