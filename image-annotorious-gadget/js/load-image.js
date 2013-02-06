@@ -32,7 +32,7 @@
     adjustGadgetHeightForImage = function() {
       var bodyHeight;
       bodyHeight = $('body').height();
-      return gadgets.window.adjustHeight(bodyHeight + 0);
+      return gadgets.window.adjustHeight(bodyHeight + 6);
     };
     makeImageAnnotatable = function() {
       var image;
