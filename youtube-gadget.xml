@@ -69,36 +69,17 @@ function onLoadFailed(){if(loadTimeout!=null){$("#loadlbl").text("Error: Failed 
 </div><div style="clear:both"></div></li>
 </ul>
 <div style="float:left;width:240px"><button id="yturlGo">Go</button>&nbsp;<span id="loadlbl"></span></div>
-<div id="helpbarform"><a href="https://everybodywave.appspot.com/index/wavetube.html" target="_blank">Help</a> <!-- commented out by robintibor@gmail.com | <a href="https://wave.google.com/wave/#restored:wave:googlewave.com!w%252BalFptV0sA" target="_blank">Install</a> -->
+<div id="helpbarform"><a href="https://everybodywave.appspot.com/index/wavetube.html" target="_blank">Help</a>
 </div>
 <div style="clear:both"></div>
 </div>
-<div id="maincont">
-<!--
-<div id="note"><b>Note:</b> WaveTube is a <em>collaborative</em> YouTube player for Google Wave. When you start playing the video, your current playback position will be shared with the rest of the users on the wave.</div>
-<div id='sliders'><h4>Who's watching:</h4></div>
-<div id="annotform">
-<div class="annot-form-input">&nbsp;At<br /><input style="width:55px" id="annotwhen" /></div>
-<div class="annot-form-input">&nbsp;Text<br /><input maxlength=60 style="width:120px" id="annotcap" /></div>
-<div class="annot-form-input" style="margin-right:0 !important;">&nbsp;Duration<br>
-<select style="width:46px" id="annotduration">
-<option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="5" selected>5</option><option value="7">7</option><option value="10">10</option>
-</select>-->
-</div>
+<div id="maincont"></div>
 <div style="clear:both;text-align:right;margin-right:5px;">
 <span id="errormsg">Error in input</span>
-<!--
-<button id="annotbtn">OK</button>
-<button id="annotcancel">Cancel</button>
---> 
 </div>
 </div>
-<div id='helpbar' ><a href="https://everybodywave.appspot.com/index/wavetube.html" target='_blank'>about</a><!-- commented out by robintibor@gmail.com  | <a href="https://wave.google.com/wave/#restored:wave:googlewave.com!w%252Bh2RZJhpEA" target='_blank'>install</a> --></div>
+<div id='helpbar'><a href="https://everybodywave.appspot.com/index/wavetube.html" target='_blank'>about</a></div>
 </div>
-<script type="text/javascript">
-var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "https://www.");document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-</script>
-<script type="text/javascript">try {var pageTracker=_gat._getTracker("UA-12309529-1");pageTracker._trackPageview()} catch(err){}</script>
 ]]>
 </Content>
 </Module>
