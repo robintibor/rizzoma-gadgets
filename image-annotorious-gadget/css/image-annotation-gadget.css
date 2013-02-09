@@ -20,7 +20,7 @@
   margin-top: 2px;
   max-width: 180px;
   border-radius: 3px;
-  font-size: 15px;
+  font-size: 14px;
   /* wrap text even if no spaces */
   white-space: pre-wrap;      /* CSS3 */   
   white-space: -moz-pre-wrap; /* Firefox */    
@@ -31,5 +31,5 @@
 
 /* second canvas needs to be on top of text divs...*/
 canvas.annotorious-opacity-fade ~ canvas.annotorious-opacity-fade {
-  z-index:1;
+  z-index:1!important;
 }
