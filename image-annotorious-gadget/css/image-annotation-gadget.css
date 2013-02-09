@@ -8,3 +8,23 @@
   overflow-y: hidden;
   padding-bottom: 90px; /* for popup to be visible when popup opened on bottom of image*/
 }
+.annotationTextDiv {
+  position: absolute;
+  top: 365px;
+  left: 227px;
+  font-weight: bold;
+  color: darkViolet;
+  background-color: rgb(255, 255, 255);
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 5px;
+  margin-top: 2px;
+  max-width: 180px;
+  border-radius: 3px;
+  font-size: 15px;
+  /* wrap text even if no spaces */
+  white-space: pre-wrap;      /* CSS3 */   
+  white-space: -moz-pre-wrap; /* Firefox */    
+  white-space: -pre-wrap;     /* Opera <7 */   
+  white-space: -o-pre-wrap;   /* Opera 7 */    
+  word-wrap: break-word;      /* IE */
+}

@@ -2,7 +2,7 @@
   var __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
   jQuery(document).ready(function($) {
-    var addNewAnnotations, addOrRemoveAnnotationsInPicture, annotableImageExists, getAnnotationsFromState, getExistingAnnotations, removeAnnotationFromWave, removeMissingAnnotations, saveAnnotationsOnChange, saveAnnotationsToWave, syncAnnotationsWithWave;
+    var addNewAnnotations, addOrRemoveAnnotationsInPicture, annotableImageExists, createOrUpdateTextDivBelowAnnotation, createPermanentTextBelowAnnotationOnCreate, createTextDivBelowAnnotation, getAnnotationTextPosition, getAnnotationsFromState, getExistingAnnotations, getTextDivOfAnnotation, removeAnnotationFromWave, removeAnnotationTextDiv, removeAnnotationTextsOnRemove, removeMissingAnnotations, saveAnnotationsOnChange, saveAnnotationsToWave, syncAnnotationsWithWave;
     window.loadAnnotationsFromState = function() {
       var annotations;
       annotations = getAnnotationsFromState();
@@ -39,7 +39,8 @@
       for (_i = 0, _len = annotationsFromWave.length; _i < _len; _i++) {
         annotation = annotationsFromWave[_i];
         if (_ref = JSON.stringify(annotation), __indexOf.call(existingAnnotationStrings, _ref) < 0) {
-          _results.push(anno.addAnnotation(annotation));
+          anno.addAnnotation(annotation);
+          _results.push(createTextDivBelowAnnotation(annotation));
         } else {
           _results.push(void 0);
         }
@@ -62,7 +63,8 @@
       for (_i = 0, _len = existingAnnotations.length; _i < _len; _i++) {
         annotation = existingAnnotations[_i];
         if ((annotation != null) && (_ref = JSON.stringify(annotation), __indexOf.call(annotationWaveStrings, _ref) < 0)) {
-          _results.push(anno.removeAnnotation(annotation));
+          anno.removeAnnotation(annotation);
+          _results.push(removeAnnotationTextDiv(annotation));
         } else {
           _results.push(void 0);
         }
@@ -101,13 +103,72 @@
     };
     removeAnnotationFromWave = function(annotationToRemove) {
       var annotations, annotationsWithoutRemovedOne;
+      console.log("removed annotation wave");
       annotations = getAnnotationsFromState();
       annotationsWithoutRemovedOne = annotations.filter(function(oldAnnotation) {
         return JSON.stringify(oldAnnotation) !== JSON.stringify(annotationToRemove);
       });
       return saveAnnotationsToWave(annotationsWithoutRemovedOne);
     };
-    return saveAnnotationsOnChange();
+    createPermanentTextBelowAnnotationOnCreate = function() {
+      return anno.addHandler('onAnnotationCreated', createOrUpdateTextDivBelowAnnotation);
+    };
+    createOrUpdateTextDivBelowAnnotation = function(annotation) {
+      var annotationTextDiv;
+      annotationTextDiv = getTextDivOfAnnotation(annotation);
+      if ((annotationTextDiv != null)) {
+        return annotationTextDiv.text(annotation.text);
+      } else {
+        return createTextDivBelowAnnotation(annotation);
+      }
+    };
+    createTextDivBelowAnnotation = function(annotation) {
+      var position, textDiv;
+      position = getAnnotationTextPosition(annotation);
+      textDiv = $("<div class='annotationTextDiv'>" + annotation.text + "</div>");
+      textDiv.css('position', 'absolute');
+      textDiv.css('top', position.top);
+      textDiv.css('left', position.left);
+      return textDiv.insertBefore('.annotorious-editor');
+    };
+    getAnnotationTextPosition = function(annotation) {
+      var annotationLeft, annotationTop, imageHeight, imageWidth, shapeHeight;
+      imageWidth = $('.annotorious-annotationlayer').width();
+      imageHeight = $('.annotorious-annotationlayer').height();
+      shapeHeight = annotation.shapes[0].geometry.height * imageHeight;
+      annotationLeft = annotation.shapes[0].geometry.x * imageWidth;
+      annotationTop = annotation.shapes[0].geometry.y * imageHeight + shapeHeight;
+      return {
+        top: annotationTop,
+        left: annotationLeft
+      };
+    };
+    removeAnnotationTextsOnRemove = function() {
+      return anno.addHandler('onAnnotationRemoved', removeAnnotationTextDiv);
+    };
+    removeAnnotationTextDiv = function(annotation) {
+      var textDiv;
+      console.log("removed annotation text");
+      textDiv = getTextDivOfAnnotation(annotation);
+      return textDiv.remove();
+    };
+    getTextDivOfAnnotation = function(annotation) {
+      var positionOfTextDiv, textDiv, textDivs, _i, _len;
+      textDivs = $('.annotationTextDiv');
+      positionOfTextDiv = getAnnotationTextPosition(annotation);
+      for (_i = 0, _len = textDivs.length; _i < _len; _i++) {
+        textDiv = textDivs[_i];
+        textDiv = $(textDiv);
+        console.log("textDivPosition " + (JSON.stringify(textDiv.position())));
+        console.log("positionOfTextDiv " + (JSON.stringify(positionOfTextDiv)));
+        if (textDiv.position().top === Math.round(positionOfTextDiv.top) && textDiv.position().left === Math.round(positionOfTextDiv.left)) {
+          return $(textDiv);
+        }
+      }
+    };
+    saveAnnotationsOnChange();
+    createPermanentTextBelowAnnotationOnCreate();
+    return removeAnnotationTextsOnRemove();
   });
 
 }).call(this);
