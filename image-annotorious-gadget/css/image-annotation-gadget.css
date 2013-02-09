@@ -28,3 +28,8 @@
   white-space: -o-pre-wrap;   /* Opera 7 */    
   word-wrap: break-word;      /* IE */
 }
+
+/* second canvas needs to be on top of text divs...*/
+canvas.annotorious-opacity-fade ~ canvas.annotorious-opacity-fade {
+  z-index:1;
+}
