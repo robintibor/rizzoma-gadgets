@@ -14,6 +14,9 @@ jQuery(document).ready(($) ->
     removeURLTextAndButton()
     setImageSource(imageSource)
     whenImageLoadedMakeAnnotatableAndAdjustGadgetHeight()
+  
+  removeURLTextAndButton = ->
+    $('#imageUrlText, #loadImageButton').remove()
     
   setImageSource = (imageSource) ->
     $('#imageToAnnotate').attr('src', imageSource)
@@ -33,22 +36,19 @@ jQuery(document).ready(($) ->
     image = $('#imageToAnnotate')[0]
     anno.makeAnnotatable(image)
   
-  removeURLTextAndButton = ->
-    $('#imageUrlText, #loadImageButton').remove()
-  
   loadImageAndAnnotationsOnStateChange = ->
-    wave.setStateCallback(loadImageAndAnnotationsFromState)
+    wave.setStateCallback(loadImageOrAnnotationsFromState)
 
-  loadImageAndAnnotationsFromState = ->
+  loadImageOrAnnotationsFromState = ->
     if (not imageLoaded())
-      loadImageFromState()
+      loadImageAndAnnotationsFromState()
     else
       window.loadAnnotationsFromState()
   
   imageLoaded = ->
     return $('#imageToAnnotate').attr('src')?
   
-  loadImageFromState = ->
+  loadImageAndAnnotationsFromState = ->
     imageSource = wave.getState().get("imageSource")
     if (imageSource?)
       loadImage(imageSource)

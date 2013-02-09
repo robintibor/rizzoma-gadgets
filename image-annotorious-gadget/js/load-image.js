@@ -1,7 +1,7 @@
 (function() {
 
   jQuery(document).ready(function($) {
-    var adjustGadgetHeightForImage, imageLoaded, loadAndStoreImageFromUrlText, loadAndStoreImageOnButtonClick, loadImage, loadImageAndAnnotationsFromState, loadImageAndAnnotationsOnStateChange, loadImageFromState, makeImageAnnotatable, removeURLTextAndButton, setImageSource, storeImageSourceInWave, whenImageLoadedMakeAnnotatableAndAdjustGadgetHeight;
+    var adjustGadgetHeightForImage, imageLoaded, loadAndStoreImageFromUrlText, loadAndStoreImageOnButtonClick, loadImage, loadImageAndAnnotationsFromState, loadImageAndAnnotationsOnStateChange, loadImageOrAnnotationsFromState, makeImageAnnotatable, removeURLTextAndButton, setImageSource, storeImageSourceInWave, whenImageLoadedMakeAnnotatableAndAdjustGadgetHeight;
     loadAndStoreImageOnButtonClick = function() {
       return $('#loadImageButton').click(loadAndStoreImageFromUrlText);
     };
@@ -18,6 +18,9 @@
       removeURLTextAndButton();
       setImageSource(imageSource);
       return whenImageLoadedMakeAnnotatableAndAdjustGadgetHeight();
+    };
+    removeURLTextAndButton = function() {
+      return $('#imageUrlText, #loadImageButton').remove();
     };
     setImageSource = function(imageSource) {
       return $('#imageToAnnotate').attr('src', imageSource);
@@ -39,15 +42,12 @@
       image = $('#imageToAnnotate')[0];
       return anno.makeAnnotatable(image);
     };
-    removeURLTextAndButton = function() {
-      return $('#imageUrlText, #loadImageButton').remove();
-    };
     loadImageAndAnnotationsOnStateChange = function() {
-      return wave.setStateCallback(loadImageAndAnnotationsFromState);
+      return wave.setStateCallback(loadImageOrAnnotationsFromState);
     };
-    loadImageAndAnnotationsFromState = function() {
+    loadImageOrAnnotationsFromState = function() {
       if (!imageLoaded()) {
-        return loadImageFromState();
+        return loadImageAndAnnotationsFromState();
       } else {
         return window.loadAnnotationsFromState();
       }
@@ -55,7 +55,7 @@
     imageLoaded = function() {
       return $('#imageToAnnotate').attr('src') != null;
     };
-    loadImageFromState = function() {
+    loadImageAndAnnotationsFromState = function() {
       var imageSource;
       imageSource = wave.getState().get("imageSource");
       if ((imageSource != null)) {
