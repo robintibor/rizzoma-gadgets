@@ -25,7 +25,11 @@ jQuery(document).ready(($) ->
       if JSON.stringify(annotation) not in existingAnnotationStrings
         anno.addAnnotation(annotation)
         createTextDivBelowAnnotation(annotation)
-    
+  
+  window.addAnnotationWithText = (annotation) ->
+    anno.addAnnotation(annotation)
+    createTextDivBelowAnnotation(annotation)
+  
   removeMissingAnnotations = (annotationsFromWave) ->
     existingAnnotations = anno.getAnnotations()
     annotationWaveStrings = (JSON.stringify(annotation) for annotation in annotationsFromWave)
@@ -34,6 +38,10 @@ jQuery(document).ready(($) ->
       if annotation? and JSON.stringify(annotation) not in annotationWaveStrings
         anno.removeAnnotation(annotation)
         removeAnnotationTextDiv(annotation)
+  
+  window.removeAnnotationWithText = (annotation) ->
+    anno.removeAnnotation(annotation)
+    removeAnnotationTextDiv(annotation)
   
   saveAnnotationsOnChange = ->
     anno.addHandler('onAnnotationCreated', syncAnnotationsWithWave)
@@ -99,7 +107,6 @@ jQuery(document).ready(($) ->
     anno.addHandler('onAnnotationRemoved', removeAnnotationTextDiv)
   
   removeAnnotationTextDiv = (annotation) ->
-    console.log("removed annotation text")
     textDiv = getTextDivOfAnnotation(annotation)
     textDiv.remove()
   

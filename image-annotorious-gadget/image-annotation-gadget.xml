@@ -7,7 +7,8 @@
 <![CDATA[
   <head>
     <link href="https://c9.io/robintibor/rizzoma-gadget/workspace/image-annotorious-gadget/css/image-annotation-gadget.css" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" type="text/css" href="https://c9.io/robintibor/rizzoma-gadget/workspace/image-annotorious-gadget/annotorious/css/annotorious.css" />
+    <link rel="stylesheet" type="text/css" href="https://c9.io/robintibor/rizzoma-gadget/workspace/image-annotorious-gadget/annotorious/css/annotorious.css"/>
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/themes/base/jquery-ui.css" type="text/css"/>
   </head>
   <body>
     <input type="text" id="imageUrlText" placeholder="Enter Image URL..."></input>
@@ -20,6 +21,7 @@
     <script src="https://c9.io/robintibor/rizzoma-gadget/workspace/image-annotorious-gadget/annotorious/annotorious.0.3.min.js"></script>
     <script src="https://c9.io/robintibor/rizzoma-gadget/workspace/image-annotorious-gadget/js/load-image.js"></script>
     <script src="https://c9.io/robintibor/rizzoma-gadget/workspace/image-annotorious-gadget/js/save-load-annotations.js"></script>
+    <script src="https://c9.io/robintibor/rizzoma-gadget/workspace/image-annotorious-gadget/js/resize-image.js"></script>
   </body>
 ]]>
 </Content>

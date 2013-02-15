@@ -47,6 +47,10 @@
       }
       return _results;
     };
+    window.addAnnotationWithText = function(annotation) {
+      anno.addAnnotation(annotation);
+      return createTextDivBelowAnnotation(annotation);
+    };
     removeMissingAnnotations = function(annotationsFromWave) {
       var annotation, annotationWaveStrings, existingAnnotations, _i, _len, _ref, _results;
       existingAnnotations = anno.getAnnotations();
@@ -70,6 +74,10 @@
         }
       }
       return _results;
+    };
+    window.removeAnnotationWithText = function(annotation) {
+      anno.removeAnnotation(annotation);
+      return removeAnnotationTextDiv(annotation);
     };
     saveAnnotationsOnChange = function() {
       anno.addHandler('onAnnotationCreated', syncAnnotationsWithWave);
@@ -148,7 +156,6 @@
     };
     removeAnnotationTextDiv = function(annotation) {
       var textDiv;
-      console.log("removed annotation text");
       textDiv = getTextDivOfAnnotation(annotation);
       return textDiv.remove();
     };
