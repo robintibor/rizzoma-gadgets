@@ -35,7 +35,8 @@ canvas.annotorious-opacity-fade ~ canvas.annotorious-opacity-fade {
 }
 
 .ui-resizable-handle {
-  background-color: #eeecb3;
+  /* resizable handle with rizzoma color!:)*/
+  background-color: #64a8eb;
 }
 
 .annotorious-editor, .annotorious-popup {
