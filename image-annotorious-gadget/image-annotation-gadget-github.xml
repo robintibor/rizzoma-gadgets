@@ -18,9 +18,9 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.0/jquery-ui.min.js"></script>
     <script src="https://raw.github.com/robintibor/rizzoma-gadgets/master/image-annotorious-gadget/annotorious/annotorious.0.3.min.js"></script>
-    <script src="https://raw.github.com/robintibor/rizzoma-gadgets/resizable-image/image-annotorious-gadget/load-image.js"></script>
-    <script src="https://raw.github.com/robintibor/rizzoma-gadgets/resizable-image/image-annotorious-gadget/save-load-annotations.js"></script>
-    <script src="https://raw.github.com/robintibor/rizzoma-gadgets/resizable-image/image-annotorious-gadget/resize-image.js"></script>
+    <script src="https://raw.github.com/robintibor/rizzoma-gadgets/resizable-image/image-annotorious-gadget/js/load-image.js"></script>
+    <script src="https://raw.github.com/robintibor/rizzoma-gadgets/resizable-image/image-annotorious-gadget/js/save-load-annotations.js"></script>
+    <script src="https://raw.github.com/robintibor/rizzoma-gadgets/resizable-image/image-annotorious-gadget/js/resize-image.js"></script>
   </body>
 ]]>
 </Content>
