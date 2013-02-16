@@ -1,7 +1,7 @@
 (function() {
 
   jQuery(document).ready(function($) {
-    var imageSizeHasChanged, makeEditorVisibleOnBoundariesOfImage, makeImageResizable, makeImageResizableOnLoad, redrawAnnotations, removeAnnotationTextDivs, resizeAnnotoriousLayers, saveNewImageSizeToWave, setElementsToSize, setImageSize, setNewScrollPositionAfterResize;
+    var imageSizeHasChanged, makeEditorVisibleOnBoundariesOfImage, makeImageResizable, makeImageResizableOnLoad, redrawAnnotations, rememberScrollBeforeResize, removeAnnotationTextDivs, resizeAnnotoriousLayers, saveNewImageSizeToWave, scrollBeforeResize, setElementsToSize, setImageSize, setNewScrollPositionAfterResize;
     window.loadImageSizeFromWave = function() {
       var imageSize, imageSizeString;
       imageSizeString = wave.getState().get("imageSize");
@@ -36,6 +36,8 @@
     };
     makeImageResizable = function() {
       $('#imageToAnnotate').resizable({
+        aspectRatio: true,
+        start: rememberScrollBeforeResize,
         resize: function(event, ui) {
           window.adjustGadgetHeightForImage();
           window.redrawAnnotationsForNewSize(ui.size);
@@ -46,6 +48,10 @@
         }
       });
       return makeEditorVisibleOnBoundariesOfImage();
+    };
+    scrollBeforeResize = 0;
+    rememberScrollBeforeResize = function() {
+      return scrollBeforeResize = $('#imageDiv').scrollLeft();
     };
     window.redrawAnnotationsForNewSize = function(size) {
       resizeAnnotoriousLayers(size);
@@ -95,12 +101,11 @@
       return $('.annotationTextDiv').remove();
     };
     setNewScrollPositionAfterResize = function(ui) {
-      var oldScrollPosition, widthDifference;
+      var widthDifference;
       widthDifference = ui.size.width - ui.originalSize.width;
-      oldScrollPosition = $('#imageDiv').scrollLeft();
       console.log("widthDifference", widthDifference);
-      console.log("setting scroll to", oldScrollPosition + widthDifference);
-      return $('#imageDiv').scrollLeft(oldScrollPosition + widthDifference);
+      console.log("setting scroll to", scrollBeforeResize + widthDifference);
+      return $('#imageDiv').scrollLeft(scrollBeforeResize + widthDifference);
     };
     makeEditorVisibleOnBoundariesOfImage = function() {
       return $('.ui-wrapper').css('overflow', '');

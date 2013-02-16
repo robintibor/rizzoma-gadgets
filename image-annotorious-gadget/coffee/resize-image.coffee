@@ -35,6 +35,8 @@ jQuery(document).ready(($) ->
   makeImageResizable = ->
     $('#imageToAnnotate').resizable(
       {
+        aspectRatio: true,
+        start: rememberScrollBeforeResize,
         resize: (event, ui) ->
           window.adjustGadgetHeightForImage()
           window.redrawAnnotationsForNewSize(ui.size)
@@ -44,6 +46,10 @@ jQuery(document).ready(($) ->
       }
     )
     makeEditorVisibleOnBoundariesOfImage()
+ 
+  scrollBeforeResize = 0
+  rememberScrollBeforeResize = ->
+    scrollBeforeResize = $('#imageDiv').scrollLeft()
  
   window.redrawAnnotationsForNewSize = (size) ->
     resizeAnnotoriousLayers(size)
@@ -78,10 +84,9 @@ jQuery(document).ready(($) ->
 
   setNewScrollPositionAfterResize = (ui) ->
     widthDifference = ui.size.width - ui.originalSize.width
-    oldScrollPosition = $('#imageDiv').scrollLeft()
     console.log("widthDifference", widthDifference)
-    console.log("setting scroll to", oldScrollPosition + widthDifference)
-    $('#imageDiv').scrollLeft(oldScrollPosition + widthDifference)
+    console.log("setting scroll to", scrollBeforeResize + widthDifference)
+    $('#imageDiv').scrollLeft(scrollBeforeResize + widthDifference)
 
   makeEditorVisibleOnBoundariesOfImage = ->
     $('.ui-wrapper').css('overflow', '')
