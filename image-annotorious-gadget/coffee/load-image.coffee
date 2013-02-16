@@ -10,10 +10,10 @@ jQuery(document).ready(($) ->
   storeImageSourceInWave = (imageSource) ->
     wave.getState().submitValue("imageSource", imageSource)
 
-  loadImage = (imageSource) ->
+  loadImage = (imageSource, callback) ->
     removeURLTextAndButton()
     setImageSource(imageSource)
-    whenImageLoadedMakeAnnotatableAndAdjustGadgetHeight()
+    whenImageLoadedMakeAnnotatableAndAdjustGadgetHeight(callback)
   
   removeURLTextAndButton = ->
     $('#imageUrlText, #loadImageButton').remove()
@@ -21,16 +21,12 @@ jQuery(document).ready(($) ->
   setImageSource = (imageSource) ->
     $('#imageToAnnotate').attr('src', imageSource)
   
-  whenImageLoadedMakeAnnotatableAndAdjustGadgetHeight = ->
+  whenImageLoadedMakeAnnotatableAndAdjustGadgetHeight = (callback) ->
     $('#imageToAnnotate').load(() ->
-      # also set imagesize
-      # TODO: refactor this...
-      imageSize = wave.getState().get("imageSize")
-      if (imageSize?)
-        window.setImageSizeFromWave(JSON.parse(imageSize))
       adjustGadgetHeightForImage()
       makeImageAnnotatable()
-      window.loadAnnotationsFromState() # see save-load-annotations.coffee
+      if (callback?)
+        callback()
     )
   
   adjustGadgetHeightForImage = ->
@@ -41,23 +37,24 @@ jQuery(document).ready(($) ->
     image = $('#imageToAnnotate')[0]
     anno.makeAnnotatable(image)
   
-  loadImageAndAnnotationsOnStateChange = ->
-    wave.setStateCallback(loadImageOrAnnotationsFromState)
-
-  loadImageOrAnnotationsFromState = ->
-    if (not imageLoaded())
-      loadImageAndAnnotationsFromState()
+  window.loadImageFromWave = (callback) ->
+    if (not window.imageLoaded())
+      if (imageSourceStoredInWave())
+        imageSource = getImageSourceFromWave()      
+        loadImage(imageSource, callback)
+      # no callback if no image possible to load ..hmhm.. because then no annotations
+      # should be loaded :)
     else
-      window.loadAnnotationsFromState()
+      callback()
   
-  imageLoaded = ->
+  window.imageLoaded = ->
     return $('#imageToAnnotate').attr('src')?
   
-  loadImageAndAnnotationsFromState = ->
-    imageSource = wave.getState().get("imageSource")
-    if (imageSource?)
-      loadImage(imageSource)
+  imageSourceStoredInWave = ->
+    return wave.getState().get("imageSource")?
+  
+  getWaveImageSourceFromWave = ->
+    return wave.getState().get("imageSource")
   
   loadAndStoreImageOnButtonClick()
-  loadImageAndAnnotationsOnStateChange()
 )

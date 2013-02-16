@@ -1,6 +1,6 @@
 jQuery(document).ready(($) ->
 
-  # called from load-image.js atm
+  # called from connect-to-wave.js atm
   window.loadAnnotationsFromState = ->
     annotations = getAnnotationsFromState()
     if (annotations? and annotableImageExists())

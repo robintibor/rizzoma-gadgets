@@ -6,7 +6,16 @@
 # set image size and ui wrapper size
 # call window.redrawAnnotationsForNewSize :)
 jQuery(document).ready(($) ->
-  window.setImageSizeFromWave = (newImageSize) ->
+  window.loadImageSizeFromWave = ->
+    imageSizeString = wave.getState().get("imageSize")
+    if (imageSizeString?)
+      imageSize = JSON.parse(imageSizeString)
+      if (window.imageLoaded())
+        window.setImageSizeAndRedrawAnnotations(imageSize)
+      else  # set image size before load for better UI experience :))
+        setImageSize(imageSize)
+
+  window.setImageSizeAndRedrawAnnotations = (newImageSize) ->
     if (imageSizeHasChanged(newImageSize))
       setImageSize(newImageSize)
       window.redrawAnnotationsForNewSize(newImageSize)

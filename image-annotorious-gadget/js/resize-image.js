@@ -2,7 +2,19 @@
 
   jQuery(document).ready(function($) {
     var imageSizeHasChanged, makeEditorVisibleOnBoundariesOfImage, makeImageResizable, makeImageResizableOnLoad, redrawAnnotations, removeAnnotationTextDivs, resizeAnnotoriousLayers, saveNewImageSizeToWave, setElementsToSize, setImageSize;
-    window.setImageSizeFromWave = function(newImageSize) {
+    window.loadImageSizeFromWave = function() {
+      var imageSize, imageSizeString;
+      imageSizeString = wave.getState().get("imageSize");
+      if ((imageSizeString != null)) {
+        imageSize = JSON.parse(imageSizeString);
+        if (window.imageLoaded()) {
+          return window.setImageSizeAndRedrawAnnotations(imageSize);
+        } else {
+          return setImageSize(imageSize);
+        }
+      }
+    };
+    window.setImageSizeAndRedrawAnnotations = function(newImageSize) {
       if (imageSizeHasChanged(newImageSize)) {
         setImageSize(newImageSize);
         return window.redrawAnnotationsForNewSize(newImageSize);
