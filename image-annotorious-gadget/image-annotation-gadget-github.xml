@@ -8,6 +8,7 @@
   <head>
     <link href="https://dl.dropbox.com/u/34637013/publish/rizzoma-gadgets/image-annotorious-gadget/css/image-annotation-gadget.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" type="text/css" href="https://dl.dropbox.com/u/34637013/publish/rizzoma-gadgets/image-annotorious-gadget/annotorious/css/annotorious.css" />
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/themes/base/jquery-ui.css" type="text/css"/>
   </head>
   <body>
     <input type="text" id="imageUrlText" placeholder="Enter Image URL..."></input>
