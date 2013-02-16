@@ -7,6 +7,7 @@
   overflow-x: auto;
   overflow-y: hidden;
   padding-bottom: 90px; /* for popup to be visible when popup opened on bottom of image*/
+  padding-right: 350px; /* for text box completely visible on the right...*/
 }
 .annotationTextDiv {
   position: absolute;
@@ -42,6 +43,6 @@ canvas.annotorious-opacity-fade ~ canvas.annotorious-opacity-fade {
 }
 
 .ui-wrapper {
-  /* make this so that text box is completely visible on the right...*/
+  
   margin-right: 350px!important;
 }
