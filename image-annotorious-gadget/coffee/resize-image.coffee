@@ -40,7 +40,7 @@ jQuery(document).ready(($) ->
         resize: (event, ui) ->
           window.adjustGadgetHeightForImage()
           window.redrawAnnotationsForNewSize(ui.size)
-          setNewScrollPositionAfterResize(ui)
+          #setNewScrollPositionAfterResize(ui)
         stop: (event, ui) ->
           saveNewImageSizeToWave(ui.size)
       }

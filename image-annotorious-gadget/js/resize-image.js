@@ -40,8 +40,7 @@
         start: rememberScrollBeforeResize,
         resize: function(event, ui) {
           window.adjustGadgetHeightForImage();
-          window.redrawAnnotationsForNewSize(ui.size);
-          return setNewScrollPositionAfterResize(ui);
+          return window.redrawAnnotationsForNewSize(ui.size);
         },
         stop: function(event, ui) {
           return saveNewImageSizeToWave(ui.size);
