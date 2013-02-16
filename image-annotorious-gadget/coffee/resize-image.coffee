@@ -36,6 +36,7 @@ jQuery(document).ready(($) ->
     $('#imageToAnnotate').resizable(
       {
         resize: (event, ui) ->
+          window.adjustGadgetHeightForImage()
           window.redrawAnnotationsForNewSize(ui.size)
         stop: (event, ui) ->
           saveNewImageSizeToWave(ui.size)

@@ -37,6 +37,7 @@
     makeImageResizable = function() {
       $('#imageToAnnotate').resizable({
         resize: function(event, ui) {
+          window.adjustGadgetHeightForImage();
           return window.redrawAnnotationsForNewSize(ui.size);
         },
         stop: function(event, ui) {
