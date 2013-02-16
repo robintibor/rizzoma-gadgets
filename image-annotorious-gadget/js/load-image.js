@@ -1,7 +1,7 @@
 (function() {
 
   jQuery(document).ready(function($) {
-    var adjustGadgetHeightForImage, getWaveImageSourceFromWave, imageSourceStoredInWave, loadAndStoreImageFromUrlText, loadAndStoreImageOnButtonClick, loadImage, makeImageAnnotatable, removeURLTextAndButton, setImageSource, storeImageSourceInWave, whenImageLoadedMakeAnnotatableAndAdjustGadgetHeight;
+    var adjustGadgetHeightForImage, getImageSourceFromWave, imageSourceStoredInWave, loadAndStoreImageFromUrlText, loadAndStoreImageOnButtonClick, loadImage, makeImageAnnotatable, removeURLTextAndButton, setImageSource, storeImageSourceInWave, whenImageLoadedMakeAnnotatableAndAdjustGadgetHeight;
     loadAndStoreImageOnButtonClick = function() {
       return $('#loadImageButton').click(loadAndStoreImageFromUrlText);
     };
@@ -61,7 +61,7 @@
     imageSourceStoredInWave = function() {
       return wave.getState().get("imageSource") != null;
     };
-    getWaveImageSourceFromWave = function() {
+    getImageSourceFromWave = function() {
       return wave.getState().get("imageSource");
     };
     return loadAndStoreImageOnButtonClick();

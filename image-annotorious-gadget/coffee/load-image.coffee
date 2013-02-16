@@ -53,7 +53,7 @@ jQuery(document).ready(($) ->
   imageSourceStoredInWave = ->
     return wave.getState().get("imageSource")?
   
-  getWaveImageSourceFromWave = ->
+  getImageSourceFromWave = ->
     return wave.getState().get("imageSource")
   
   loadAndStoreImageOnButtonClick()
