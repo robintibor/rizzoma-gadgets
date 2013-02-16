@@ -30,7 +30,7 @@ jQuery(document).ready(($) ->
   
   window.adjustGadgetHeightForImage = ->
     bodyHeight = $('body').height()
-    gadgets.window.adjustHeight(bodyHeight + 6) # + 6 for making scrollbar visible
+    gadgets.window.adjustHeight(bodyHeight + 8) # + 8 for making scrollbar visible
   
   makeImageAnnotatable = ->
     image = $('#imageToAnnotate')[0]

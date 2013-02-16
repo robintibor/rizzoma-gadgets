@@ -38,6 +38,7 @@ jQuery(document).ready(($) ->
         resize: (event, ui) ->
           window.adjustGadgetHeightForImage()
           window.redrawAnnotationsForNewSize(ui.size)
+          setNewScrollPositionAfterResize(ui)
         stop: (event, ui) ->
           saveNewImageSizeToWave(ui.size)
       }
@@ -74,6 +75,13 @@ jQuery(document).ready(($) ->
 
   removeAnnotationTextDivs = ->
     $('.annotationTextDiv').remove()
+
+  setNewScrollPositionAfterResize = (ui) ->
+    widthDifference = ui.size.width - ui.originalSize.width
+    oldScrollPosition = $('#imageDiv').scrollLeft()
+    console.log("widthDifference", widthDifference)
+    console.log("setting scroll to", oldScrollPosition + widthDifference)
+    $('#imageDiv').scrollLeft(oldScrollPosition + widthDifference)
 
   makeEditorVisibleOnBoundariesOfImage = ->
     $('.ui-wrapper').css('overflow', '')

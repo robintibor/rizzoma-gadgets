@@ -1,7 +1,7 @@
 (function() {
 
   jQuery(document).ready(function($) {
-    var imageSizeHasChanged, makeEditorVisibleOnBoundariesOfImage, makeImageResizable, makeImageResizableOnLoad, redrawAnnotations, removeAnnotationTextDivs, resizeAnnotoriousLayers, saveNewImageSizeToWave, setElementsToSize, setImageSize;
+    var imageSizeHasChanged, makeEditorVisibleOnBoundariesOfImage, makeImageResizable, makeImageResizableOnLoad, redrawAnnotations, removeAnnotationTextDivs, resizeAnnotoriousLayers, saveNewImageSizeToWave, setElementsToSize, setImageSize, setNewScrollPositionAfterResize;
     window.loadImageSizeFromWave = function() {
       var imageSize, imageSizeString;
       imageSizeString = wave.getState().get("imageSize");
@@ -38,7 +38,8 @@
       $('#imageToAnnotate').resizable({
         resize: function(event, ui) {
           window.adjustGadgetHeightForImage();
-          return window.redrawAnnotationsForNewSize(ui.size);
+          window.redrawAnnotationsForNewSize(ui.size);
+          return setNewScrollPositionAfterResize(ui);
         },
         stop: function(event, ui) {
           return saveNewImageSizeToWave(ui.size);
@@ -92,6 +93,14 @@
     };
     removeAnnotationTextDivs = function() {
       return $('.annotationTextDiv').remove();
+    };
+    setNewScrollPositionAfterResize = function(ui) {
+      var oldScrollPosition, widthDifference;
+      widthDifference = ui.size.width - ui.originalSize.width;
+      oldScrollPosition = $('#imageDiv').scrollLeft();
+      console.log("widthDifference", widthDifference);
+      console.log("setting scroll to", oldScrollPosition + widthDifference);
+      return $('#imageDiv').scrollLeft(oldScrollPosition + widthDifference);
     };
     makeEditorVisibleOnBoundariesOfImage = function() {
       return $('.ui-wrapper').css('overflow', '');
