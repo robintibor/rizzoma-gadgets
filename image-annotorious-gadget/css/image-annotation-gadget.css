@@ -7,7 +7,6 @@
   overflow-x: auto;
   overflow-y: hidden;
   padding-bottom: 90px; /* for popup to be visible when popup opened on bottom of image*/
-  padding-right: 350px; /* for text box completely visible on the right...*/
 }
 .annotationTextDiv {
   position: absolute;
@@ -39,10 +38,20 @@ canvas.annotorious-opacity-fade ~ canvas.annotorious-opacity-fade {
 
 .annotorious-editor, .annotorious-popup {
   /* needs to be visible on top of resizalbe handle! */
-  z-index: 92!important
+  z-index: 92!important;
 }
 
+/* for text box completely visible on the right, very hacky :( */
 .ui-wrapper {
-  
-  margin-right: 350px!important;
+  padding-right:230px;
 }
+.ui-resizable-e {
+  right:225px;
+}
+.ui-resizable-s {
+  left: -230px;
+}
+.ui-resizable-se {
+  right: 231px;
+}
+/* until here for text box visible on the right*/
