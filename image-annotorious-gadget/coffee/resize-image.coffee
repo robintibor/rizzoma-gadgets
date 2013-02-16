@@ -27,6 +27,7 @@ jQuery(document).ready(($) ->
   setImageSize = (imageSize) ->
     imageAndResizableWrapper = $('#imageToAnnotate, .ui-wrapper')
     setElementsToSize(imageAndResizableWrapper, imageSize)
+    window.adjustGadgetHeightForImage()
   
   makeImageResizableOnLoad = ->
     $('#imageToAnnotate').load(makeImageResizable)

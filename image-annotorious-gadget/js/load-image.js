@@ -1,7 +1,7 @@
 (function() {
 
   jQuery(document).ready(function($) {
-    var adjustGadgetHeightForImage, getImageSourceFromWave, imageSourceStoredInWave, loadAndStoreImageFromUrlText, loadAndStoreImageOnButtonClick, loadImage, makeImageAnnotatable, removeURLTextAndButton, setImageSource, storeImageSourceInWave, whenImageLoadedMakeAnnotatableAndAdjustGadgetHeight;
+    var getImageSourceFromWave, imageSourceStoredInWave, loadAndStoreImageFromUrlText, loadAndStoreImageOnButtonClick, loadImage, makeImageAnnotatable, removeURLTextAndButton, setImageSource, storeImageSourceInWave, whenImageLoadedMakeAnnotatableAndAdjustGadgetHeight;
     loadAndStoreImageOnButtonClick = function() {
       return $('#loadImageButton').click(loadAndStoreImageFromUrlText);
     };
@@ -27,14 +27,14 @@
     };
     whenImageLoadedMakeAnnotatableAndAdjustGadgetHeight = function(callback) {
       return $('#imageToAnnotate').load(function() {
-        adjustGadgetHeightForImage();
+        window.adjustGadgetHeightForImage();
         makeImageAnnotatable();
         if (callback != null) {
           return callback();
         }
       });
     };
-    adjustGadgetHeightForImage = function() {
+    window.adjustGadgetHeightForImage = function() {
       var bodyHeight;
       bodyHeight = $('body').height();
       return gadgets.window.adjustHeight(bodyHeight + 6);

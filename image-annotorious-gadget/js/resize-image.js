@@ -28,7 +28,8 @@
     setImageSize = function(imageSize) {
       var imageAndResizableWrapper;
       imageAndResizableWrapper = $('#imageToAnnotate, .ui-wrapper');
-      return setElementsToSize(imageAndResizableWrapper, imageSize);
+      setElementsToSize(imageAndResizableWrapper, imageSize);
+      return window.adjustGadgetHeightForImage();
     };
     makeImageResizableOnLoad = function() {
       return $('#imageToAnnotate').load(makeImageResizable);
