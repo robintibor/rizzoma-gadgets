@@ -41,7 +41,7 @@ canvas.annotorious-opacity-fade ~ canvas.annotorious-opacity-fade {
 
 .annotorious-editor, .annotorious-popup {
   /* needs to be visible on top of resizalbe handle! */
-  z-index: 92!important;
+  z-index: 93!important;
 }
 
 /* for text box completely visible on the right, very hacky :( */
