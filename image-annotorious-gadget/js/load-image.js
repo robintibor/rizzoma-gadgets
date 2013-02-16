@@ -27,6 +27,11 @@
     };
     whenImageLoadedMakeAnnotatableAndAdjustGadgetHeight = function() {
       return $('#imageToAnnotate').load(function() {
+        var imageSize;
+        imageSize = wave.getState().get("imageSize");
+        if ((imageSize != null)) {
+          window.setImageSizeFromWave(JSON.parse(imageSize));
+        }
         adjustGadgetHeightForImage();
         makeImageAnnotatable();
         return window.loadAnnotationsFromState();

@@ -23,6 +23,11 @@ jQuery(document).ready(($) ->
   
   whenImageLoadedMakeAnnotatableAndAdjustGadgetHeight = ->
     $('#imageToAnnotate').load(() ->
+      # also set imagesize
+      # TODO: refactor this...
+      imageSize = wave.getState().get("imageSize")
+      if (imageSize?)
+        window.setImageSizeFromWave(JSON.parse(imageSize))
       adjustGadgetHeightForImage()
       makeImageAnnotatable()
       window.loadAnnotationsFromState() # see save-load-annotations.coffee

@@ -1,7 +1,23 @@
 (function() {
 
   jQuery(document).ready(function($) {
-    var makeEditorVisibleOnBoundariesOfImage, makeImageResizable, makeImageResizableOnLoad, redrawAnnotations, removeAnnotationTextDivs, resizeAnnotoriousLayers, setToSize;
+    var imageSizeHasChanged, makeEditorVisibleOnBoundariesOfImage, makeImageResizable, makeImageResizableOnLoad, redrawAnnotations, removeAnnotationTextDivs, resizeAnnotoriousLayers, saveNewImageSizeToWave, setElementsToSize, setImageSize;
+    window.setImageSizeFromWave = function(newImageSize) {
+      if (imageSizeHasChanged(newImageSize)) {
+        setImageSize(newImageSize);
+        return window.redrawAnnotationsForNewSize(newImageSize);
+      }
+    };
+    imageSizeHasChanged = function(newImageSize) {
+      var image;
+      image = $('#imageToAnnotate');
+      return image.width() !== newImageSize.width || image.height() !== newImageSize.height;
+    };
+    setImageSize = function(imageSize) {
+      var imageAndResizableWrapper;
+      imageAndResizableWrapper = $('#imageToAnnotate, .ui-wrapper');
+      return setElementsToSize(imageAndResizableWrapper, imageSize);
+    };
     makeImageResizableOnLoad = function() {
       return $('#imageToAnnotate').load(makeImageResizable);
     };
@@ -9,6 +25,9 @@
       $('#imageToAnnotate').resizable({
         resize: function(event, ui) {
           return window.redrawAnnotationsForNewSize(ui.size);
+        },
+        stop: function(event, ui) {
+          return saveNewImageSizeToWave(ui.size);
         }
       });
       return makeEditorVisibleOnBoundariesOfImage();
@@ -20,10 +39,10 @@
     resizeAnnotoriousLayers = function(newSize) {
       var annotoriousElementsToResize;
       annotoriousElementsToResize = $('.annotorious-annotationlayer, \
-   canvas.annotorious-opacity-fade');
-      return setToSize(annotoriousElementsToResize, newSize);
+    canvas.annotorious-opacity-fade');
+      return setElementsToSize(annotoriousElementsToResize, newSize);
     };
-    setToSize = function(elements, size) {
+    setElementsToSize = function(elements, size) {
       var element, _i, _len, _results;
       elements.width(size.width);
       elements.height(size.height);
@@ -34,9 +53,10 @@
           element.width = size.width;
         }
         if (element.height != null) {
-          element.height = size.height;
+          _results.push(element.height = size.height);
+        } else {
+          _results.push(void 0);
         }
-        _results.push(console.log(element));
       }
       return _results;
     };
@@ -61,6 +81,10 @@
     };
     makeEditorVisibleOnBoundariesOfImage = function() {
       return $('.ui-wrapper').css('overflow', '');
+    };
+    saveNewImageSizeToWave = function(newSize) {
+      console.log("newsize is", newSize);
+      return wave.getState().submitValue("imageSize", JSON.stringify(newSize));
     };
     return makeImageResizableOnLoad();
   });
