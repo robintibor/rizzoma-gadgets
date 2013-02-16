@@ -52,7 +52,9 @@
           return loadImage(imageSource, callback);
         }
       } else {
-        return callback();
+        if (callback != null) {
+          return callback();
+        }
       }
     };
     window.imageLoaded = function() {

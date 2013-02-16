@@ -45,7 +45,7 @@ jQuery(document).ready(($) ->
       # no callback if no image possible to load ..hmhm.. because then no annotations
       # should be loaded :)
     else
-      callback()
+      callback() if callback?
   
   window.imageLoaded = ->
     return $('#imageToAnnotate').attr('src')?
