@@ -13,9 +13,7 @@
   top: 365px;
   left: 227px;
   font-weight: bold;
-  color: darkViolet;
-  background-color: rgb(255, 255, 255);
-  background-color: rgba(255, 255, 255, 0.4);
+  background-color: #eeecb3;
   padding: 5px;
   margin-top: 2px;
   max-width: 180px;
@@ -28,9 +26,36 @@
   white-space: -o-pre-wrap;   /* Opera 7 */    
   word-wrap: break-word;      /* IE */
   box-shadow: 2px 2px 2px rgb(100, 100, 100);
+  /* needs to be visible on top of resizalbe handle! */
+  z-index: 92;
 }
 
 /* second canvas needs to be on top of text divs...*/
 canvas.annotorious-opacity-fade ~ canvas.annotorious-opacity-fade {
   z-index:1!important;
 }
+
+.ui-resizable-handle {
+  /* resizable handle with rizzoma color!:)*/
+  background-color: #64a8eb;
+}
+
+.annotorious-editor, .annotorious-popup {
+  /* needs to be visible on top of resizalbe handle! */
+  z-index: 93!important;
+}
+
+/* for text box completely visible on the right, very hacky :( */
+.ui-wrapper {
+  padding-right:230px;
+}
+.ui-resizable-e {
+  right:225px;
+}
+.ui-resizable-s {
+  left: -230px;
+}
+.ui-resizable-se {
+  right: 231px;
+}
+/* until here for text box visible on the right*/
