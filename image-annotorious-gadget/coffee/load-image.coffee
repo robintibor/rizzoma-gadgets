@@ -25,8 +25,7 @@ jQuery(document).ready(($) ->
     $('#imageToAnnotate').load(() ->
       adjustGadgetHeightForImage()
       makeImageAnnotatable()
-      if (callback?)
-        callback()
+      callback() if callback?
     )
   
   adjustGadgetHeightForImage = ->

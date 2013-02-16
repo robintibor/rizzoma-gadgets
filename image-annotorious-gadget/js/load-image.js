@@ -29,7 +29,7 @@
       return $('#imageToAnnotate').load(function() {
         adjustGadgetHeightForImage();
         makeImageAnnotatable();
-        if ((callback != null)) {
+        if (callback != null) {
           return callback();
         }
       });

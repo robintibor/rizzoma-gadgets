@@ -1,12 +1,12 @@
 jQuery(document).ready(($) ->
 
   # called from connect-to-wave.js atm
-  window.loadAnnotationsFromState = ->
-    annotations = getAnnotationsFromState()
+  window.loadAnnotationsFromWave = ->
+    annotations = getAnnotationsFromWave()
     if (annotations? and annotableImageExists())
       addOrRemoveAnnotationsInPicture(annotations)
   
-  getAnnotationsFromState = ->
+  getAnnotationsFromWave = ->
     annotationsString = wave.getState().get("annotations")
     annotations = JSON.parse(annotationsString)
     return annotations
@@ -64,7 +64,7 @@ jQuery(document).ready(($) ->
     
   removeAnnotationFromWave = (annotationToRemove) ->
     console.log("removed annotation wave")
-    annotations = getAnnotationsFromState()
+    annotations = getAnnotationsFromWave()
     annotationsWithoutRemovedOne = annotations.filter((oldAnnotation) ->
       JSON.stringify(oldAnnotation) != JSON.stringify(annotationToRemove))
     saveAnnotationsToWave(annotationsWithoutRemovedOne)
