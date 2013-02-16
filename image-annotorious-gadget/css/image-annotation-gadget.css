@@ -36,12 +36,12 @@ canvas.annotorious-opacity-fade ~ canvas.annotorious-opacity-fade {
   background-color: #eeecb3;
 }
 
-.annotorious-editor {
+.annotorious-editor, .annotorious-popup {
   /* needs to be visible on top of resizalbe handle! */
   z-index: 92!important
 }
 
 .ui-wrapper {
   /* make this so that text box is completely visible on the right...*/
-  margin-right: 350px;
+  margin-right: 350px!important;
 }
