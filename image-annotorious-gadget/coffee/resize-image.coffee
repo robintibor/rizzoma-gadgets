@@ -84,15 +84,12 @@ jQuery(document).ready(($) ->
 
   setNewScrollPositionAfterResize = (ui) ->
     widthDifference = ui.size.width - ui.originalSize.width
-    console.log("widthDifference", widthDifference)
-    console.log("setting scroll to", scrollBeforeResize + widthDifference)
     $('#imageDiv').scrollLeft(scrollBeforeResize + widthDifference)
 
   makeEditorVisibleOnBoundariesOfImage = ->
     $('.ui-wrapper').css('overflow', '')
  
   saveNewImageSizeToWave = (newSize) ->
-    console.log("newsize is", newSize)
     wave.getState().submitValue("imageSize", JSON.stringify(newSize))
  
   makeImageResizableOnLoad()

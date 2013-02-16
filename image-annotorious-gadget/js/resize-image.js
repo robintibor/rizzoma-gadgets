@@ -103,15 +103,12 @@
     setNewScrollPositionAfterResize = function(ui) {
       var widthDifference;
       widthDifference = ui.size.width - ui.originalSize.width;
-      console.log("widthDifference", widthDifference);
-      console.log("setting scroll to", scrollBeforeResize + widthDifference);
       return $('#imageDiv').scrollLeft(scrollBeforeResize + widthDifference);
     };
     makeEditorVisibleOnBoundariesOfImage = function() {
       return $('.ui-wrapper').css('overflow', '');
     };
     saveNewImageSizeToWave = function(newSize) {
-      console.log("newsize is", newSize);
       return wave.getState().submitValue("imageSize", JSON.stringify(newSize));
     };
     return makeImageResizableOnLoad();
