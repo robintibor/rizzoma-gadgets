@@ -40,3 +40,8 @@ canvas.annotorious-opacity-fade ~ canvas.annotorious-opacity-fade {
   /* needs to be visible on top of resizalbe handle! */
   z-index: 92!important
 }
+
+.ui-wrapper {
+  /* make this so that text box is completely visible on the right...
+  padding-right: 350px;
+}
