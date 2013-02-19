@@ -95,7 +95,8 @@ svgEditor.addExtension("foreignObject", function(S) {
 		
 		return {
 			name: "foreignObject",
-			svgicons: "extensions/foreignobject-icons.xml",
+      /* added by me for proepr path R8obintibor@gmail.com)*/
+      svgicons: window.svgEditor.curConfig.extPath + "extensions/foreignobject-icons.xml",
 			buttons: [{
 				id: "tool_foreign",
 				type: "mode",

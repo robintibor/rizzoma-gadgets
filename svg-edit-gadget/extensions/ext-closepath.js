@@ -45,7 +45,8 @@ svgEditor.addExtension("ClosePath", function(S) {
 		
 		return {
 			name: "ClosePath",
-			svgicons: "extensions/closepath_icons.svg",
+      /* added by me for proepr path R8obintibor@gmail.com)*/
+      svgicons: window.svgEditor.curConfig.extPath + "extensions/closepath_icons.svg",
 			buttons: [{
 				id: "tool_openpath",
 				type: "context",

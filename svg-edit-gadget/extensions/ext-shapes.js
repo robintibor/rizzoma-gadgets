@@ -147,7 +147,8 @@ svgEditor.addExtension("shapes", function() {
 
 	
 	return {
-		svgicons: "extensions/ext-shapes.xml",
+    /* added by me for proepr path R8obintibor@gmail.com)*/
+  	svgicons: window.svgEditor.curConfig.extPath + "extensions/ext-shapes.xml",
 		buttons: [{
 			id: "tool_shapelib",
 			type: "mode_flyout", // _flyout

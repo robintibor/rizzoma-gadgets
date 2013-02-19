@@ -19,7 +19,8 @@ svgEditor.addExtension("Hello World", function() {
 			name: "Hello World",
 			// For more notes on how to make an icon file, see the source of
 			// the hellorworld-icon.xml
-			svgicons: "extensions/helloworld-icon.xml",
+      /* added by me for proepr path R8obintibor@gmail.com)*/
+      svgicons: window.svgEditor.curConfig.extPath + "extensions/helloworld-icon.xml",
 			
 			// Multiple buttons can be added in this array
 			buttons: [{

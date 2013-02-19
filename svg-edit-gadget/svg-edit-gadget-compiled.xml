@@ -5,6 +5,7 @@
 </ModulePrefs>
 <Content type="html">
 <![CDATA[
+  <!DOCTYPE html>
     <html>
     <!-- removed for now, causes problems in Firefox: manifest="svg-editor.manifest" -->
     <head>
@@ -31,9 +32,9 @@
     <script type="text/javascript" src="https://c9.io/robintibor/rizzoma-gadget/workspace/svg-edit-gadget/spinbtn/JQuerySpinBtn.min.js"></script>
     <script type="text/javascript" src="https://c9.io/robintibor/rizzoma-gadget/workspace/svg-edit-gadget/touch.js"></script>
     
-    <!--{if svg_edit_release}>
+    <!--{if svg_edit_release} -->
       <script type="text/javascript" src="https://c9.io/robintibor/rizzoma-gadget/workspace/svg-edit-gadget/svgedit.compiled.js"></script>
-    <!--{else} -->
+    <!--{else}>
       <script type="text/javascript" src="https://c9.io/robintibor/rizzoma-gadget/workspace/svg-edit-gadget/contextmenu/jquery.contextMenu.js"></script>
       <script type="text/javascript" src="https://c9.io/robintibor/rizzoma-gadget/workspace/svg-edit-gadget/browser.js"></script>
       <script type="text/javascript" src="https://c9.io/robintibor/rizzoma-gadget/workspace/svg-edit-gadget/svgtransformlist.js"></script>
@@ -63,11 +64,6 @@
     <link rel="alternate" type="application/atom+xml" title="SVG-edit Updates (Issues/Fixes/Commits)" href="http://code.google.com/feeds/p/svg-edit/updates/basic" />
     
     <!-- Add script with custom handlers here -->
-    
-    <!-- wave script :)) -->
-    <script type="text/javascript" src="https://c9.io/robintibor/rizzoma-gadget/workspace/svg-edit-gadget/js/save-load-svg.js?cache=no!!1"></script>
-    <script type="text/javascript" src="https://c9.io/robintibor/rizzoma-gadget/workspace/svg-edit-gadget/js/style-svg-edit.js"></script>
-      
     <title>SVG-edit</title>
     </head>
     <body>

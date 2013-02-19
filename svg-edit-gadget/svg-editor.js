@@ -14,7 +14,7 @@
 // 1) units.js
 // 2) browser.js
 // 3) svgcanvas.js
-
+var pathToSVGEdit = "https://c9.io/robintibor/rizzoma-gadget/workspace/svg-edit-gadget/";
 (function() {
 
 	document.addEventListener("touchstart", touchHandler, true);
@@ -53,10 +53,10 @@
 					opacity: 1
 				},
 				initOpacity: 1,
-				imgPath: 'images/',
-				langPath: 'locale/',
-				extPath: 'extensions/',
-				jGraduatePath: 'jgraduate/images/',
+				imgPath: pathToSVGEdit + 'images/',
+				langPath: pathToSVGEdit + 'locale/',
+				extPath: pathToSVGEdit + 'extensions/',
+				jGraduatePath: pathToSVGEdit + 'jgraduate/images/',
 				extensions: ['ext-markers.js','ext-connector.js', 'ext-eyedropper.js', 'ext-shapes.js', 'ext-imagelib.js','ext-grid.js'],
 				initTool: 'select',
 				wireframe: false,

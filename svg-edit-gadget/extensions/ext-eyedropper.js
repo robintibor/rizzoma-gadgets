@@ -61,7 +61,8 @@ svgEditor.addExtension("eyedropper", function(S) {
 		
 		return {
 			name: "eyedropper",
-			svgicons: "extensions/eyedropper-icon.xml",
+      /* added by me for proper path (robintibor@gmail.com)*/
+    	svgicons: window.svgEditor.curConfig.extPath + "extensions/eyedropper-icon.xml",
 			buttons: [{
 				id: "tool_eyedropper",
 				type: "mode",
