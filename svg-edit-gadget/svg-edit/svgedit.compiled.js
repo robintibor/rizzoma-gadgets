@@ -1,5 +1,4 @@
 /* beautified this to be able to change some stuff :)) */
-var pathToSVGEdit = "https://c9.io/robintibor/rizzoma-gadget/workspace/svg-edit-gadget/";
 jQuery && function () {
   var a = $(window),
     K = $(document);
@@ -7739,10 +7738,10 @@ $.SvgCanvas = function (a, K) {
           opacity: 1
         },
         initOpacity: 1,
-        imgPath: pathToSVGEdit + "images/",
-        langPath: pathToSVGEdit + "locale/",
-        extPath: pathToSVGEdit + "extensions/",
-        jGraduatePath: pathToSVGEdit + "jgraduate/images/",
+        imgPath: "images/",
+        langPath: "locale/",
+        extPath: "extensions/",
+        jGraduatePath: "jgraduate/images/",
         extensions: ["ext-markers.js", "ext-connector.js", "ext-eyedropper.js", "ext-shapes.js", "ext-imagelib.js", "ext-grid.js"],
         initTool: "select",
         wireframe: false,

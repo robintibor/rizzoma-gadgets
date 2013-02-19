@@ -476,7 +476,7 @@ svgEditor.addExtension("Markers", function(S) {
 	return {
 		name: "Markers",
     /* added by me for proepr path R8obintibor@gmail.com)*/
-		svgicons: window.svgEditor.curConfig.extPath + "extensions/markers-icons.xml",
+		svgicons: "extensions/markers-icons.xml",
 		buttons: buildButtonList(),
 		context_tools: [
 		   {
