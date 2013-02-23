@@ -1,4 +1,5 @@
-#main_button, #editor_panel, #tools_line_show, #tools_rect_show, #tools_ellipse_show, #tool_path, #tools_shapelib_show, #tool_zoom, #tool_eyedropper {
+#main_button, #editor_panel, #tools_line_show, #tools_rect_show, #tools_ellipse_show, #tool_path, #tools_shapelib_show, #tool_zoom, #tool_eyedropper,
+#tool_opacity{
   display:none;
 }
 /*
