@@ -29,6 +29,7 @@
   justSetCanvasString = false;
 
   setCanvasSVGString = function(svgString) {
+    console.log("setting canvas svg string");
     svgCanvas.setSvgString(svgString);
     return justSetCanvasString = true;
   };

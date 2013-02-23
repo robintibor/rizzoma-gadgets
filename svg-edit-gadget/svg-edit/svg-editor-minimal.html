@@ -46,7 +46,18 @@
 <!{endif}-->
 
 <!-- you can load extensions here -->
-<!-- <script type="text/javascript" src="extensions/ext-helloworld.js"></script> -->
+<!-- for rizzoma experiment robintibor@gmail.com -->
+<link rel="stylesheet" href="css/svg-editor-minimal.css" type="text/css"/>
+<script type="text/javascript">
+  var  disableSelection = function() {
+    if (typeof svgCanvas != 'undefined') {
+      svgCanvas.setConfig({selectNew: false});
+    } else {
+      setTimeout(disableSelection, 1500)
+    }
+  }
+  disableSelection()
+</script>
 
 <!-- always minified scripts -->
 <script type="text/javascript" src="jquery-ui/jquery-ui-1.8.17.custom.min.js"></script>
@@ -56,9 +67,6 @@
 <link rel="alternate" type="application/atom+xml" title="SVG-edit General Discussion" href="http://groups.google.com/group/svg-edit/feed/atom_v1_0_msgs.xml" />
 <link rel="alternate" type="application/atom+xml" title="SVG-edit Updates (Issues/Fixes/Commits)" href="http://code.google.com/feeds/p/svg-edit/updates/basic" />
 
-<!-- Add script with custom handlers here -->
-<!-- scripts for rizzoma gadget-->
-<script type="text/javascript" src="rizzoma-gadget/js/sync-with-wave.js?cache=no6"></script>
 <title>SVG-edit</title>
 </head>
 <body>

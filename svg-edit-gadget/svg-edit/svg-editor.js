@@ -4374,7 +4374,8 @@
 
 				if ('localStorage' in window) {
 					var name = 'svgedit-' + Editor.curConfig.canvasName;
-					window.localStorage.setItem(name, svgCanvas.getSvgString());
+					// outcommented by me me (robintibor@gmail.com:)
+          //window.localStorage.setItem(name, svgCanvas.getSvgString());
 					Editor.show_save_warning = false;
 				}
 
@@ -4787,6 +4788,7 @@
  				return "{"+pairs.join(",")+"}" //wrap in the braces
  			  }
  			}
+       /* outcommented by me (robintibor@gmail.com)
  			  window.addEventListener("message", function(e){
  				var cbid = parseInt(e.data.substr(0, e.data.indexOf(";")));
  				try{
@@ -4794,7 +4796,7 @@
  			  }catch(err){
 					e.source.postMessage("SVGe"+cbid+";error:"+err.message, "*");
  			  }
- 			}, false)
+ 			}, false)*/
  			}catch(err){
  			  window.embed_error = err;
 			}
