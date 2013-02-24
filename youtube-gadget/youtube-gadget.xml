@@ -1,0 +1,28 @@
+<Module>
+<ModulePrefs title="Youtube Gadget">
+<Require feature="wave"/>
+<Require feature="dynamic-height"/>
+</ModulePrefs>
+<Content type="html">
+<![CDATA[
+  <head>
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/themes/base/jquery-ui.css" type="text/css"/>
+    <link rel="stylesheet" href="https://c9.io/robintibor/rizzoma-gadget/workspace/youtube-gadget/css/youtube-gadget.css" type="text/css"/>
+  </head>
+  <body>
+   http://www.youtube.com/watch?v=M62iU4hWV_g <br/>
+    <!-- 1. The <iframe> (and video player) will replace this <div> tag. -->
+    <div id="youtubePlayerWrap">
+      <div id="youtubePlayer"></div>
+    </div>
+    <input id="youtubeUrlText" type="text" placeholder="Enter Youtube URL Here..."/>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.0/jquery-ui.min.js"></script>
+    <script src="https://c9.io/robintibor/rizzoma-gadget/workspace/youtube-gadget/js/make-video-resizable.js"></script>
+    <script src="https://c9.io/robintibor/rizzoma-gadget/workspace/youtube-gadget/js/load-video-from-wave.js"></script>
+    <script type="text/javascript" src="//www.youtube.com/iframe_api"></script>
+    <script src="https://c9.io/robintibor/rizzoma-gadget/workspace/youtube-gadget/js/load-video-from-text.js"></script>
+  </body>
+]]>
+</Content>
+</Module>

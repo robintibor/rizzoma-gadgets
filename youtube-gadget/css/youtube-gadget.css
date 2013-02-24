@@ -1,0 +1,19 @@
+body {
+  overflow-x: scroll;
+}
+
+#youtubeUrlText {
+  display:none; /* just for the start until youtube API is ready */
+  font-size: 20px;
+  padding: 15px;
+  text-align: center;
+  width: 25em;
+  margin-left: 10px;
+}
+
+#youtubePlayerWrap {
+  padding: 15px;
+  margin-bottom: 15px;
+  /* make width same as player :) */ 
+  display: inline-block;
+}
