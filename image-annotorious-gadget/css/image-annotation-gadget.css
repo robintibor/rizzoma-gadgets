@@ -8,6 +8,7 @@
   overflow-y: hidden;
   padding-bottom: 90px; /* for popup to be visible when popup opened on bottom of image*/
 }
+
 .annotationTextDiv {
   position: absolute;
   top: 365px;

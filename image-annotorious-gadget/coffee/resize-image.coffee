@@ -36,20 +36,14 @@ jQuery(document).ready(($) ->
     $('#imageToAnnotate').resizable(
       {
         aspectRatio: true,
-        start: rememberScrollBeforeResize,
         resize: (event, ui) ->
           window.adjustGadgetHeightForImage()
           window.redrawAnnotationsForNewSize(ui.size)
-          #setNewScrollPositionAfterResize(ui)
         stop: (event, ui) ->
           saveNewImageSizeToWave(ui.size)
       }
     )
     makeEditorVisibleOnBoundariesOfImage()
- 
-  scrollBeforeResize = 0
-  rememberScrollBeforeResize = ->
-    scrollBeforeResize = $('#imageDiv').scrollLeft()
  
   window.redrawAnnotationsForNewSize = (size) ->
     resizeAnnotoriousLayers(size)

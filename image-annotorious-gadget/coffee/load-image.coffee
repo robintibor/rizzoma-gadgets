@@ -12,6 +12,7 @@ jQuery(document).ready(($) ->
 
   loadImage = (imageSource, callback) ->
     removeURLTextAndButton()
+    setDefaultMaxImageWidth()
     setImageSource(imageSource)
     whenImageLoadedMakeAnnotatableAndAdjustGadgetHeight(callback)
   
@@ -21,10 +22,18 @@ jQuery(document).ready(($) ->
   setImageSource = (imageSource) ->
     $('#imageToAnnotate').attr('src', imageSource)
   
+  setDefaultMaxImageWidth = ->
+    if (imageHasNoSizeSet())
+      $('#imageToAnnotate').css('max-width', '600px')
+  
+  imageHasNoSizeSet = ->
+    return jQuery('#imageToAnnotate').width() == 0
+  
   whenImageLoadedMakeAnnotatableAndAdjustGadgetHeight = (callback) ->
     $('#imageToAnnotate').load(() ->
       window.adjustGadgetHeightForImage()
       makeImageAnnotatable()
+      removeMaxWidthFromImage()
       callback() if callback?
     )
   
@@ -35,6 +44,17 @@ jQuery(document).ready(($) ->
   makeImageAnnotatable = ->
     image = $('#imageToAnnotate')[0]
     anno.makeAnnotatable(image)
+    setAnnotationCanvasSizesToImageSize() # have to do this for some reason :(((
+  
+  setAnnotationCanvasSizesToImageSize = ->
+    imageWidth = $('#imageToAnnotate').width()
+    for annotationCanvas in $('canvas.annotorious-opacity-fade')
+      $(annotationCanvas).width(imageWidth)
+      annotationCanvas.width = imageWidth
+  
+  removeMaxWidthFromImage = ->
+    # make it possible to resize image beyond max 600 px width as well :))
+    $('#imageToAnnotate').css('max-width', '')
   
   window.loadImageFromWave = (callback) ->
     if (not window.imageLoaded())

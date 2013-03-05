@@ -1,7 +1,7 @@
 (function() {
 
   jQuery(document).ready(function($) {
-    var getImageSourceFromWave, imageSourceStoredInWave, loadAndStoreImageFromUrlText, loadAndStoreImageOnButtonClick, loadImage, makeImageAnnotatable, removeURLTextAndButton, setImageSource, storeImageSourceInWave, whenImageLoadedMakeAnnotatableAndAdjustGadgetHeight;
+    var getImageSourceFromWave, imageHasNoSizeSet, imageSourceStoredInWave, loadAndStoreImageFromUrlText, loadAndStoreImageOnButtonClick, loadImage, makeImageAnnotatable, removeMaxWidthFromImage, removeURLTextAndButton, setAnnotationCanvasSizesToImageSize, setDefaultMaxImageWidth, setImageSource, storeImageSourceInWave, whenImageLoadedMakeAnnotatableAndAdjustGadgetHeight;
     loadAndStoreImageOnButtonClick = function() {
       return $('#loadImageButton').click(loadAndStoreImageFromUrlText);
     };
@@ -16,6 +16,7 @@
     };
     loadImage = function(imageSource, callback) {
       removeURLTextAndButton();
+      setDefaultMaxImageWidth();
       setImageSource(imageSource);
       return whenImageLoadedMakeAnnotatableAndAdjustGadgetHeight(callback);
     };
@@ -25,10 +26,19 @@
     setImageSource = function(imageSource) {
       return $('#imageToAnnotate').attr('src', imageSource);
     };
+    setDefaultMaxImageWidth = function() {
+      if (imageHasNoSizeSet()) {
+        return $('#imageToAnnotate').css('max-width', '600px');
+      }
+    };
+    imageHasNoSizeSet = function() {
+      return jQuery('#imageToAnnotate').width() === 0;
+    };
     whenImageLoadedMakeAnnotatableAndAdjustGadgetHeight = function(callback) {
       return $('#imageToAnnotate').load(function() {
         window.adjustGadgetHeightForImage();
         makeImageAnnotatable();
+        removeMaxWidthFromImage();
         if (callback != null) {
           return callback();
         }
@@ -42,7 +52,23 @@
     makeImageAnnotatable = function() {
       var image;
       image = $('#imageToAnnotate')[0];
-      return anno.makeAnnotatable(image);
+      anno.makeAnnotatable(image);
+      return setAnnotationCanvasSizesToImageSize();
+    };
+    setAnnotationCanvasSizesToImageSize = function() {
+      var annotationCanvas, imageWidth, _i, _len, _ref, _results;
+      imageWidth = $('#imageToAnnotate').width();
+      _ref = $('canvas.annotorious-opacity-fade');
+      _results = [];
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        annotationCanvas = _ref[_i];
+        $(annotationCanvas).width(imageWidth);
+        _results.push(annotationCanvas.width = imageWidth);
+      }
+      return _results;
+    };
+    removeMaxWidthFromImage = function() {
+      return $('#imageToAnnotate').css('max-width', '');
     };
     window.loadImageFromWave = function(callback) {
       var imageSource;

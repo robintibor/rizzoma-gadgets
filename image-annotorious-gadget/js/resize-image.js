@@ -1,7 +1,7 @@
 (function() {
 
   jQuery(document).ready(function($) {
-    var imageSizeHasChanged, makeEditorVisibleOnBoundariesOfImage, makeImageResizable, makeImageResizableOnLoad, redrawAnnotations, rememberScrollBeforeResize, removeAnnotationTextDivs, resizeAnnotoriousLayers, saveNewImageSizeToWave, scrollBeforeResize, setElementsToSize, setImageSize, setNewScrollPositionAfterResize;
+    var imageSizeHasChanged, makeEditorVisibleOnBoundariesOfImage, makeImageResizable, makeImageResizableOnLoad, redrawAnnotations, removeAnnotationTextDivs, resizeAnnotoriousLayers, saveNewImageSizeToWave, setElementsToSize, setImageSize, setNewScrollPositionAfterResize;
     window.loadImageSizeFromWave = function() {
       var imageSize, imageSizeString;
       imageSizeString = wave.getState().get("imageSize");
@@ -37,7 +37,6 @@
     makeImageResizable = function() {
       $('#imageToAnnotate').resizable({
         aspectRatio: true,
-        start: rememberScrollBeforeResize,
         resize: function(event, ui) {
           window.adjustGadgetHeightForImage();
           return window.redrawAnnotationsForNewSize(ui.size);
@@ -47,10 +46,6 @@
         }
       });
       return makeEditorVisibleOnBoundariesOfImage();
-    };
-    scrollBeforeResize = 0;
-    rememberScrollBeforeResize = function() {
-      return scrollBeforeResize = $('#imageDiv').scrollLeft();
     };
     window.redrawAnnotationsForNewSize = function(size) {
       resizeAnnotoriousLayers(size);
