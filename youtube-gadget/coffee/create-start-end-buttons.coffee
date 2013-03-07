@@ -2,7 +2,6 @@ youtubeGadget = window.youtubeGadget || {}
 window.youtubeGadget = youtubeGadget
 
 youtubeGadget.showStartAndEndButtons = (startTime, endTime) ->
-  console.log("startTime", startTime)
   setTimesOfButtons(startTime, endTime)
   showTimeButtons()
   onClickStoreTimesToWave()
