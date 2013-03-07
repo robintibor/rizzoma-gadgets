@@ -32,10 +32,10 @@ jQuery(document).ready(($) ->
   
   extractYoutubeVideoId = (url) ->
     # from http://stackoverflow.com/a/8260383/1469195
-    regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/
+    regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??(feature=\w+&)?v?=?([^#\&\?]*).*/
     match = url.match(regExp)
-    if (match and match[7].length==11)
-        return match[7]
+    if (match and match[8].length==11)
+        return match[8]
     else
       return null
 
