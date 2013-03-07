@@ -1,23 +1,22 @@
 (function() {
-  var saveNewPlayerSizeToWave;
+  var youtubeGadget;
 
-  window.makeVideoResizable = function() {
-    console.log("resizable!");
-    return $('#youtubePlayerWrap').resizable({
+  youtubeGadget = window.youtubeGadget || {};
+
+  window.youtubeGadget = youtubeGadget;
+
+  youtubeGadget.makeVideoResizable = function() {
+    return $('#youtubePlayerResizableWrap').resizable({
       aspectRatio: true,
       alsoResize: "#youtubePlayer",
+      minWidth: 350,
       resize: function(event, ui) {
-        return window.adjustHeightOfGadget();
+        return youtubeGadget.adjustHeightOfGadget();
       },
       stop: function(event, ui) {
-        return saveNewPlayerSizeToWave(ui.size);
+        return youtubeGadget.saveNewPlayerSizeToWave(ui.size);
       }
     });
-  };
-
-  saveNewPlayerSizeToWave = function(size) {
-    wave.getState().submitValue("videoWidth", size.width);
-    return wave.getState().submitValue("videoHeight", size.height);
   };
 
 }).call(this);

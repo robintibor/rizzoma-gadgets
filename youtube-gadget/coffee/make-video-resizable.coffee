@@ -1,16 +1,15 @@
-window.makeVideoResizable = ->
-  console.log("resizable!")
-  $('#youtubePlayerWrap').resizable(
+youtubeGadget = window.youtubeGadget || {}
+window.youtubeGadget = youtubeGadget
+
+youtubeGadget.makeVideoResizable = ->
+  $('#youtubePlayerResizableWrap').resizable(
     {
       aspectRatio: true,
       alsoResize: "#youtubePlayer",
+      minWidth: 350,
       resize: (event, ui) ->
-        window.adjustHeightOfGadget()
+        youtubeGadget.adjustHeightOfGadget()
       stop: (event, ui) ->
-        saveNewPlayerSizeToWave(ui.size)
+        youtubeGadget.saveNewPlayerSizeToWave(ui.size)
     }
   )
-
-saveNewPlayerSizeToWave = (size) ->
-  wave.getState().submitValue("videoWidth", size.width)
-  wave.getState().submitValue("videoHeight", size.height)

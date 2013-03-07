@@ -24,8 +24,6 @@
     videoId = getVideoIdFromWave();
     videoWidth = getVideoWidthFromWave();
     videoHeight = getVideoHeightFromWave();
-    console.log(videoWidth);
-    console.log(videoHeight);
     return window.loadPlayerWithVideoId(videoId, videoWidth, videoHeight);
   };
 
