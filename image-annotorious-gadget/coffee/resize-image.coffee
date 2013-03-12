@@ -24,6 +24,7 @@ jQuery(document).ready(($) ->
     $('#imageToAnnotate').resizable(
       {
         aspectRatio: true,
+        minWidth: 350,
         resize: (event, ui) ->
           imageAnnotationGadget.adjustGadgetHeightForImage()
           redrawAnnotationsForNewSize(ui.size)
