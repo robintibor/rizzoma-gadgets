@@ -22,7 +22,7 @@
     <script src="https://c9.io/robintibor/rizzoma-gadget/workspace/image-annotorious-gadget/js/load-image.js"></script>
     <script src="https://c9.io/robintibor/rizzoma-gadget/workspace/image-annotorious-gadget/js/save-load-annotations.js"></script>
     <script src="https://c9.io/robintibor/rizzoma-gadget/workspace/image-annotorious-gadget/js/resize-image.js"></script>
-    <script src="https://c9.io/robintibor/rizzoma-gadget/workspace/image-annotorious-gadget/js/connect-to-wave.js"></script>
+    <script src="https://c9.io/robintibor/rizzoma-gadget/workspace/image-annotorious-gadget/js/sync-with-wave.js"></script>
   </body>
 ]]>
 </Content>

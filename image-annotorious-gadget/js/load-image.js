@@ -1,20 +1,22 @@
 (function() {
+  var imageAnnotationGadget;
+
+  imageAnnotationGadget = window.imageAnnotationGadget || {};
+
+  window.imageAnnotationGadget = imageAnnotationGadget;
 
   jQuery(document).ready(function($) {
-    var getImageSourceFromWave, imageHasNoSizeSet, imageSourceStoredInWave, loadAndStoreImageFromUrlText, loadAndStoreImageOnButtonClick, loadImage, makeImageAnnotatable, removeMaxWidthFromImage, removeURLTextAndButton, setAnnotationCanvasSizesToImageSize, setDefaultMaxImageWidth, setImageSource, storeImageSourceInWave, whenImageLoadedMakeAnnotatableAndAdjustGadgetHeight;
+    var imageHasNoSizeSet, loadAndStoreImageFromUrlText, loadAndStoreImageOnButtonClick, makeImageAnnotatable, removeMaxWidthFromImage, removeURLTextAndButton, setAnnotationCanvasSizesToImageSize, setDefaultMaxImageWidth, setImageSource, whenImageLoadedMakeAnnotatableAndAdjustGadgetHeight;
     loadAndStoreImageOnButtonClick = function() {
       return $('#loadImageButton').click(loadAndStoreImageFromUrlText);
     };
     loadAndStoreImageFromUrlText = function() {
       var urlText;
       urlText = $('#imageUrlText').val();
-      storeImageSourceInWave(urlText);
-      return loadImage(urlText);
+      imageAnnotationGadget.wave.storeImageSource(urlText);
+      return imageAnnotationGadget.loadImage(urlText);
     };
-    storeImageSourceInWave = function(imageSource) {
-      return wave.getState().submitValue("imageSource", imageSource);
-    };
-    loadImage = function(imageSource, callback) {
+    imageAnnotationGadget.loadImage = function(imageSource, callback) {
       removeURLTextAndButton();
       setDefaultMaxImageWidth();
       setImageSource(imageSource);
@@ -36,7 +38,7 @@
     };
     whenImageLoadedMakeAnnotatableAndAdjustGadgetHeight = function(callback) {
       return $('#imageToAnnotate').load(function() {
-        window.adjustGadgetHeightForImage();
+        imageAnnotationGadget.adjustGadgetHeightForImage();
         makeImageAnnotatable();
         removeMaxWidthFromImage();
         if (callback != null) {
@@ -44,7 +46,7 @@
         }
       });
     };
-    window.adjustGadgetHeightForImage = function() {
+    imageAnnotationGadget.adjustGadgetHeightForImage = function() {
       var bodyHeight;
       bodyHeight = $('body').height();
       return gadgets.window.adjustHeight(bodyHeight + 10);
@@ -70,27 +72,8 @@
     removeMaxWidthFromImage = function() {
       return $('#imageToAnnotate').css('max-width', '');
     };
-    window.loadImageFromWave = function(callback) {
-      var imageSource;
-      if (!window.imageLoaded()) {
-        if (imageSourceStoredInWave()) {
-          imageSource = getImageSourceFromWave();
-          return loadImage(imageSource, callback);
-        }
-      } else {
-        if (callback != null) {
-          return callback();
-        }
-      }
-    };
-    window.imageLoaded = function() {
+    imageAnnotationGadget.imageLoaded = function() {
       return $('#imageToAnnotate').attr('src') != null;
-    };
-    imageSourceStoredInWave = function() {
-      return wave.getState().get("imageSource") != null;
-    };
-    getImageSourceFromWave = function() {
-      return wave.getState().get("imageSource");
     };
     return loadAndStoreImageOnButtonClick();
   });

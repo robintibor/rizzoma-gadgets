@@ -1,23 +1,16 @@
 (function() {
+  var imageAnnotationGadget;
+
+  imageAnnotationGadget = window.imageAnnotationGadget || {};
+
+  window.imageAnnotationGadget = imageAnnotationGadget;
 
   jQuery(document).ready(function($) {
-    var imageSizeHasChanged, makeEditorVisibleOnBoundariesOfImage, makeImageResizable, makeImageResizableOnLoad, redrawAnnotations, removeAnnotationTextDivs, resizeAnnotoriousLayers, saveNewImageSizeToWave, setElementsToSize, setImageSize, setNewScrollPositionAfterResize;
-    window.loadImageSizeFromWave = function() {
-      var imageSize, imageSizeString;
-      imageSizeString = wave.getState().get("imageSize");
-      if ((imageSizeString != null)) {
-        imageSize = JSON.parse(imageSizeString);
-        if (window.imageLoaded()) {
-          return window.setImageSizeAndRedrawAnnotations(imageSize);
-        } else {
-          return setImageSize(imageSize);
-        }
-      }
-    };
-    window.setImageSizeAndRedrawAnnotations = function(newImageSize) {
+    var imageSizeHasChanged, makeEditorVisibleOnBoundariesOfImage, makeImageResizable, makeImageResizableOnLoad, redrawAnnotations, redrawAnnotationsForNewSize, removeAnnotationTextDivs, resizeAnnotoriousLayers, setElementsToSize, setNewScrollPositionAfterResize;
+    imageAnnotationGadget.setImageSizeAndRedrawAnnotations = function(newImageSize) {
       if (imageSizeHasChanged(newImageSize)) {
-        setImageSize(newImageSize);
-        return window.redrawAnnotationsForNewSize(newImageSize);
+        imageAnnotationGadget.setImageSize(newImageSize);
+        return redrawAnnotationsForNewSize(newImageSize);
       }
     };
     imageSizeHasChanged = function(newImageSize) {
@@ -25,11 +18,11 @@
       image = $('#imageToAnnotate');
       return image.width() !== newImageSize.width || image.height() !== newImageSize.height;
     };
-    setImageSize = function(imageSize) {
+    imageAnnotationGadget.setImageSize = function(imageSize) {
       var imageAndResizableWrapper;
       imageAndResizableWrapper = $('#imageToAnnotate, .ui-wrapper');
       setElementsToSize(imageAndResizableWrapper, imageSize);
-      return window.adjustGadgetHeightForImage();
+      return imageAnnotationGadget.adjustGadgetHeightForImage();
     };
     makeImageResizableOnLoad = function() {
       return $('#imageToAnnotate').load(makeImageResizable);
@@ -38,16 +31,16 @@
       $('#imageToAnnotate').resizable({
         aspectRatio: true,
         resize: function(event, ui) {
-          window.adjustGadgetHeightForImage();
-          return window.redrawAnnotationsForNewSize(ui.size);
+          imageAnnotationGadget.adjustGadgetHeightForImage();
+          return redrawAnnotationsForNewSize(ui.size);
         },
         stop: function(event, ui) {
-          return saveNewImageSizeToWave(ui.size);
+          return imageAnnotationGadget.wave.saveNewImageSize(ui.size);
         }
       });
       return makeEditorVisibleOnBoundariesOfImage();
     };
-    window.redrawAnnotationsForNewSize = function(size) {
+    redrawAnnotationsForNewSize = function(size) {
       resizeAnnotoriousLayers(size);
       return redrawAnnotations();
     };
@@ -84,7 +77,7 @@
         annotation = oldAnnotations[_i];
         if (annotation != null) {
           anno.removeAnnotation(annotation);
-          _results.push(window.addAnnotationWithText(annotation));
+          _results.push(imageAnnotationGadget.addAnnotationWithText(annotation));
         } else {
           _results.push(void 0);
         }
@@ -101,9 +94,6 @@
     };
     makeEditorVisibleOnBoundariesOfImage = function() {
       return $('.ui-wrapper').css('overflow', '');
-    };
-    saveNewImageSizeToWave = function(newSize) {
-      return wave.getState().submitValue("imageSize", JSON.stringify(newSize));
     };
     return makeImageResizableOnLoad();
   });

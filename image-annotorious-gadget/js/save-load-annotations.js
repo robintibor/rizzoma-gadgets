@@ -1,55 +1,19 @@
 (function() {
-  var __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
+  var imageAnnotationGadget,
+    __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
+
+  imageAnnotationGadget = window.imageAnnotationGadget || {};
+
+  window.imageAnnotationGadget = imageAnnotationGadget;
 
   jQuery(document).ready(function($) {
-    var addNewAnnotations, addOrRemoveAnnotationsInPicture, annotableImageExists, createOrUpdateTextDivBelowAnnotation, createPermanentTextBelowAnnotationOnCreate, createTextDivBelowAnnotation, getAnnotationTextPosition, getAnnotationsFromWave, getExistingAnnotations, getTextDivOfAnnotation, removeAnnotationFromWave, removeAnnotationTextDiv, removeAnnotationTextsOnRemove, removeMissingAnnotations, saveAnnotationsOnChange, saveAnnotationsToWave, syncAnnotationsWithWave;
-    window.loadAnnotationsFromWave = function() {
-      var annotations;
-      annotations = getAnnotationsFromWave();
-      if ((annotations != null) && annotableImageExists()) {
-        return addOrRemoveAnnotationsInPicture(annotations);
-      }
-    };
-    getAnnotationsFromWave = function() {
-      var annotations, annotationsString;
-      annotationsString = wave.getState().get("annotations");
-      annotations = JSON.parse(annotationsString);
-      return annotations;
-    };
-    annotableImageExists = function() {
+    var addNewAnnotations, createOrUpdateTextDivBelowAnnotation, createPermanentTextBelowAnnotationOnCreate, createTextDivBelowAnnotation, getAnnotationTextPosition, getExistingAnnotations, getTextDivOfAnnotation, removeAnnotationTextDiv, removeAnnotationTextsOnRemove, removeAnnotationWithText, removeMissingAnnotations, saveAnnotationsOnChange, saveAnnotationsToWave, saveViewerOfAnnotation, saveViewerOfAnnotationOnCreate;
+    imageAnnotationGadget.annotableImageExists = function() {
       return $('.annotorious-annotationlayer').length > 0;
     };
-    addOrRemoveAnnotationsInPicture = function(annotationsFromWave) {
+    imageAnnotationGadget.addOrRemoveAnnotationsInPicture = function(annotationsFromWave) {
       removeMissingAnnotations(annotationsFromWave);
       return addNewAnnotations(annotationsFromWave);
-    };
-    addNewAnnotations = function(annotationsFromWave) {
-      var annotation, existingAnnotationStrings, existingAnnotations, _i, _len, _ref, _results;
-      existingAnnotations = anno.getAnnotations();
-      existingAnnotationStrings = (function() {
-        var _i, _len, _results;
-        _results = [];
-        for (_i = 0, _len = existingAnnotations.length; _i < _len; _i++) {
-          annotation = existingAnnotations[_i];
-          _results.push(JSON.stringify(annotation));
-        }
-        return _results;
-      })();
-      _results = [];
-      for (_i = 0, _len = annotationsFromWave.length; _i < _len; _i++) {
-        annotation = annotationsFromWave[_i];
-        if (_ref = JSON.stringify(annotation), __indexOf.call(existingAnnotationStrings, _ref) < 0) {
-          anno.addAnnotation(annotation);
-          _results.push(createTextDivBelowAnnotation(annotation));
-        } else {
-          _results.push(void 0);
-        }
-      }
-      return _results;
-    };
-    window.addAnnotationWithText = function(annotation) {
-      anno.addAnnotation(annotation);
-      return createTextDivBelowAnnotation(annotation);
     };
     removeMissingAnnotations = function(annotationsFromWave) {
       var annotation, annotationWaveStrings, existingAnnotations, _i, _len, _ref, _results;
@@ -67,26 +31,54 @@
       for (_i = 0, _len = existingAnnotations.length; _i < _len; _i++) {
         annotation = existingAnnotations[_i];
         if ((annotation != null) && (_ref = JSON.stringify(annotation), __indexOf.call(annotationWaveStrings, _ref) < 0)) {
-          anno.removeAnnotation(annotation);
-          _results.push(removeAnnotationTextDiv(annotation));
+          _results.push(removeAnnotationWithText(annotation));
         } else {
           _results.push(void 0);
         }
       }
       return _results;
     };
-    window.removeAnnotationWithText = function(annotation) {
+    removeAnnotationWithText = function(annotation) {
       anno.removeAnnotation(annotation);
       return removeAnnotationTextDiv(annotation);
     };
-    saveAnnotationsOnChange = function() {
-      anno.addHandler('onAnnotationCreated', syncAnnotationsWithWave);
-      return anno.addHandler('onAnnotationRemoved', removeAnnotationFromWave);
+    addNewAnnotations = function(annotationsFromWave) {
+      var annotation, existingAnnotationStrings, existingAnnotations, _i, _len, _ref, _results;
+      existingAnnotations = anno.getAnnotations();
+      existingAnnotationStrings = (function() {
+        var _i, _len, _results;
+        _results = [];
+        for (_i = 0, _len = existingAnnotations.length; _i < _len; _i++) {
+          annotation = existingAnnotations[_i];
+          _results.push(JSON.stringify(annotation));
+        }
+        return _results;
+      })();
+      _results = [];
+      for (_i = 0, _len = annotationsFromWave.length; _i < _len; _i++) {
+        annotation = annotationsFromWave[_i];
+        if (_ref = JSON.stringify(annotation), __indexOf.call(existingAnnotationStrings, _ref) < 0) {
+          _results.push(imageAnnotationGadget.addAnnotationWithText(annotation));
+        } else {
+          _results.push(void 0);
+        }
+      }
+      return _results;
     };
-    syncAnnotationsWithWave = function(annotation) {
+    imageAnnotationGadget.addAnnotationWithText = function(annotation) {
+      anno.addAnnotation(annotation);
+      return createTextDivBelowAnnotation(annotation);
+    };
+    saveAnnotationsOnChange = function() {
+      anno.addHandler('onAnnotationCreated', saveAnnotationsToWave);
+      return anno.addHandler('onAnnotationRemoved', function() {
+        return setTimeout(saveAnnotationsToWave, 0);
+      });
+    };
+    saveAnnotationsToWave = function() {
       var annotations;
       annotations = getExistingAnnotations();
-      return saveAnnotationsToWave(annotations);
+      return imageAnnotationGadget.wave.saveAnnotations(annotations);
     };
     getExistingAnnotations = function() {
       var annotation, cleanExistingAnnotations, existingAnnotations;
@@ -104,19 +96,17 @@
       })();
       return cleanExistingAnnotations;
     };
-    saveAnnotationsToWave = function(annotations) {
-      var annotationsString;
-      annotationsString = JSON.stringify(annotations);
-      return wave.getState().submitValue("annotations", annotationsString);
+    saveViewerOfAnnotationOnCreate = function() {
+      return anno.addHandler('onAnnotationCreated', saveViewerOfAnnotation);
     };
-    removeAnnotationFromWave = function(annotationToRemove) {
-      var annotations, annotationsWithoutRemovedOne;
-      console.log("removed annotation wave");
-      annotations = getAnnotationsFromWave();
-      annotationsWithoutRemovedOne = annotations.filter(function(oldAnnotation) {
-        return JSON.stringify(oldAnnotation) !== JSON.stringify(annotationToRemove);
-      });
-      return saveAnnotationsToWave(annotationsWithoutRemovedOne);
+    saveViewerOfAnnotation = function(annotation) {
+      var viewer;
+      viewer = wave.getViewer();
+      annotation.viewer = {
+        displayName: viewer.getDisplayName(),
+        thumbnailUrl: viewer.getThumbnailUrl()
+      };
+      return console.log("added viewer to", annotation);
     };
     createPermanentTextBelowAnnotationOnCreate = function() {
       return anno.addHandler('onAnnotationCreated', createOrUpdateTextDivBelowAnnotation);
@@ -166,16 +156,15 @@
       for (_i = 0, _len = textDivs.length; _i < _len; _i++) {
         textDiv = textDivs[_i];
         textDiv = $(textDiv);
-        console.log("textDivPosition " + (JSON.stringify(textDiv.position())));
-        console.log("positionOfTextDiv " + (JSON.stringify(positionOfTextDiv)));
         if (textDiv.position().top === Math.round(positionOfTextDiv.top) && textDiv.position().left === Math.round(positionOfTextDiv.left)) {
           return $(textDiv);
         }
       }
     };
-    saveAnnotationsOnChange();
+    saveViewerOfAnnotationOnCreate();
     createPermanentTextBelowAnnotationOnCreate();
-    return removeAnnotationTextsOnRemove();
+    removeAnnotationTextsOnRemove();
+    return saveAnnotationsOnChange();
   });
 
 }).call(this);

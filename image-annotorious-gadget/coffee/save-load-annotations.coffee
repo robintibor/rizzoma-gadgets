@@ -1,34 +1,14 @@
+imageAnnotationGadget = window.imageAnnotationGadget || {}
+window.imageAnnotationGadget = imageAnnotationGadget
+
 jQuery(document).ready(($) ->
-
-  # called from connect-to-wave.js atm
-  window.loadAnnotationsFromWave = ->
-    annotations = getAnnotationsFromWave()
-    if (annotations? and annotableImageExists())
-      addOrRemoveAnnotationsInPicture(annotations)
   
-  getAnnotationsFromWave = ->
-    annotationsString = wave.getState().get("annotations")
-    annotations = JSON.parse(annotationsString)
-    return annotations
-
-  annotableImageExists = ->
+  imageAnnotationGadget.annotableImageExists = ->
     return $('.annotorious-annotationlayer').length > 0
   
-  addOrRemoveAnnotationsInPicture = (annotationsFromWave) ->
+  imageAnnotationGadget.addOrRemoveAnnotationsInPicture = (annotationsFromWave) ->
     removeMissingAnnotations(annotationsFromWave)
     addNewAnnotations(annotationsFromWave)
-  
-  addNewAnnotations = (annotationsFromWave) ->
-    existingAnnotations = anno.getAnnotations()
-    existingAnnotationStrings = (JSON.stringify(annotation) for annotation in existingAnnotations)
-    for annotation in annotationsFromWave
-      if JSON.stringify(annotation) not in existingAnnotationStrings
-        anno.addAnnotation(annotation)
-        createTextDivBelowAnnotation(annotation)
-  
-  window.addAnnotationWithText = (annotation) ->
-    anno.addAnnotation(annotation)
-    createTextDivBelowAnnotation(annotation)
   
   removeMissingAnnotations = (annotationsFromWave) ->
     existingAnnotations = anno.getAnnotations()
@@ -36,20 +16,34 @@ jQuery(document).ready(($) ->
     for annotation in existingAnnotations
       # ignore undefined annotation :)
       if annotation? and JSON.stringify(annotation) not in annotationWaveStrings
-        anno.removeAnnotation(annotation)
-        removeAnnotationTextDiv(annotation)
+        removeAnnotationWithText(annotation)
   
-  window.removeAnnotationWithText = (annotation) ->
+  removeAnnotationWithText = (annotation) ->
     anno.removeAnnotation(annotation)
     removeAnnotationTextDiv(annotation)
   
-  saveAnnotationsOnChange = ->
-    anno.addHandler('onAnnotationCreated', syncAnnotationsWithWave)
-    anno.addHandler('onAnnotationRemoved', removeAnnotationFromWave)
+  addNewAnnotations = (annotationsFromWave) ->
+    existingAnnotations = anno.getAnnotations()
+    existingAnnotationStrings = (JSON.stringify(annotation) for annotation in existingAnnotations)
+    for annotation in annotationsFromWave
+      if JSON.stringify(annotation) not in existingAnnotationStrings
+        imageAnnotationGadget.addAnnotationWithText(annotation)
+        
+  imageAnnotationGadget.addAnnotationWithText = (annotation) ->
+    anno.addAnnotation(annotation)
+    createTextDivBelowAnnotation(annotation)
   
-  syncAnnotationsWithWave = (annotation) ->
+  saveAnnotationsOnChange = ->
+    anno.addHandler('onAnnotationCreated', saveAnnotationsToWave)
+    # have to use set timeout for removing annotations because annotation is removed
+    # after this handler is called! :)
+    anno.addHandler('onAnnotationRemoved', () ->
+      setTimeout(saveAnnotationsToWave, 0)
+    )
+  
+  saveAnnotationsToWave =  ->
     annotations = getExistingAnnotations()
-    saveAnnotationsToWave(annotations)
+    imageAnnotationGadget.wave.saveAnnotations(annotations)
   
   getExistingAnnotations = ->
     existingAnnotations = anno.getAnnotations()
@@ -58,17 +52,17 @@ jQuery(document).ready(($) ->
     cleanExistingAnnotations = (annotation for annotation in existingAnnotations when annotation?)
     return cleanExistingAnnotations
   
-  saveAnnotationsToWave = (annotations) ->
-    annotationsString = JSON.stringify(annotations)
-    wave.getState().submitValue("annotations", annotationsString)
-    
-  removeAnnotationFromWave = (annotationToRemove) ->
-    console.log("removed annotation wave")
-    annotations = getAnnotationsFromWave()
-    annotationsWithoutRemovedOne = annotations.filter((oldAnnotation) ->
-      JSON.stringify(oldAnnotation) != JSON.stringify(annotationToRemove))
-    saveAnnotationsToWave(annotationsWithoutRemovedOne)
+  saveViewerOfAnnotationOnCreate = ->
+    anno.addHandler('onAnnotationCreated', saveViewerOfAnnotation)
   
+  saveViewerOfAnnotation = (annotation) ->
+    viewer = wave.getViewer()
+    annotation.viewer = {
+      displayName: viewer.getDisplayName(),
+      thumbnailUrl: viewer.getThumbnailUrl()
+    }
+    console.log("added viewer to", annotation)
+    
   createPermanentTextBelowAnnotationOnCreate = ->
     anno.addHandler('onAnnotationCreated', createOrUpdateTextDivBelowAnnotation)
 
@@ -117,13 +111,12 @@ jQuery(document).ready(($) ->
     # by text of annotation
     for textDiv in textDivs
       textDiv = $(textDiv)
-      console.log("textDivPosition #{JSON.stringify(textDiv.position())}")
-      console.log("positionOfTextDiv #{JSON.stringify(positionOfTextDiv)}")
       if (textDiv.position().top == Math.round(positionOfTextDiv.top) and 
       textDiv.position().left == Math.round(positionOfTextDiv.left))
         return $(textDiv)
   
-  saveAnnotationsOnChange()
+  saveViewerOfAnnotationOnCreate()
   createPermanentTextBelowAnnotationOnCreate()
   removeAnnotationTextsOnRemove()
+  saveAnnotationsOnChange()
 )
