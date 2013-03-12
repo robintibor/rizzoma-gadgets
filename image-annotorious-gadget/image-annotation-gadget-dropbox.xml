@@ -1,0 +1,33 @@
+<Module>
+<ModulePrefs title="Image Gadget" height="60">
+<Require feature="wave"/>
+<Require feature="dynamic-height"/>
+</ModulePrefs>
+<Content type="html">
+<![CDATA[
+  <head>
+    <link rel="stylesheet" type="text/css" href="https://dl.dropbox.com/u/34637013/publish/rizzoma-gadgets-testversions/image-annotorious-gadget/css/image-annotation-font.css"/>
+    <link rel="stylesheet" type="text/css" href="https://dl.dropbox.com/u/34637013/publish/rizzoma-gadgets-testversions/image-annotorious-gadget/annotorious/css/annotorious.css"/>
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/themes/base/jquery-ui.css" type="text/css"/>
+    <link href="https://dl.dropbox.com/u/34637013/publish/rizzoma-gadgets-testversions/image-annotorious-gadget/css/image-annotation-gadget.css" rel="stylesheet" type="text/css">
+  </head>
+  <body>
+    <input type="text" id="imageUrlText" placeholder="Enter Image URL Or Paste Image..."></input>
+    <button id="loadImageButton">Load Image</button>
+    <div id="imageDiv">
+      <input type="checkbox" id="toggleAnnotationsCheckBox" checked="checked" />
+      <label for="toggleAnnotationsCheckBox" id ="toggleAnnotationsLabel" data-icon="&#xe001;"></label>
+      <img id="imageToAnnotate"></img>
+    </div>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.0/jquery-ui.min.js"></script>
+    <script src="https://dl.dropbox.com/u/34637013/publish/rizzoma-gadgets-testversions/image-annotorious-gadget/annotorious/annotorious.0.3.min.js"></script>
+    <script src="https://dl.dropbox.com/u/34637013/publish/rizzoma-gadgets-testversions/image-annotorious-gadget/js/load-image.js"></script>
+    <script src="https://dl.dropbox.com/u/34637013/publish/rizzoma-gadgets-testversions/image-annotorious-gadget/js/save-load-annotations.js"></script>
+    <script src="https://dl.dropbox.com/u/34637013/publish/rizzoma-gadgets-testversions/image-annotorious-gadget/js/resize-image.js"></script>
+    <script src="https://dl.dropbox.com/u/34637013/publish/rizzoma-gadgets-testversions/image-annotorious-gadget/js/sync-with-wave.js"></script>
+    <script src="https://dl.dropbox.com/u/34637013/publish/rizzoma-gadgets-testversions/image-annotorious-gadget/js/hide-show-annotations.js"></script>
+  </body>
+]]>
+</Content>
+</Module>
