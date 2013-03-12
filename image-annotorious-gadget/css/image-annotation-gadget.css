@@ -13,12 +13,18 @@
   position: absolute;
   top: 365px;
   left: 227px;
-  font-weight: bold;
   background-color: #eeecb3;
   padding: 5px;
   margin-top: 2px;
   max-width: 180px;
   border-radius: 3px;
+  box-shadow: 2px 2px 2px rgb(100, 100, 100);
+  /* needs to be visible on top of resizalbe handle! */
+  z-index: 92;
+}
+
+.annotationTextDiv .annotationText {
+  font-weight: bold;
   font-size: 14px;
   /* wrap text even if no spaces */
   white-space: pre-wrap;      /* CSS3 */   
@@ -26,9 +32,19 @@
   white-space: -pre-wrap;     /* Opera <7 */   
   white-space: -o-pre-wrap;   /* Opera 7 */    
   word-wrap: break-word;      /* IE */
-  box-shadow: 2px 2px 2px rgb(100, 100, 100);
-  /* needs to be visible on top of resizalbe handle! */
-  z-index: 92;
+  float:left;
+}
+
+.annotationCreatorAvatar {
+  float: right;
+  width: 25px;
+  height: 25px;
+  margin-left: 5px;
+  text-align: center;
+  font-size: 13px;
+  line-height: 25px;
+  font-weight: bold;
+  color: #728AA0;
 }
 
 /* second canvas needs to be on top of text divs...*/

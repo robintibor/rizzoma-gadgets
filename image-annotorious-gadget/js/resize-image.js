@@ -30,6 +30,7 @@
     makeImageResizable = function() {
       $('#imageToAnnotate').resizable({
         aspectRatio: true,
+        minWidth: 350,
         resize: function(event, ui) {
           imageAnnotationGadget.adjustGadgetHeightForImage();
           return redrawAnnotationsForNewSize(ui.size);

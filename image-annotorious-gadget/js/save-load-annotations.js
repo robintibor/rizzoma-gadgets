@@ -7,7 +7,7 @@
   window.imageAnnotationGadget = imageAnnotationGadget;
 
   jQuery(document).ready(function($) {
-    var addNewAnnotations, createOrUpdateTextDivBelowAnnotation, createPermanentTextBelowAnnotationOnCreate, createTextDivBelowAnnotation, getAnnotationTextPosition, getExistingAnnotations, getTextDivOfAnnotation, removeAnnotationTextDiv, removeAnnotationTextsOnRemove, removeAnnotationWithText, removeMissingAnnotations, saveAnnotationsOnChange, saveAnnotationsToWave, saveViewerOfAnnotation, saveViewerOfAnnotationOnCreate;
+    var addAvatarToTextDiv, addNewAnnotations, calculateFontSizeForImageWidth, createOrUpdateTextDivBelowAnnotation, createPermanentTextBelowAnnotationOnCreate, createTextDivBelowAnnotation, getAnnotationAvatar, getAnnotationTextPosition, getExistingAnnotations, getImageWidth, getTextDivOfAnnotation, removeAnnotationTextDiv, removeAnnotationTextsOnRemove, removeAnnotationWithText, removeMissingAnnotations, saveAnnotationsOnChange, saveAnnotationsToWave, saveViewerOfAnnotation, saveViewerOfAnnotationOnCreate, setFontSizeOfTextDiv, setPositionOfTextDiv, setTextWidthOfTextDiv, styleAnnotationTextDiv, updateAnnotationTextDiv;
     imageAnnotationGadget.annotableImageExists = function() {
       return $('.annotorious-annotationlayer').length > 0;
     };
@@ -115,19 +115,21 @@
       var annotationTextDiv;
       annotationTextDiv = getTextDivOfAnnotation(annotation);
       if ((annotationTextDiv != null)) {
-        return annotationTextDiv.text(annotation.text);
+        return updateAnnotationTextDiv(textDiv, annotation);
       } else {
         return createTextDivBelowAnnotation(annotation);
       }
     };
+    updateAnnotationTextDiv = function(textDiv, annotation) {
+      return textDiv.find('.annotationText').text(annotation.text);
+    };
     createTextDivBelowAnnotation = function(annotation) {
-      var position, textDiv;
-      position = getAnnotationTextPosition(annotation);
-      textDiv = $("<div class='annotationTextDiv'>" + annotation.text + "</div>");
-      textDiv.css('position', 'absolute');
-      textDiv.css('top', position.top);
-      textDiv.css('left', position.left);
-      return textDiv.insertBefore('.annotorious-editor');
+      var avatar, textDiv;
+      textDiv = $("<div class='annotationTextDiv'>          <div class='annotationText'>" + annotation.text + "</div>        </div>");
+      avatar = getAnnotationAvatar(annotation);
+      addAvatarToTextDiv(textDiv, avatar);
+      textDiv.insertBefore('.annotorious-editor');
+      return styleAnnotationTextDiv(textDiv, annotation);
     };
     getAnnotationTextPosition = function(annotation) {
       var annotationLeft, annotationTop, imageHeight, imageWidth, shapeHeight;
@@ -140,6 +142,50 @@
         top: annotationTop,
         left: annotationLeft
       };
+    };
+    getAnnotationAvatar = function(annotation) {
+      return annotation.viewer || {
+        thumbnailUrl: 'https://rizzoma.com/s/img/user/unknown.png',
+        displayName: 'Unknown Person'
+      };
+    };
+    addAvatarToTextDiv = function(textDiv, avatar) {
+      return textDiv.append("<img src='" + avatar.thumbnailUrl + "' class='annotationCreatorAvatar' title='" + avatar.displayName + "' alt='" + avatar.displayName + "'></img>");
+    };
+    styleAnnotationTextDiv = function(textDiv, annotation) {
+      var imageWidth, position;
+      position = getAnnotationTextPosition(annotation);
+      setPositionOfTextDiv(textDiv, position);
+      imageWidth = getImageWidth();
+      setFontSizeOfTextDiv(textDiv, imageWidth);
+      return setTextWidthOfTextDiv(textDiv, imageWidth);
+    };
+    getImageWidth = function() {
+      return $('#imageToAnnotate').width();
+    };
+    setPositionOfTextDiv = function(textDiv, position) {
+      textDiv.css('position', 'absolute');
+      textDiv.css('top', position.top);
+      return textDiv.css('left', position.left);
+    };
+    setFontSizeOfTextDiv = function(textDiv, imageWidth) {
+      var fontSize;
+      fontSize = calculateFontSizeForImageWidth(imageWidth);
+      return textDiv.find('.annotationText').css('font-size', fontSize);
+    };
+    setTextWidthOfTextDiv = function(textDiv) {
+      var avatarWidth, textWidth;
+      avatarWidth = textDiv.find('.annotationCreatorAvatar').width();
+      textWidth = textDiv.width() - avatarWidth - 5;
+      return textDiv.find('.annotationText').width(textWidth);
+    };
+    calculateFontSizeForImageWidth = function(imageWidth) {
+      var adjustedSize, maximumSize, minimumImageWidth, minimumSize;
+      minimumSize = 8;
+      maximumSize = 14;
+      minimumImageWidth = 350;
+      adjustedSize = minimumSize + ((imageWidth - minimumImageWidth) / 100);
+      return Math.min(adjustedSize, maximumSize);
     };
     removeAnnotationTextsOnRemove = function() {
       return anno.addHandler('onAnnotationRemoved', removeAnnotationTextDiv);

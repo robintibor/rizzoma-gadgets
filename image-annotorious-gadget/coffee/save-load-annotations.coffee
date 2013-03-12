@@ -72,18 +72,21 @@ jQuery(document).ready(($) ->
     # edit somehow does not trigger onAnnotationRemoved, only onAnnotationCreated :(
     annotationTextDiv = getTextDivOfAnnotation(annotation)
     if (annotationTextDiv?)
-      annotationTextDiv.text(annotation.text)
+      updateAnnotationTextDiv(textDiv, annotation)
     else
       createTextDivBelowAnnotation(annotation)
-      
+
+  updateAnnotationTextDiv = (textDiv, annotation) ->
+    textDiv.find('.annotationText').text(annotation.text)
+
   createTextDivBelowAnnotation = (annotation) ->
-      position = getAnnotationTextPosition(annotation)
-      textDiv = $("<div class='annotationTextDiv'>#{annotation.text}</div>")
-      textDiv.css('position', 'absolute')
-      textDiv.css('top', position.top)
-      textDiv.css('left', position.left)
+      textDiv = $("<div class='annotationTextDiv'>
+          <div class='annotationText'>#{annotation.text}</div>
+        </div>")
+      avatar = getAnnotationAvatar(annotation)
+      addAvatarToTextDiv(textDiv, avatar)
       textDiv.insertBefore('.annotorious-editor')
-    
+      styleAnnotationTextDiv(textDiv, annotation)
   
   getAnnotationTextPosition = (annotation) ->
     imageWidth = $('.annotorious-annotationlayer').width()
@@ -96,6 +99,46 @@ jQuery(document).ready(($) ->
       top: annotationTop,
       left: annotationLeft
     }
+  
+  getAnnotationAvatar = (annotation) ->
+    return annotation.viewer || {
+      thumbnailUrl: 'https://rizzoma.com/s/img/user/unknown.png',
+      displayName: 'Unknown Person'
+    }
+
+  addAvatarToTextDiv = (textDiv, avatar) ->
+    textDiv.append("<img src='#{avatar.thumbnailUrl}' class='annotationCreatorAvatar' title='#{avatar.displayName}' alt='#{avatar.displayName}'></img>")
+  
+  styleAnnotationTextDiv = (textDiv, annotation) ->
+    position = getAnnotationTextPosition(annotation)
+    setPositionOfTextDiv(textDiv, position)
+    imageWidth = getImageWidth()
+    setFontSizeOfTextDiv(textDiv, imageWidth)
+    setTextWidthOfTextDiv(textDiv, imageWidth)
+  
+  getImageWidth = ->
+    return $('#imageToAnnotate').width()
+  
+  setPositionOfTextDiv = (textDiv, position) ->
+    textDiv.css('position', 'absolute')
+    textDiv.css('top', position.top)
+    textDiv.css('left', position.left)
+    
+  setFontSizeOfTextDiv = (textDiv, imageWidth) ->
+    fontSize = calculateFontSizeForImageWidth(imageWidth)
+    textDiv.find('.annotationText').css('font-size', fontSize)
+  
+  setTextWidthOfTextDiv = (textDiv) ->
+    avatarWidth = textDiv.find('.annotationCreatorAvatar').width()
+    textWidth = textDiv.width() - avatarWidth - 5
+    textDiv.find('.annotationText').width(textWidth)
+  
+  calculateFontSizeForImageWidth = (imageWidth)->
+    minimumSize = 8
+    maximumSize = 14
+    minimumImageWidth = 350
+    adjustedSize = minimumSize + ((imageWidth- minimumImageWidth) / 100)
+    return Math.min(adjustedSize, maximumSize)
   
   removeAnnotationTextsOnRemove = ->
     anno.addHandler('onAnnotationRemoved', removeAnnotationTextDiv)
