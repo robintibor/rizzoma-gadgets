@@ -61,7 +61,6 @@ jQuery(document).ready(($) ->
       displayName: viewer.getDisplayName(),
       thumbnailUrl: viewer.getThumbnailUrl()
     }
-    console.log("added viewer to", annotation)
     
   createPermanentTextBelowAnnotationOnCreate = ->
     anno.addHandler('onAnnotationCreated', createOrUpdateTextDivBelowAnnotation)
@@ -72,7 +71,7 @@ jQuery(document).ready(($) ->
     # edit somehow does not trigger onAnnotationRemoved, only onAnnotationCreated :(
     annotationTextDiv = getTextDivOfAnnotation(annotation)
     if (annotationTextDiv?)
-      updateAnnotationTextDiv(textDiv, annotation)
+      updateAnnotationTextDiv(annotationTextDiv, annotation)
     else
       createTextDivBelowAnnotation(annotation)
 
@@ -130,7 +129,9 @@ jQuery(document).ready(($) ->
   
   setTextWidthOfTextDiv = (textDiv) ->
     avatarWidth = textDiv.find('.annotationCreatorAvatar').width()
-    textWidth = textDiv.width() - avatarWidth - 5
+    # necessary to make outer text div wider for gap between avatar and text! :)(?)
+    textDiv.width(textDiv.width() + 7)
+    textWidth = textDiv.width() - avatarWidth - 7
     textDiv.find('.annotationText').width(textWidth)
   
   calculateFontSizeForImageWidth = (imageWidth)->

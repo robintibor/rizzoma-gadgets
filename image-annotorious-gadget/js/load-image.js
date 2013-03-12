@@ -6,15 +6,18 @@
   window.imageAnnotationGadget = imageAnnotationGadget;
 
   jQuery(document).ready(function($) {
-    var imageHasNoSizeSet, loadAndStoreImageFromUrlText, loadAndStoreImageOnButtonClick, makeImageAnnotatable, removeMaxWidthFromImage, removeURLTextAndButton, setAnnotationCanvasSizesToImageSize, setDefaultMaxImageWidth, setImageSource, whenImageLoadedMakeAnnotatableAndAdjustGadgetHeight;
+    var imageHasNoSizeSet, loadAndStoreImage, loadAndStoreImageFromUrlText, loadAndStoreImageOnButtonClick, loadImageFromImageFile, loadImageFromPastedData, loadImageIfImagePasted, loadImageOnPaste, makeImageAnnotatable, removeMaxWidthFromImage, removeURLTextAndButton, setAnnotationCanvasSizesToImageSize, setDefaultMaxImageWidth, setImageSource, whenImageLoadedMakeAnnotatableAndAdjustGadgetHeight;
     loadAndStoreImageOnButtonClick = function() {
       return $('#loadImageButton').click(loadAndStoreImageFromUrlText);
     };
     loadAndStoreImageFromUrlText = function() {
       var urlText;
       urlText = $('#imageUrlText').val();
-      imageAnnotationGadget.wave.storeImageSource(urlText);
-      return imageAnnotationGadget.loadImage(urlText);
+      return loadAndStoreImage(urlText);
+    };
+    loadAndStoreImage = function(imageSource) {
+      imageAnnotationGadget.wave.storeImageSource(imageSource);
+      return imageAnnotationGadget.loadImage(imageSource);
     };
     imageAnnotationGadget.loadImage = function(imageSource, callback) {
       removeURLTextAndButton();
@@ -75,7 +78,38 @@
     imageAnnotationGadget.imageLoaded = function() {
       return $('#imageToAnnotate').attr('src') != null;
     };
-    return loadAndStoreImageOnButtonClick();
+    loadImageOnPaste = function() {
+      return $('#imageUrlText').on('paste', loadImageFromPastedData);
+    };
+    loadImageFromPastedData = function(event) {
+      return loadImageIfImagePasted(event);
+    };
+    loadImageIfImagePasted = function(event) {
+      var clipboardData, item, itemIsImage, items, _i, _len;
+      clipboardData = event.clipboardData || event.originalEvent.clipboardData;
+      items = clipboardData.items;
+      for (_i = 0, _len = items.length; _i < _len; _i++) {
+        item = items[_i];
+        itemIsImage = item.type.indexOf("image") !== -1;
+        if (itemIsImage) {
+          loadImageFromImageFile(item);
+          return;
+        }
+      }
+    };
+    loadImageFromImageFile = function(item) {
+      var imageFile, imageReader;
+      imageFile = item.getAsFile();
+      imageReader = new FileReader();
+      imageReader.onload = function(event) {
+        var base64ImageSource;
+        base64ImageSource = event.target.result;
+        return loadAndStoreImage(base64ImageSource);
+      };
+      return imageReader.readAsDataURL(imageFile);
+    };
+    loadAndStoreImageOnButtonClick();
+    return loadImageOnPaste();
   });
 
 }).call(this);

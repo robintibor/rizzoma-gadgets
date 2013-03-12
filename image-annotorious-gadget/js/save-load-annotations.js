@@ -102,11 +102,10 @@
     saveViewerOfAnnotation = function(annotation) {
       var viewer;
       viewer = wave.getViewer();
-      annotation.viewer = {
+      return annotation.viewer = {
         displayName: viewer.getDisplayName(),
         thumbnailUrl: viewer.getThumbnailUrl()
       };
-      return console.log("added viewer to", annotation);
     };
     createPermanentTextBelowAnnotationOnCreate = function() {
       return anno.addHandler('onAnnotationCreated', createOrUpdateTextDivBelowAnnotation);
@@ -115,7 +114,7 @@
       var annotationTextDiv;
       annotationTextDiv = getTextDivOfAnnotation(annotation);
       if ((annotationTextDiv != null)) {
-        return updateAnnotationTextDiv(textDiv, annotation);
+        return updateAnnotationTextDiv(annotationTextDiv, annotation);
       } else {
         return createTextDivBelowAnnotation(annotation);
       }
@@ -176,7 +175,8 @@
     setTextWidthOfTextDiv = function(textDiv) {
       var avatarWidth, textWidth;
       avatarWidth = textDiv.find('.annotationCreatorAvatar').width();
-      textWidth = textDiv.width() - avatarWidth - 5;
+      textDiv.width(textDiv.width() + 7);
+      textWidth = textDiv.width() - avatarWidth - 7;
       return textDiv.find('.annotationText').width(textWidth);
     };
     calculateFontSizeForImageWidth = function(imageWidth) {

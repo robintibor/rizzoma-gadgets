@@ -1,5 +1,12 @@
 #imageUrlText {
   width: 30em;
+  text-align: center;
+  margin-left: 10px;
+}
+
+#imageUrlText, #loadImageButton {
+  padding: 15px;
+  font-size: 20px;
 }
 
 #imageDiv {

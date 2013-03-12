@@ -7,8 +7,11 @@ jQuery(document).ready(($) ->
   
   loadAndStoreImageFromUrlText = ->
     urlText = $('#imageUrlText').val()
-    imageAnnotationGadget.wave.storeImageSource(urlText)
-    imageAnnotationGadget.loadImage(urlText)
+    loadAndStoreImage(urlText)
+  
+  loadAndStoreImage = (imageSource) ->
+    imageAnnotationGadget.wave.storeImageSource(imageSource)
+    imageAnnotationGadget.loadImage(imageSource)
   
   # also used by sync-with-wave.coffee
   imageAnnotationGadget.loadImage = (imageSource, callback) ->
@@ -60,5 +63,30 @@ jQuery(document).ready(($) ->
   imageAnnotationGadget.imageLoaded = ->
     return $('#imageToAnnotate').attr('src')?
   
+  loadImageOnPaste = ->
+    $('#imageUrlText').on('paste', loadImageFromPastedData)
+  
+  loadImageFromPastedData = (event) ->
+    loadImageIfImagePasted(event)
+  
+  loadImageIfImagePasted = (event) ->
+    clipboardData = event.clipboardData  || event.originalEvent.clipboardData
+    items = clipboardData.items
+    for item in items
+      itemIsImage = item.type.indexOf("image") != -1
+      if (itemIsImage)
+        loadImageFromImageFile(item)
+        return
+
+  loadImageFromImageFile = (item) ->
+    imageFile = item.getAsFile()
+    imageReader = new FileReader();
+    imageReader.onload = (event) ->
+      base64ImageSource = event.target.result
+      loadAndStoreImage(base64ImageSource)
+    imageReader.readAsDataURL(imageFile)
+    
+
   loadAndStoreImageOnButtonClick()
+  loadImageOnPaste()
 )
