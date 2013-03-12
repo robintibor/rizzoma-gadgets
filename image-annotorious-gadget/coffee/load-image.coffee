@@ -38,6 +38,7 @@ jQuery(document).ready(($) ->
       imageAnnotationGadget.adjustGadgetHeightForImage()
       makeImageAnnotatable()
       removeMaxWidthFromImage()
+      imageAnnotationGadget.showAnnotationsButton()
       callback() if callback?
     )
   

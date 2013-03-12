@@ -135,7 +135,7 @@ jQuery(document).ready(($) ->
     textDiv.find('.annotationText').width(textWidth)
   
   calculateFontSizeForImageWidth = (imageWidth)->
-    minimumSize = 8
+    minimumSize = 9
     maximumSize = 14
     minimumImageWidth = 350
     adjustedSize = minimumSize + ((imageWidth- minimumImageWidth) / 100)

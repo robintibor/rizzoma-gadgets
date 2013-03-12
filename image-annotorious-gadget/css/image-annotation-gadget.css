@@ -9,6 +9,21 @@
   font-size: 20px;
 }
 
+#toggleAnnotationsLabel {
+  /* hide at start! :) */
+  display: none;
+  margin-bottom: 5px;
+  font-size: 25px;
+  /* somehow has to be different hmhmhm*/
+  padding: 5px;
+  padding-right: 3px;
+  padding-bottom: 0;
+}
+
+.ui-button-text-only .ui-button-text {
+  padding: 0;
+}
+
 #imageDiv {
   margin-top:10px;
   overflow-x: auto;

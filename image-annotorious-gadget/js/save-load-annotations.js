@@ -181,7 +181,7 @@
     };
     calculateFontSizeForImageWidth = function(imageWidth) {
       var adjustedSize, maximumSize, minimumImageWidth, minimumSize;
-      minimumSize = 8;
+      minimumSize = 9;
       maximumSize = 14;
       minimumImageWidth = 350;
       adjustedSize = minimumSize + ((imageWidth - minimumImageWidth) / 100);

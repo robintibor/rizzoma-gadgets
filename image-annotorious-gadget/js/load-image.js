@@ -44,6 +44,7 @@
         imageAnnotationGadget.adjustGadgetHeightForImage();
         makeImageAnnotatable();
         removeMaxWidthFromImage();
+        imageAnnotationGadget.showAnnotationsButton();
         if (callback != null) {
           return callback();
         }
