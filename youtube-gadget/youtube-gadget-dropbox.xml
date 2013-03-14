@@ -1,0 +1,41 @@
+<Module>
+<ModulePrefs title="Youtube Gadget">
+<Require feature="wave"/>
+<Require feature="dynamic-height"/>
+</ModulePrefs>
+<Content type="html">
+<![CDATA[
+  <head>
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/themes/base/jquery-ui.css" type="text/css"/>
+    <link rel="stylesheet" href="https://dl.dropbox.com/u/34637013/publish/rizzoma-gadgets-testversions/youtube-gadget/css/youtube-gadget.css" type="text/css"/>
+  </head>
+  <body>
+    <input id="youtubeUrlText" type="text" placeholder="Enter Youtube URL Here..."/>
+    <div id="modeButtonsDiv">
+      <button id="editVideoButton">Edit</button>
+      <button id="finishedEditingVideoButton">Done</button>
+    </div>
+    <div id ="youtubePlayerWithButtons">
+      <!-- 1. The <iframe> (and video player) will replace this <div id="youtubePlayer"> tag. -->
+      <div id="youtubePlayer"></div>
+      <div class="timeButtons">
+        <button id ="startTimeButton">Now → Start time</button>
+        <span id="startTimeText" class="timeText">0:00</span>
+        <span id="endTimeSpan">
+          <button id ="endTimeButton">Now → End time</button>
+          <span id="endTimeText" class="timeText">0:00</span>
+        </span>
+      </div>
+    </div>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.0/jquery-ui.min.js"></script>
+    <script src="https://dl.dropbox.com/u/34637013/publish/rizzoma-gadgets-testversions/youtube-gadget/js/make-video-resizable.js"></script>
+    <script src="https://dl.dropbox.com/u/34637013/publish/rizzoma-gadgets-testversions/youtube-gadget/js/sync-video-with-wave.js"></script>
+    <script type="text/javascript" src="//www.youtube.com/iframe_api"></script>
+    <script src="https://dl.dropbox.com/u/34637013/publish/rizzoma-gadgets-testversions/youtube-gadget/js/load-video.js"></script>
+    <script src="https://dl.dropbox.com/u/34637013/publish/rizzoma-gadgets-testversions/youtube-gadget/js/create-start-end-buttons.js"></script>
+    <script src="https://dl.dropbox.com/u/34637013/publish/rizzoma-gadgets-testversions/youtube-gadget/js/toggle-edit-mode.js"></script>
+  </body>
+]]>
+</Content>
+</Module>
