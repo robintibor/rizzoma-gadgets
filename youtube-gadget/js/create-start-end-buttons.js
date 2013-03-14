@@ -71,10 +71,6 @@
     }
   };
 
-  getVideoLengthInSeconds = function() {
-    return youtubeGadget.youtubePlayer.getDuration();
-  };
-
   pad = function(num, size) {
     var numberString;
     numberString = num + "";
@@ -82,6 +78,14 @@
       numberString = "0" + numberString;
     }
     return numberString;
+  };
+
+  getVideoLengthInSeconds = function() {
+    return youtubeGadget.youtubePlayer.getDuration();
+  };
+
+  youtubeGadget.hideStartEndButtons = function() {
+    return $('.timeButtons').hide();
   };
 
 }).call(this);

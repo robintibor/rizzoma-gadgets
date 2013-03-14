@@ -11,18 +11,20 @@
   </head>
   <body>
     <input id="youtubeUrlText" type="text" placeholder="Enter Youtube URL Here..."/>
-    <div id="youtubePlayerResizableWrap">
-    <!-- 1. The <iframe> (and video player) will replace this <div> tag. -->
-      <div id ="youtubePlayerWithButtons">
-        <div id="youtubePlayer"></div>
-        <div class="timeButtons">
-          <button id ="startTimeButton">Now → Start time</button>
-          <span id="startTimeText" class="timeText">0:00</span>
-          <span id="endTimeSpan">
-            <button id ="endTimeButton">Now → End time</button>
-            <span id="endTimeText" class="timeText">0:00</span>
-          </span>
-        </div>
+    <div id="modeButtonsDiv">
+      <button id="editVideoButton">Edit</button>
+      <button id="finishedEditingVideoButton">Done</button>
+    </div>
+    <div id ="youtubePlayerWithButtons">
+      <!-- 1. The <iframe> (and video player) will replace this <div id="youtubePlayer"> tag. -->
+      <div id="youtubePlayer"></div>
+      <div class="timeButtons">
+        <button id ="startTimeButton">Now → Start time</button>
+        <span id="startTimeText" class="timeText">0:00</span>
+        <span id="endTimeSpan">
+          <button id ="endTimeButton">Now → End time</button>
+          <span id="endTimeText" class="timeText">0:00</span>
+        </span>
       </div>
     </div>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
@@ -32,6 +34,7 @@
     <script type="text/javascript" src="//www.youtube.com/iframe_api"></script>
     <script src="https://c9.io/robintibor/rizzoma-gadget/workspace/youtube-gadget/js/load-video.js"></script>
     <script src="https://c9.io/robintibor/rizzoma-gadget/workspace/youtube-gadget/js/create-start-end-buttons.js"></script>
+    <script src="https://c9.io/robintibor/rizzoma-gadget/workspace/youtube-gadget/js/toggle-edit-mode.js"></script>
   </body>
 ]]>
 </Content>

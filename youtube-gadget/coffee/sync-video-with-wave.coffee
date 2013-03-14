@@ -4,9 +4,9 @@ window.youtubeGadget = youtubeGadget
 tryToLoadVideoFromWave = ->
   videoShouldBeLoaded = videoIdStoredInWave() and not youtubeGadget.videoLoaded() 
   if (videoShouldBeLoaded and youtubeApiReady())
-    loadVideoFromWave()
+    youtubeGadget.loadVideoFromWave()
   else if (videoShouldBeLoaded and not youtubeApiReady())
-    setTimeout(loadVideoFromWave, 1000)
+    setTimeout(youtubeGadget.loadVideoFromWave, 1000)
   else if not videoIdStoredInWave()
     youtubeGadget.showUrlEnterBox()
 
@@ -16,14 +16,15 @@ videoIdStoredInWave = ->
 youtubeApiReady = ->
   return YT.Player?
 
-loadVideoFromWave = ->
+youtubeGadget.loadVideoFromWave = ->
   videoId = getVideoIdFromWave()
   videoWidth = getVideoWidthFromWave()
   videoHeight = getVideoHeightFromWave()
-  videoStart = getVideoStartFromWave()
-  videoEnd = getVideoEndFromWave()
-  youtubeGadget.loadPlayerWithVideoId(videoId, videoWidth, videoHeight, videoStart, videoEnd)
-  
+  videoStart = youtubeGadget.getVideoStartFromWave()
+  videoEnd = youtubeGadget.getVideoEndFromWave()
+  youtubeGadget.loadPlayerWithVideoId(videoId, videoWidth, videoHeight, videoStart, videoEnd, youtubeGadget.adjustHeightOfGadget)
+  youtubeGadget.enterViewMode()
+
 getVideoIdFromWave = ->
   return wave.getState().get("videoId")
   
@@ -33,10 +34,10 @@ getVideoWidthFromWave = ->
 getVideoHeightFromWave = ->
   return wave.getState().get("videoHeight") || 390
 
-getVideoStartFromWave = ->
+youtubeGadget.getVideoStartFromWave = ->
   return wave.getState().get("videoStart") || null
 
-getVideoEndFromWave = ->
+youtubeGadget.getVideoEndFromWave = ->
   return wave.getState().get("videoEnd") || null
 
 youtubeGadget.storeVideoIdInWave = (videoId) ->

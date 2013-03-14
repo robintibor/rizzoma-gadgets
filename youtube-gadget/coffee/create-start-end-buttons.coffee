@@ -49,12 +49,16 @@ convertVideoSecondsToString = (seconds) ->
   seconds = seconds % 60
   return if (hours > 0) then "#{hours}:#{pad(minutes, 2)}:#{pad(seconds, 2)}" else "#{pad(minutes, 2)}:#{pad(seconds, 2)}"
 
-getVideoLengthInSeconds = ->
-  return youtubeGadget.youtubePlayer.getDuration()
-
 pad = (num, size) ->
     numberString = num + ""
     while (numberString.length < size) 
       numberString = "0" + numberString
     return numberString
+
+getVideoLengthInSeconds = ->
+  return youtubeGadget.youtubePlayer.getDuration()
+
+youtubeGadget.hideStartEndButtons = ->
+  $('.timeButtons').hide()
+
   

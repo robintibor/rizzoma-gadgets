@@ -6,7 +6,8 @@
   window.youtubeGadget = youtubeGadget;
 
   youtubeGadget.makeVideoResizable = function() {
-    return $('#youtubePlayerResizableWrap').resizable({
+    $('#youtubePlayerWithButtons').addClass('youtubePlayerResizable');
+    return $('#youtubePlayerWithButtons').resizable({
       aspectRatio: true,
       alsoResize: "#youtubePlayer",
       minWidth: 350,
@@ -17,6 +18,11 @@
         return youtubeGadget.saveNewPlayerSizeToWave(ui.size);
       }
     });
+  };
+
+  youtubeGadget.makeVideoUnresizable = function() {
+    $('#youtubePlayerWithButtons').removeClass('youtubePlayerResizable');
+    return $('#youtubePlayerWithButtons').resizable('destroy');
   };
 
 }).call(this);

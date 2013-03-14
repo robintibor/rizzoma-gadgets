@@ -1,5 +1,5 @@
 (function() {
-  var getVideoEndFromWave, getVideoHeightFromWave, getVideoIdFromWave, getVideoStartFromWave, getVideoWidthFromWave, loadVideoFromWave, tryToLoadVideoFromWave, videoIdStoredInWave, youtubeApiReady, youtubeGadget;
+  var getVideoHeightFromWave, getVideoIdFromWave, getVideoWidthFromWave, tryToLoadVideoFromWave, videoIdStoredInWave, youtubeApiReady, youtubeGadget;
 
   youtubeGadget = window.youtubeGadget || {};
 
@@ -9,9 +9,9 @@
     var videoShouldBeLoaded;
     videoShouldBeLoaded = videoIdStoredInWave() && !youtubeGadget.videoLoaded();
     if (videoShouldBeLoaded && youtubeApiReady()) {
-      return loadVideoFromWave();
+      return youtubeGadget.loadVideoFromWave();
     } else if (videoShouldBeLoaded && !youtubeApiReady()) {
-      return setTimeout(loadVideoFromWave, 1000);
+      return setTimeout(youtubeGadget.loadVideoFromWave, 1000);
     } else if (!videoIdStoredInWave()) {
       return youtubeGadget.showUrlEnterBox();
     }
@@ -25,14 +25,15 @@
     return YT.Player != null;
   };
 
-  loadVideoFromWave = function() {
+  youtubeGadget.loadVideoFromWave = function() {
     var videoEnd, videoHeight, videoId, videoStart, videoWidth;
     videoId = getVideoIdFromWave();
     videoWidth = getVideoWidthFromWave();
     videoHeight = getVideoHeightFromWave();
-    videoStart = getVideoStartFromWave();
-    videoEnd = getVideoEndFromWave();
-    return youtubeGadget.loadPlayerWithVideoId(videoId, videoWidth, videoHeight, videoStart, videoEnd);
+    videoStart = youtubeGadget.getVideoStartFromWave();
+    videoEnd = youtubeGadget.getVideoEndFromWave();
+    youtubeGadget.loadPlayerWithVideoId(videoId, videoWidth, videoHeight, videoStart, videoEnd, youtubeGadget.adjustHeightOfGadget);
+    return youtubeGadget.enterViewMode();
   };
 
   getVideoIdFromWave = function() {
@@ -47,11 +48,11 @@
     return wave.getState().get("videoHeight") || 390;
   };
 
-  getVideoStartFromWave = function() {
+  youtubeGadget.getVideoStartFromWave = function() {
     return wave.getState().get("videoStart") || null;
   };
 
-  getVideoEndFromWave = function() {
+  youtubeGadget.getVideoEndFromWave = function() {
     return wave.getState().get("videoEnd") || null;
   };
 

@@ -1,7 +1,7 @@
 jQuery(document).ready(($) ->
   youtubeGadget = window.youtubeGadget || {}
   window.youtubeGadget = youtubeGadget
-  
+
   youtubePlayer = null
 
   loadYoutubeUrlOnEnter= ->
@@ -20,13 +20,12 @@ jQuery(document).ready(($) ->
     enteredUrl = $('#youtubeUrlText').val()
     trimmedUrl = enteredUrl.trim()
     if (urlIsYoutubeVideo(trimmedUrl))
-      removeTextField()
       youtubeVideoId = extractYoutubeVideoId(trimmedUrl)
-      youtubeGadget.loadPlayerWithVideoId(youtubeVideoId) # see load-video-from-wave.coffee :)
+      loadYoutubePlayerFromVideoIdAndMakeEditable(youtubeVideoId)
       youtubeGadget.storeVideoIdInWave(youtubeVideoId)
     else
       giveWrongUrlWarning(trimmedUrl)
-  
+      
   urlIsYoutubeVideo = (url) ->
     return extractYoutubeVideoId(url) != null
   
@@ -42,12 +41,19 @@ jQuery(document).ready(($) ->
   removeTextField = ->
     $('#youtubeUrlText').remove()
   
+  loadYoutubePlayerFromVideoIdAndMakeEditable = (youtubeVideoId) ->
+    videoStart = videoEnd = null # do not know start and end times :)
+    makeNewPlayerEditable = () ->
+      youtubeGadget.enterEditMode()
+    youtubeGadget.loadPlayerWithVideoId(youtubeVideoId, 640, 390, videoStart, videoEnd, makeNewPlayerEditable)
+
   giveWrongUrlWarning =  (url) ->
     alert("Could not use #{url}, please check if #{url} is a youtube video url :)")
 
   # function also used by sync-video-with-wave.coffee
   youtubeGadget.loadPlayerWithVideoId = (videoId, videoWidth = 640, videoHeight = 390,
-    videoStart, videoEnd) ->
+    videoStart, videoEnd, onReady) ->
+    removeTextField()
     playerVariables = createPlayerVariables(videoStart, videoEnd)
     youtubePlayer = new YT.Player('youtubePlayer', {
           width: videoWidth,
@@ -56,10 +62,9 @@ jQuery(document).ready(($) ->
           playerVars : playerVariables,
           events: {
             'onReady': () ->
+              #remember youtube player! :)
               youtubeGadget.youtubePlayer = youtubePlayer
-              youtubeGadget.adjustHeightOfGadget()
-              youtubeGadget.makeVideoResizable()
-              youtubeGadget.showStartAndEndButtons(videoStart, videoEnd)
+              onReady()
           }
         }
       )

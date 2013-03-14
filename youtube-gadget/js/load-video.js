@@ -1,7 +1,7 @@
 (function() {
 
   jQuery(document).ready(function($) {
-    var createPlayerVariables, extractYoutubeVideoId, giveWrongUrlWarning, loadYoutubePlayerByUrlInTextBox, loadYoutubeUrlOnEnter, loadYoutubeUrlOnPaste, removeTextField, urlIsYoutubeVideo, youtubeGadget, youtubePlayer;
+    var createPlayerVariables, extractYoutubeVideoId, giveWrongUrlWarning, loadYoutubePlayerByUrlInTextBox, loadYoutubePlayerFromVideoIdAndMakeEditable, loadYoutubeUrlOnEnter, loadYoutubeUrlOnPaste, removeTextField, urlIsYoutubeVideo, youtubeGadget, youtubePlayer;
     youtubeGadget = window.youtubeGadget || {};
     window.youtubeGadget = youtubeGadget;
     youtubePlayer = null;
@@ -24,9 +24,8 @@
       enteredUrl = $('#youtubeUrlText').val();
       trimmedUrl = enteredUrl.trim();
       if (urlIsYoutubeVideo(trimmedUrl)) {
-        removeTextField();
         youtubeVideoId = extractYoutubeVideoId(trimmedUrl);
-        youtubeGadget.loadPlayerWithVideoId(youtubeVideoId);
+        loadYoutubePlayerFromVideoIdAndMakeEditable(youtubeVideoId);
         return youtubeGadget.storeVideoIdInWave(youtubeVideoId);
       } else {
         return giveWrongUrlWarning(trimmedUrl);
@@ -48,10 +47,18 @@
     removeTextField = function() {
       return $('#youtubeUrlText').remove();
     };
+    loadYoutubePlayerFromVideoIdAndMakeEditable = function(youtubeVideoId) {
+      var makeNewPlayerEditable, videoEnd, videoStart;
+      videoStart = videoEnd = null;
+      makeNewPlayerEditable = function() {
+        return youtubeGadget.enterEditMode();
+      };
+      return youtubeGadget.loadPlayerWithVideoId(youtubeVideoId, 640, 390, videoStart, videoEnd, makeNewPlayerEditable);
+    };
     giveWrongUrlWarning = function(url) {
       return alert("Could not use " + url + ", please check if " + url + " is a youtube video url :)");
     };
-    youtubeGadget.loadPlayerWithVideoId = function(videoId, videoWidth, videoHeight, videoStart, videoEnd) {
+    youtubeGadget.loadPlayerWithVideoId = function(videoId, videoWidth, videoHeight, videoStart, videoEnd, onReady) {
       var playerVariables;
       if (videoWidth == null) {
         videoWidth = 640;
@@ -59,6 +66,7 @@
       if (videoHeight == null) {
         videoHeight = 390;
       }
+      removeTextField();
       playerVariables = createPlayerVariables(videoStart, videoEnd);
       return youtubePlayer = new YT.Player('youtubePlayer', {
         width: videoWidth,
@@ -68,9 +76,7 @@
         events: {
           'onReady': function() {
             youtubeGadget.youtubePlayer = youtubePlayer;
-            youtubeGadget.adjustHeightOfGadget();
-            youtubeGadget.makeVideoResizable();
-            return youtubeGadget.showStartAndEndButtons(videoStart, videoEnd);
+            return onReady();
           }
         }
       });

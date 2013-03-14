@@ -2,7 +2,8 @@ youtubeGadget = window.youtubeGadget || {}
 window.youtubeGadget = youtubeGadget
 
 youtubeGadget.makeVideoResizable = ->
-  $('#youtubePlayerResizableWrap').resizable(
+  $('#youtubePlayerWithButtons').addClass('youtubePlayerResizable')
+  $('#youtubePlayerWithButtons').resizable(
     {
       aspectRatio: true,
       alsoResize: "#youtubePlayer",
@@ -13,3 +14,8 @@ youtubeGadget.makeVideoResizable = ->
         youtubeGadget.saveNewPlayerSizeToWave(ui.size)
     }
   )
+  
+
+youtubeGadget.makeVideoUnresizable = ->
+  $('#youtubePlayerWithButtons').removeClass('youtubePlayerResizable')
+  $('#youtubePlayerWithButtons').resizable('destroy')
