@@ -3,6 +3,15 @@ window.imageAnnotationGadget = imageAnnotationGadget
 
 jQuery(document).ready(($) ->
   createToggleButton = ->
+    moveCheckBoxInsideAnnotationDiv()
+    makeCheckBoxIntoButton()
+  
+  moveCheckBoxInsideAnnotationDiv = ->
+    checkboxAndLabel = $('#toggleAnnotationsCheckBox, #toggleAnnotationsLabel')
+    annotationDiv = $('div.annotorious-annotationlayer')
+    annotationDiv.prepend(checkboxAndLabel)
+  
+  makeCheckBoxIntoButton = ->
     $("#toggleAnnotationsCheckBox").button()
   
   hideOrShowAnnotationsOnClick = ->
@@ -25,6 +34,7 @@ jQuery(document).ready(($) ->
 
   imageAnnotationGadget.showAnnotationsButton = ->
     $("#toggleAnnotationsLabel").css('display', 'inline-block')
+
   createToggleButton()
   hideOrShowAnnotationsOnClick()
 )

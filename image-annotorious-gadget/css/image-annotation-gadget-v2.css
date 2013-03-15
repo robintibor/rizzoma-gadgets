@@ -1,3 +1,16 @@
+#scrollBodyWrapper {
+  /* for scrolling sicne scrolling does not work yt for iframe by gadget pref :(*/
+  overflow-x: auto;
+  margin-bottom:6px;
+}
+
+#imageTooBigText {
+  margin-top: 4px;
+  margin-left: 10px;
+  color: rgb(255, 70, 70);
+  font-style: italic;
+}
+
 #imageUrlText {
   width: 30em;
   text-align: center;
@@ -10,9 +23,12 @@
 }
 
 #toggleAnnotationsLabel {
+  /* make visible on image */
+  position: absolute;
+  z-index: 1;
   /* hide at start! :) */
   display: none;
-  margin-bottom: 5px;
+  margin: 1px;
   font-size: 25px;
   /* somehow has to be different hmhmhm*/
   padding: 5px;
@@ -20,15 +36,34 @@
   padding-bottom: 0;
 }
 
+#toggleAnnotationsLabel {
+  border: none;
+  background: rgb(238, 236, 179);
+  /* make it look "disabled" on non-active state"*/
+  background: rgba(238, 236, 179, 0.8);
+  color: gray;
+}
+
+#toggleAnnotationsLabel.ui-state-active{
+  background: rgb(238, 236, 179);
+  color: black;
+}
+
+/* make feather visible left of hide annotaions button! :) quite hacky :(*/
+.annotorious-hint {
+  margin-left: 35px;
+}
+
 .ui-button-text-only .ui-button-text {
   padding: 0;
 }
 
 #imageDiv {
+  display:inline-block;
   margin-top:10px;
-  overflow-x: auto;
-  overflow-y: hidden;
-  padding-bottom: 90px; /* for popup to be visible when popup opened on bottom of image*/
+  /*overflow-x: auto;
+  overflow-y: hidden;*/
+  margin-bottom: 90px; /* for popup to be visible when popup opened on bottom of image*/
 }
 
 .annotationTextDiv {
@@ -83,18 +118,3 @@ canvas.annotorious-opacity-fade ~ canvas.annotorious-opacity-fade {
   /* needs to be visible on top of resizalbe handle! */
   z-index: 93!important;
 }
-
-/* for text box completely visible on the right, very hacky :( */
-.ui-wrapper {
-  padding-right:230px;
-}
-.ui-resizable-e {
-  right:225px;
-}
-.ui-resizable-s {
-  left: -230px;
-}
-.ui-resizable-se {
-  right: 231px;
-}
-/* until here for text box visible on the right*/

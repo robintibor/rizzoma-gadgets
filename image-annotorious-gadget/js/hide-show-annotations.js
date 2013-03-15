@@ -6,8 +6,18 @@
   window.imageAnnotationGadget = imageAnnotationGadget;
 
   jQuery(document).ready(function($) {
-    var checkboxIsChecked, createToggleButton, hideAnnotations, hideOrShowAnnotations, hideOrShowAnnotationsOnClick, showAnnotations;
+    var checkboxIsChecked, createToggleButton, hideAnnotations, hideOrShowAnnotations, hideOrShowAnnotationsOnClick, makeCheckBoxIntoButton, moveCheckBoxInsideAnnotationDiv, showAnnotations;
     createToggleButton = function() {
+      moveCheckBoxInsideAnnotationDiv();
+      return makeCheckBoxIntoButton();
+    };
+    moveCheckBoxInsideAnnotationDiv = function() {
+      var annotationDiv, checkboxAndLabel;
+      checkboxAndLabel = $('#toggleAnnotationsCheckBox, #toggleAnnotationsLabel');
+      annotationDiv = $('div.annotorious-annotationlayer');
+      return annotationDiv.prepend(checkboxAndLabel);
+    };
+    makeCheckBoxIntoButton = function() {
       return $("#toggleAnnotationsCheckBox").button();
     };
     hideOrShowAnnotationsOnClick = function() {

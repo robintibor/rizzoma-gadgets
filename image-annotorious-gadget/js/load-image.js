@@ -6,7 +6,7 @@
   window.imageAnnotationGadget = imageAnnotationGadget;
 
   jQuery(document).ready(function($) {
-    var imageHasNoSizeSet, loadAndStoreImage, loadAndStoreImageFromUrlText, loadAndStoreImageOnButtonClick, loadImageFromImageFile, loadImageFromPastedData, loadImageIfImagePasted, loadImageOnPaste, makeImageAnnotatable, removeMaxWidthFromImage, removeURLTextAndButton, setAnnotationCanvasSizesToImageSize, setDefaultMaxImageWidth, setImageSource, whenImageLoadedMakeAnnotatableAndAdjustGadgetHeight;
+    var imageHasNoSizeSet, imageSourceIsSmallEnough, loadAndStoreImage, loadAndStoreImageFromUrlText, loadAndStoreImageOnButtonClick, loadImageFromImageFile, loadImageFromPastedData, loadImageIfImagePasted, loadImageOnPaste, makeImageAnnotatable, removeLoadMenu, removeMaxWidthFromImage, setAnnotationCanvasSizesToImageSize, setDefaultMaxImageWidth, setImageSource, showSizeWarningToUser, whenImageLoadedMakeAnnotatableAndAdjustGadgetHeight;
     loadAndStoreImageOnButtonClick = function() {
       return $('#loadImageButton').click(loadAndStoreImageFromUrlText);
     };
@@ -20,13 +20,13 @@
       return imageAnnotationGadget.loadImage(imageSource);
     };
     imageAnnotationGadget.loadImage = function(imageSource, callback) {
-      removeURLTextAndButton();
+      removeLoadMenu();
       setDefaultMaxImageWidth();
       setImageSource(imageSource);
       return whenImageLoadedMakeAnnotatableAndAdjustGadgetHeight(callback);
     };
-    removeURLTextAndButton = function() {
-      return $('#imageUrlText, #loadImageButton').remove();
+    removeLoadMenu = function() {
+      return $('#loadImageMenu').remove();
     };
     setImageSource = function(imageSource) {
       return $('#imageToAnnotate').attr('src', imageSource);
@@ -105,9 +105,21 @@
       imageReader.onload = function(event) {
         var base64ImageSource;
         base64ImageSource = event.target.result;
-        return loadAndStoreImage(base64ImageSource);
+        if (imageSourceIsSmallEnough(base64ImageSource)) {
+          return loadAndStoreImage(base64ImageSource);
+        } else {
+          return showSizeWarningToUser();
+        }
       };
       return imageReader.readAsDataURL(imageFile);
+    };
+    imageSourceIsSmallEnough = function(imageSource) {
+      var sourceInKiloBytes;
+      sourceInKiloBytes = imageSource.length / 1024;
+      return sourceInKiloBytes < 500;
+    };
+    showSizeWarningToUser = function() {
+      return jQuery('#imageTooBigText').text('Image too big for pasting directly, paste image into rizzoma and copy URL instead :)');
     };
     loadAndStoreImageOnButtonClick();
     return loadImageOnPaste();
