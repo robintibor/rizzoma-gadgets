@@ -1,5 +1,5 @@
 (function() {
-  var youtubeGadget;
+  var removeOldWidthAndHeightValues, youtubeGadget;
 
   youtubeGadget = window.youtubeGadget || {};
 
@@ -22,7 +22,13 @@
 
   youtubeGadget.makeVideoUnresizable = function() {
     $('#youtubePlayerWithButtons').removeClass('youtubePlayerResizable');
-    return $('#youtubePlayerWithButtons').resizable('destroy');
+    $('#youtubePlayerWithButtons').resizable('destroy');
+    return removeOldWidthAndHeightValues();
+  };
+
+  removeOldWidthAndHeightValues = function() {
+    $('#youtubePlayerWithButtons').width('');
+    return $('#youtubePlayerWithButtons').height('');
   };
 
 }).call(this);

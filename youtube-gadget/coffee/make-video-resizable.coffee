@@ -19,3 +19,9 @@ youtubeGadget.makeVideoResizable = ->
 youtubeGadget.makeVideoUnresizable = ->
   $('#youtubePlayerWithButtons').removeClass('youtubePlayerResizable')
   $('#youtubePlayerWithButtons').resizable('destroy')
+  removeOldWidthAndHeightValues()
+  
+removeOldWidthAndHeightValues = ->
+  # somehow necessary to avoid weird mistakes after resize and done->edit
+  $('#youtubePlayerWithButtons').width('')
+  $('#youtubePlayerWithButtons').height('')
