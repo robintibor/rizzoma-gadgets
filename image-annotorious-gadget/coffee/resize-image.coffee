@@ -13,7 +13,7 @@ jQuery(document).ready(($) ->
     return image.width() != newImageSize.width or image.height() != newImageSize.height
   
   imageAnnotationGadget.setImageSize = (imageSize) ->
-    imageAndResizableWrapper = $('#imageToAnnotate, .ui-wrapper')
+    imageAndResizableWrapper = $('#imageToAnnotate, #imageDiv')
     setElementsToSize(imageAndResizableWrapper, imageSize)
     imageAnnotationGadget.adjustGadgetHeightForImage()
   
@@ -21,9 +21,10 @@ jQuery(document).ready(($) ->
     $('#imageToAnnotate').load(makeImageResizable)
   
   makeImageResizable = ->
-    $('#imageToAnnotate').resizable(
+    $('#imageDiv').resizable(
       {
         aspectRatio: true,
+        alsoResize: '#imageToAnnotate',
         minWidth: 350,
         resize: (event, ui) ->
           imageAnnotationGadget.adjustGadgetHeightForImage()

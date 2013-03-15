@@ -15,13 +15,13 @@ jQuery(document).ready(($) ->
   
   # also used by sync-with-wave.coffee
   imageAnnotationGadget.loadImage = (imageSource, callback) ->
-    removeURLTextAndButton()
+    removeLoadMenu()
     setDefaultMaxImageWidth()
     setImageSource(imageSource)
     whenImageLoadedMakeAnnotatableAndAdjustGadgetHeight(callback)
   
-  removeURLTextAndButton = ->
-    $('#imageUrlText, #loadImageButton').remove()
+  removeLoadMenu = ->
+    $('#loadImageMenu').remove()
     
   setImageSource = (imageSource) ->
     $('#imageToAnnotate').attr('src', imageSource)
@@ -84,9 +84,18 @@ jQuery(document).ready(($) ->
     imageReader = new FileReader();
     imageReader.onload = (event) ->
       base64ImageSource = event.target.result
-      loadAndStoreImage(base64ImageSource)
+      if (imageSourceIsSmallEnough(base64ImageSource))
+        loadAndStoreImage(base64ImageSource)
+      else
+        showSizeWarningToUser()
     imageReader.readAsDataURL(imageFile)
-    
+  
+  imageSourceIsSmallEnough = (imageSource) ->
+    sourceInKiloBytes = imageSource.length / 1024
+    return sourceInKiloBytes < 500
+  
+  showSizeWarningToUser = ->
+    jQuery('#imageTooBigText').text('Image too big for pasting directly, paste image into rizzoma and copy URL instead :)')
 
   loadAndStoreImageOnButtonClick()
   loadImageOnPaste()

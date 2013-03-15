@@ -20,7 +20,7 @@
     };
     imageAnnotationGadget.setImageSize = function(imageSize) {
       var imageAndResizableWrapper;
-      imageAndResizableWrapper = $('#imageToAnnotate, .ui-wrapper');
+      imageAndResizableWrapper = $('#imageToAnnotate, #imageDiv');
       setElementsToSize(imageAndResizableWrapper, imageSize);
       return imageAnnotationGadget.adjustGadgetHeightForImage();
     };
@@ -28,8 +28,9 @@
       return $('#imageToAnnotate').load(makeImageResizable);
     };
     makeImageResizable = function() {
-      $('#imageToAnnotate').resizable({
+      $('#imageDiv').resizable({
         aspectRatio: true,
+        alsoResize: '#imageToAnnotate',
         minWidth: 350,
         resize: function(event, ui) {
           imageAnnotationGadget.adjustGadgetHeightForImage();
