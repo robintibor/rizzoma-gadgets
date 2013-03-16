@@ -124,7 +124,7 @@
     imageSourceIsSmallEnough = function(imageSource) {
       var sourceInKiloBytes;
       sourceInKiloBytes = imageSource.length / 1024;
-      return sourceInKiloBytes < 500;
+      return sourceInKiloBytes < 100;
     };
     showSizeWarningToUser = function() {
       return jQuery('#imageTooBigText').text('Image too big for pasting directly, paste image into rizzoma and copy URL instead :)');
