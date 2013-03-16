@@ -6,7 +6,7 @@
   window.imageAnnotationGadget = imageAnnotationGadget;
 
   jQuery(document).ready(function($) {
-    var imageHasNoSizeSet, imageSourceIsSmallEnough, loadAndStoreImage, loadAndStoreImageFromUrlText, loadAndStoreImageOnButtonClick, loadImageFromImageFile, loadImageFromPastedData, loadImageIfImagePasted, loadImageOnPaste, makeImageAnnotatable, removeLoadMenu, removeMaxWidthFromImage, setAnnotationCanvasSizesToImageSize, setDefaultMaxImageWidth, setImageSource, showSizeWarningToUser, whenImageLoadedMakeAnnotatableAndAdjustGadgetHeight;
+    var imageHasNoSizeSet, imageSourceIsSmallEnough, loadAndStoreImage, loadAndStoreImageFromUrlText, loadAndStoreImageOnButtonClick, loadImageFromImageFile, loadImageFromPastedData, loadImageIfImagePasted, loadImageOnPaste, makeImageAnnotatable, removeLoadMenu, retainCurrentSizeAndRemoveMaxWidthFromImage, setAnnotationCanvasSizesToImageSize, setDefaultMaxImageWidth, setImageSource, showSizeWarningToUser, whenImageLoadedMakeAnnotatableAndAdjustGadgetHeight;
     loadAndStoreImageOnButtonClick = function() {
       return $('#loadImageButton').click(loadAndStoreImageFromUrlText);
     };
@@ -42,8 +42,8 @@
     whenImageLoadedMakeAnnotatableAndAdjustGadgetHeight = function(callback) {
       return $('#imageToAnnotate').load(function() {
         imageAnnotationGadget.adjustGadgetHeightForImage();
+        retainCurrentSizeAndRemoveMaxWidthFromImage();
         makeImageAnnotatable();
-        removeMaxWidthFromImage();
         imageAnnotationGadget.showAnnotationsButton();
         if (callback != null) {
           return callback();
@@ -62,18 +62,26 @@
       return setAnnotationCanvasSizesToImageSize();
     };
     setAnnotationCanvasSizesToImageSize = function() {
-      var annotationCanvas, imageWidth, _i, _len, _ref, _results;
+      var annotationCanvas, imageHeight, imageWidth, _i, _len, _ref, _results;
       imageWidth = $('#imageToAnnotate').width();
+      imageHeight = $('#imageToAnnotate').height();
       _ref = $('canvas.annotorious-opacity-fade');
       _results = [];
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         annotationCanvas = _ref[_i];
         $(annotationCanvas).width(imageWidth);
-        _results.push(annotationCanvas.width = imageWidth);
+        annotationCanvas.width = imageWidth;
+        $(annotationCanvas).height(imageHeight);
+        _results.push(annotationCanvas.height = imageHeight);
       }
       return _results;
     };
-    removeMaxWidthFromImage = function() {
+    retainCurrentSizeAndRemoveMaxWidthFromImage = function() {
+      var currentImageHeight, currentImageWidth;
+      currentImageWidth = $('#imageToAnnotate').width();
+      currentImageHeight = $('#imageToAnnotate').height();
+      $('#imageToAnnotate').width(currentImageWidth);
+      $('#imageToAnnotate').height(currentImageHeight);
       return $('#imageToAnnotate').css('max-width', '');
     };
     imageAnnotationGadget.imageLoaded = function() {

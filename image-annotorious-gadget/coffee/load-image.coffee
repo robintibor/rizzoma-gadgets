@@ -36,8 +36,8 @@ jQuery(document).ready(($) ->
   whenImageLoadedMakeAnnotatableAndAdjustGadgetHeight = (callback) ->
     $('#imageToAnnotate').load(() ->
       imageAnnotationGadget.adjustGadgetHeightForImage()
+      retainCurrentSizeAndRemoveMaxWidthFromImage()
       makeImageAnnotatable()
-      removeMaxWidthFromImage()
       imageAnnotationGadget.showAnnotationsButton()
       callback() if callback?
     )
@@ -53,12 +53,19 @@ jQuery(document).ready(($) ->
   
   setAnnotationCanvasSizesToImageSize = ->
     imageWidth = $('#imageToAnnotate').width()
+    imageHeight = $('#imageToAnnotate').height()
     for annotationCanvas in $('canvas.annotorious-opacity-fade')
       $(annotationCanvas).width(imageWidth)
       annotationCanvas.width = imageWidth
+      $(annotationCanvas).height(imageHeight)
+      annotationCanvas.height = imageHeight
   
-  removeMaxWidthFromImage = ->
+  retainCurrentSizeAndRemoveMaxWidthFromImage = ->
     # make it possible to resize image beyond max 600 px width as well :))
+    currentImageWidth = $('#imageToAnnotate').width()
+    currentImageHeight = $('#imageToAnnotate').height()
+    $('#imageToAnnotate').width(currentImageWidth)
+    $('#imageToAnnotate').height(currentImageHeight)
     $('#imageToAnnotate').css('max-width', '')
   
   imageAnnotationGadget.imageLoaded = ->
