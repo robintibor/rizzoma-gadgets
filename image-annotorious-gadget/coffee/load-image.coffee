@@ -99,7 +99,7 @@ jQuery(document).ready(($) ->
   
   imageSourceIsSmallEnough = (imageSource) ->
     sourceInKiloBytes = imageSource.length / 1024
-    return sourceInKiloBytes < 100
+    return sourceInKiloBytes < 500
   
   showSizeWarningToUser = ->
     jQuery('#imageTooBigText').text('Image too big for pasting directly, paste image into rizzoma and copy URL instead :)')
