@@ -1,57 +1,41 @@
-# TODO: 
-# push branch resize to github!!
-# on stop save new size to wave
-# on wave state changed
-# check if iamge size changed, if yes:
-# set image size and ui wrapper size
-# call window.redrawAnnotationsForNewSize :)
-jQuery(document).ready(($) ->
-  window.loadImageSizeFromWave = ->
-    imageSizeString = wave.getState().get("imageSize")
-    if (imageSizeString?)
-      imageSize = JSON.parse(imageSizeString)
-      if (window.imageLoaded())
-        window.setImageSizeAndRedrawAnnotations(imageSize)
-      else  # set image size before load for better UI experience :))
-        setImageSize(imageSize)
+imageAnnotationGadget = window.imageAnnotationGadget || {}
+window.imageAnnotationGadget = imageAnnotationGadget
 
-  window.setImageSizeAndRedrawAnnotations = (newImageSize) ->
+jQuery(document).ready(($) ->
+
+  imageAnnotationGadget.setImageSizeAndRedrawAnnotations = (newImageSize) ->
     if (imageSizeHasChanged(newImageSize))
-      setImageSize(newImageSize)
-      window.redrawAnnotationsForNewSize(newImageSize)
+      imageAnnotationGadget.setImageSize(newImageSize)
+      redrawAnnotationsForNewSize(newImageSize)
   
   imageSizeHasChanged = (newImageSize) ->
     image = $('#imageToAnnotate')
     return image.width() != newImageSize.width or image.height() != newImageSize.height
   
-  setImageSize = (imageSize) ->
-    imageAndResizableWrapper = $('#imageToAnnotate, .ui-wrapper')
+  imageAnnotationGadget.setImageSize = (imageSize) ->
+    imageAndResizableWrapper = $('#imageToAnnotate, #imageDiv')
     setElementsToSize(imageAndResizableWrapper, imageSize)
-    window.adjustGadgetHeightForImage()
+    imageAnnotationGadget.adjustGadgetHeightForImage()
   
   makeImageResizableOnLoad = ->
     $('#imageToAnnotate').load(makeImageResizable)
   
   makeImageResizable = ->
-    $('#imageToAnnotate').resizable(
+    $('#imageDiv').resizable(
       {
         aspectRatio: true,
-        start: rememberScrollBeforeResize,
+        alsoResize: '#imageToAnnotate',
+        minWidth: 350,
         resize: (event, ui) ->
-          window.adjustGadgetHeightForImage()
-          window.redrawAnnotationsForNewSize(ui.size)
-          #setNewScrollPositionAfterResize(ui)
+          imageAnnotationGadget.adjustGadgetHeightForImage()
+          redrawAnnotationsForNewSize(ui.size)
         stop: (event, ui) ->
-          saveNewImageSizeToWave(ui.size)
+          imageAnnotationGadget.wave.saveNewImageSize(ui.size)
       }
     )
     makeEditorVisibleOnBoundariesOfImage()
  
-  scrollBeforeResize = 0
-  rememberScrollBeforeResize = ->
-    scrollBeforeResize = $('#imageDiv').scrollLeft()
- 
-  window.redrawAnnotationsForNewSize = (size) ->
+  redrawAnnotationsForNewSize = (size) ->
     resizeAnnotoriousLayers(size)
     redrawAnnotations()
  
@@ -77,7 +61,7 @@ jQuery(document).ready(($) ->
     for annotation in oldAnnotations
       if annotation? # ignore one undefined annotation
         anno.removeAnnotation(annotation)
-        window.addAnnotationWithText(annotation)
+        imageAnnotationGadget.addAnnotationWithText(annotation)
 
   removeAnnotationTextDivs = ->
     $('.annotationTextDiv').remove()
@@ -88,9 +72,6 @@ jQuery(document).ready(($) ->
 
   makeEditorVisibleOnBoundariesOfImage = ->
     $('.ui-wrapper').css('overflow', '')
- 
-  saveNewImageSizeToWave = (newSize) ->
-    wave.getState().submitValue("imageSize", JSON.stringify(newSize))
  
   makeImageResizableOnLoad()
 )

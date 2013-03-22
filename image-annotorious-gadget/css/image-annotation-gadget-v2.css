@@ -1,0 +1,120 @@
+#scrollBodyWrapper {
+  /* for scrolling sicne scrolling does not work yt for iframe by gadget pref :(*/
+  overflow-x: auto;
+  margin-bottom:6px;
+}
+
+#imageTooBigText {
+  margin-top: 4px;
+  margin-left: 10px;
+  color: rgb(255, 70, 70);
+  font-style: italic;
+}
+
+#imageUrlText {
+  width: 30em;
+  text-align: center;
+  margin-left: 10px;
+}
+
+#imageUrlText, #loadImageButton {
+  padding: 15px;
+  font-size: 20px;
+}
+
+#toggleAnnotationsLabel {
+  /* make visible on image */
+  position: absolute;
+  z-index: 1;
+  /* hide at start! :) */
+  display: none;
+  margin: 1px;
+  font-size: 25px;
+  /* somehow has to be different hmhmhm*/
+  padding: 5px;
+  padding-right: 3px;
+  padding-bottom: 0;
+}
+
+#toggleAnnotationsLabel {
+  border: none;
+  background: rgb(238, 236, 179);
+  /* make it look "disabled" on non-active state"*/
+  background: rgba(238, 236, 179, 0.8);
+  color: gray;
+}
+
+#toggleAnnotationsLabel.ui-state-active{
+  background: rgb(238, 236, 179);
+  color: black;
+}
+
+/* make feather visible left of hide annotaions button! :) quite hacky :(*/
+.annotorious-hint {
+  margin-left: 35px;
+}
+
+.ui-button-text-only .ui-button-text {
+  padding: 0;
+}
+
+#imageDiv {
+  display:inline-block;
+  margin-top:10px;
+  /*overflow-x: auto;
+  overflow-y: hidden;*/
+  margin-bottom: 90px; /* for popup to be visible when popup opened on bottom of image*/
+}
+
+.annotationTextDiv {
+  position: absolute;
+  top: 365px;
+  left: 227px;
+  background-color: #eeecb3;
+  padding: 5px;
+  margin-top: 2px;
+  max-width: 180px;
+  border-radius: 3px;
+  box-shadow: 2px 2px 2px rgb(100, 100, 100);
+  /* needs to be visible on top of resizalbe handle! */
+  z-index: 92;
+}
+
+.annotationTextDiv .annotationText {
+  font-weight: bold;
+  font-size: 14px;
+  /* wrap text even if no spaces */
+  white-space: pre-wrap;      /* CSS3 */   
+  white-space: -moz-pre-wrap; /* Firefox */    
+  white-space: -pre-wrap;     /* Opera <7 */   
+  white-space: -o-pre-wrap;   /* Opera 7 */    
+  word-wrap: break-word;      /* IE */
+  float:left;
+}
+
+.annotationCreatorAvatar {
+  float: right;
+  width: 25px;
+  height: 25px;
+  margin-left: 5px;
+  text-align: center;
+  font-size: 13px;
+  line-height: 25px;
+  font-weight: bold;
+  color: #728AA0;
+}
+
+/* second canvas needs to be on top of text divs...*/
+canvas.annotorious-opacity-fade ~ canvas.annotorious-opacity-fade {
+  z-index:1!important;
+}
+
+.ui-resizable-handle {
+  /* resizable handle with rizzoma color!:)*/
+  background-color: #64a8eb;
+}
+
+.annotorious-editor, .annotorious-popup {
+  /* needs to be visible on top of resizalbe handle! */
+  z-index: 93!important;
+}

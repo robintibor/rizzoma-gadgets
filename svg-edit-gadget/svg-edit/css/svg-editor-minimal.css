@@ -1,0 +1,31 @@
+#main_button, #editor_panel, #tools_line_show, #tools_rect_show, #tools_ellipse_show, #tool_path, #tools_shapelib_show, #tool_zoom, #tool_eyedropper,
+#tool_opacity, #sidepanels{
+  display:none;
+}
+/*
+tool_wireframe
+view_grid
+tool_bold
+tool_italic
+tool_node_link
+tool_node_clone
+tool_node_delete
+tool_openclose_path
+tool_add_subpath
+tool_fhpath
+tools_line_show
+
+tool_path
+
+tool_text
+tool_image
+tool_zoom
+tool_eyedropper
+tool_rect
+tool_square
+tool_fhrect
+tool_ellipse
+tool_circle
+tool_fhellipse
+tool_line
+mode_connect*/

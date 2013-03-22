@@ -1,0 +1,62 @@
+body {
+  overflow-x: scroll;
+}
+
+#youtubeUrlText {
+  display:none; /* just for the start until youtube API is ready */
+  font-size: 20px;
+  padding: 15px;
+  text-align: center;
+  width: 25em;
+  margin-left: 10px;
+}
+
+#modeButtonsDiv button {
+  display:none;
+}
+
+.youtubePlayerResizable {
+  padding: 0px 15px 15px 0px;
+  margin-bottom: 35px;
+  /* make width same as player :) */ 
+  display: inline-block;
+}
+
+#endTimeSpan {
+  float: right;
+}
+
+.timeButtons {
+  display:none;
+}
+.timeButtons button {
+  /* make it look more like rizzoma button */
+  background-color: #589bdd;
+  border-top: none;
+  border: 1px solid #76A8D9;
+  border-left: none;
+  cursor: pointer;
+  box-shadow: 1px 1px 3px #76A8D9;
+  font-weight:bold;
+  font-size: 12px;
+  color: white;
+}
+
+.timeText {
+  color: #5b7f9b;
+  font-weight: bold;
+  /* try aligning with button text*/
+  vertical-align: middle;
+}
+
+.ui-resizable-handle {
+  /* resizable handle with rizzoma color!:)*/
+  background-color: #64a8eb;
+/* make nice rizzomacolor shadow :) */
+  box-shadow: 3px 3px 3px #76A8D9;
+}
+
+  /* hack for shadow of resize handles */
+.ui-resizable-se {
+  box-shadow: 4px 4px 1px #64a8eb;
+}

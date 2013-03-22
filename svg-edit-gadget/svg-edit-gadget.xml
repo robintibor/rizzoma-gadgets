@@ -1,0 +1,14 @@
+<Module>
+<ModulePrefs title="Image Gadget" height="60">
+<Require feature="wave"/>
+<Require feature="dynamic-height"/>
+</ModulePrefs>
+<Content type="html">
+<![CDATA[
+    <link rel="stylesheet" type="text/css" href="https://c9.io/robintibor/rizzoma-gadget/workspace/svg-edit-gadget/css/svg-edit-gadget.css" />
+    <iframe id="svgEditIFrame" src="https://c9.io/robintibor/rizzoma-gadget/workspace/svg-edit-gadget/svg-edit/svg-editor.html"></iframe>
+    <script type="text/javascript" src="https://c9.io/robintibor/rizzoma-gadget/workspace/svg-edit-gadget/js/style-svg-edit.js"></script>
+    <script type="text/javascript" src="https://c9.io/robintibor/rizzoma-gadget/workspace/svg-edit-gadget/js/sync-with-wave.js?cache=no11"></script>
+]]>
+</Content>
+</Module>
