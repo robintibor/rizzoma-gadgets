@@ -7,6 +7,7 @@
 <![CDATA[
   <head>
   <link rel="stylesheet" type="text/css" href="https://c9.io/ikset/rizzoma-gadgets/workspace/list-gadget/css/list-gadget.css"/>
+  <link rel="stylesheet" type="text/css" href="https://c9.io/ikset/rizzoma-gadgets/workspace/list-gadget/css/icons.css"/>
   </head>
   <body>
     <div style="padding-bottom:5px;" id="outDiv">
