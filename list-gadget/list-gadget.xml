@@ -1,5 +1,5 @@
 <Module>
-<ModulePrefs title="Image Gadget" height="60">
+<ModulePrefs title="List Gadget V1.1" height="60">
 <Require feature="wave"/>
 <Require feature="dynamic-height"/>
 </ModulePrefs>
@@ -8,11 +8,17 @@
   <head>
   <link rel="stylesheet" type="text/css" href="https://c9.io/ikset/rizzoma-gadgets/workspace/list-gadget/css/list-gadget.css"/>
   </head>
-  <body style="clear:both;">
-    <div id="listBox"></div>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
-    <script src="https://c9.io/ikset/rizzoma-gadgets/workspace/list-gadget/js/init.js"></script>
-    <script src="https://c9.io/ikset/rizzoma-gadgets/workspace/list-gadget/js/listObject.js"></script>
+  <body>
+    <div style="padding-bottom:5px;" id="outDiv">
+        <div id="inDiv">
+            <div id="listBox"></div>
+            <div id="addLine" style="width:30px; cursor:pointer; color:#B6C4CF"; class="icon-plus1"></div>
+            <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+            <script src="https://c9.io/ikset/rizzoma-gadgets/workspace/list-gadget/js/init.js"></script>
+            <script src="https://c9.io/ikset/rizzoma-gadgets/workspace/list-gadget/js/listObject.js"></script>
+            <script src="https://c9.io/ikset/rizzoma-gadgets/workspace/list-gadget/js/sync-with-wave.js"></script>
+        </div>
+    </div>
   </body>
 ]]>
 </Content>
