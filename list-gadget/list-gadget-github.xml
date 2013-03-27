@@ -6,8 +6,8 @@
 <Content type="html">
 <![CDATA[
   <head>
-  <link rel="stylesheet" type="text/css" href="https://raw.github.com/robintibor/rizzoma-gadgets/master/list-gadget/css/list-gadget.css"/>
-  <link rel="stylesheet" type="text/css" href="https://raw.github.com/robintibor/rizzoma-gadgets/master/list-gadget/css/icons.css"/>
+  <link rel="stylesheet" type="text/css" href="http://dl.dropbox.com/u/62227781/list-gadget.css"/>
+  <link rel="stylesheet" type="text/css" href="http://dl.dropbox.com/u/62227781/icons.css"/>
   </head>
   <body>
     <div style="padding-bottom:5px;" id="outDiv">
