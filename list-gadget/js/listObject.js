@@ -164,6 +164,7 @@ function cellObject(){
             saveLinesToWave();
             pt.changed = true;
         });
+//        $(idCell).hover(function(){$(idCell).css( "background-color", "#6CADEC" );}, function(){$(idCell).css( "background-color","" );})
 
     }
     this.loadCell = function(obj, addBefore, clId)
