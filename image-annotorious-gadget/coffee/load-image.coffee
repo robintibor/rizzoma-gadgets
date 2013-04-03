@@ -7,7 +7,13 @@ jQuery(document).ready(($) ->
   
   loadAndStoreImageFromUrlText = ->
     urlText = $('#imageUrlText').val()
-    loadAndStoreImage(urlText)
+    if (urlHasText(urlText))
+      loadAndStoreImage(urlText)
+    else 
+      displayWarningToUser("Textbox empty! :( Please enter an URL, then click <b>Load Image</b> :)")
+  
+  urlHasText = (urlText) ->
+    return urlText != ""
   
   loadAndStoreImage = (imageSource) ->
     imageAnnotationGadget.wave.storeImageSource(imageSource)
@@ -102,7 +108,10 @@ jQuery(document).ready(($) ->
     return sourceInKiloBytes < 500
   
   showSizeWarningToUser = ->
-    jQuery('#imageTooBigText').text('Image too big for pasting directly, paste image into rizzoma and copy URL instead :)')
+    displayWarningToUser('Image too big for pasting directly, paste image into rizzoma and copy URL instead :)')
+
+  displayWarningToUser = (warningText) ->
+    jQuery('#imageTooBigText').html(warningText)
 
   loadAndStoreImageOnButtonClick()
   loadImageOnPaste()

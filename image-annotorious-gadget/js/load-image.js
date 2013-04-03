@@ -6,14 +6,21 @@
   window.imageAnnotationGadget = imageAnnotationGadget;
 
   jQuery(document).ready(function($) {
-    var imageHasNoSizeSet, imageSourceIsSmallEnough, loadAndStoreImage, loadAndStoreImageFromUrlText, loadAndStoreImageOnButtonClick, loadImageFromImageFile, loadImageFromPastedData, loadImageIfImagePasted, loadImageOnPaste, makeImageAnnotatable, removeLoadMenu, retainCurrentSizeAndRemoveMaxWidthFromImage, setAnnotationCanvasSizesToImageSize, setDefaultMaxImageWidth, setImageSource, showSizeWarningToUser, whenImageLoadedMakeAnnotatableAndAdjustGadgetHeight;
+    var displayWarningToUser, imageHasNoSizeSet, imageSourceIsSmallEnough, loadAndStoreImage, loadAndStoreImageFromUrlText, loadAndStoreImageOnButtonClick, loadImageFromImageFile, loadImageFromPastedData, loadImageIfImagePasted, loadImageOnPaste, makeImageAnnotatable, removeLoadMenu, retainCurrentSizeAndRemoveMaxWidthFromImage, setAnnotationCanvasSizesToImageSize, setDefaultMaxImageWidth, setImageSource, showSizeWarningToUser, urlHasText, whenImageLoadedMakeAnnotatableAndAdjustGadgetHeight;
     loadAndStoreImageOnButtonClick = function() {
       return $('#loadImageButton').click(loadAndStoreImageFromUrlText);
     };
     loadAndStoreImageFromUrlText = function() {
       var urlText;
       urlText = $('#imageUrlText').val();
-      return loadAndStoreImage(urlText);
+      if (urlHasText(urlText)) {
+        return loadAndStoreImage(urlText);
+      } else {
+        return displayWarningToUser("Textbox empty! :( Please enter an URL, then click <b>Load Image</b> :)");
+      }
+    };
+    urlHasText = function(urlText) {
+      return urlText !== "";
     };
     loadAndStoreImage = function(imageSource) {
       imageAnnotationGadget.wave.storeImageSource(imageSource);
@@ -127,7 +134,10 @@
       return sourceInKiloBytes < 500;
     };
     showSizeWarningToUser = function() {
-      return jQuery('#imageTooBigText').text('Image too big for pasting directly, paste image into rizzoma and copy URL instead :)');
+      return displayWarningToUser('Image too big for pasting directly, paste image into rizzoma and copy URL instead :)');
+    };
+    displayWarningToUser = function(warningText) {
+      return jQuery('#imageTooBigText').html(warningText);
     };
     loadAndStoreImageOnButtonClick();
     return loadImageOnPaste();
