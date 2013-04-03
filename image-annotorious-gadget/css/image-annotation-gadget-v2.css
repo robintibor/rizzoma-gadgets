@@ -12,14 +12,14 @@
 }
 
 #imageUrlText {
-  width: 30em;
+  width: 20em;
   text-align: center;
   margin-left: 10px;
 }
 
 #imageUrlText, #loadImageButton {
   padding: 15px;
-  font-size: 20px;
+  font-size: 18px;
 }
 
 #toggleAnnotationsLabel {
