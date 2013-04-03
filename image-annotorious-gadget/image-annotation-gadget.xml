@@ -9,7 +9,7 @@
     <link rel="stylesheet" type="text/css" href="https://c9.io/robintibor/rizzoma-gadget/workspace/image-annotorious-gadget/css/image-annotation-font.css"/>
     <link rel="stylesheet" type="text/css" href="https://c9.io/robintibor/rizzoma-gadget/workspace/image-annotorious-gadget/annotorious/css/annotorious.css"/>
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/themes/base/jquery-ui.css" type="text/css"/>
-    <link href="https://c9.io/robintibor/rizzoma-gadget/workspace/image-annotorious-gadget/css/image-annotation-gadget-v2.css" rel="stylesheet" type="text/css">
+    <link href="https://c9.io/robintibor/rizzoma-gadget/workspace/image-annotorious-gadget/css/image-annotation-gadget.css" rel="stylesheet" type="text/css">
   </head>
   <body>
     <div id="scrollBodyWrapper">
