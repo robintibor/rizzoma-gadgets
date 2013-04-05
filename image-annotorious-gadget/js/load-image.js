@@ -6,7 +6,7 @@
   window.imageAnnotationGadget = imageAnnotationGadget;
 
   jQuery(document).ready(function($) {
-    var displayWarningToUser, imageHasNoSizeSet, imageSourceIsSmallEnough, loadAndStoreImage, loadAndStoreImageFromUrlText, loadAndStoreImageOnButtonClick, loadImageFromImageFile, loadImageFromPastedData, loadImageIfImagePasted, loadImageOnPaste, makeImageAnnotatable, removeLoadMenu, retainCurrentSizeAndRemoveMaxWidthFromImage, setAnnotationCanvasSizesToImageSize, setDefaultMaxImageWidth, setImageSource, showSizeWarningToUser, urlHasText, whenImageLoadedMakeAnnotatableAndAdjustGadgetHeight;
+    var displayWarningToUser, imageAmongPastedItems, imageHasNoSizeSet, imagePastedWithWebUrl, imageSourceIsSmallEnough, loadAndStoreImage, loadAndStoreImageFromUrlText, loadAndStoreImageOnButtonClick, loadImageFromImageFile, loadImageFromPastedData, loadImageFromPastedImageFile, loadImageFromPastedWebImage, loadImageFromPastedWebImageHTML, loadImageIfImagePasted, loadImageOnPaste, makeImageAnnotatable, removeLoadMenu, retainCurrentSizeAndRemoveMaxWidthFromImage, setAnnotationCanvasSizesToImageSize, setDefaultMaxImageWidth, setImageSource, showSizeWarningToUser, urlHasText, whenImageLoadedMakeAnnotatableAndAdjustGadgetHeight;
     loadAndStoreImageOnButtonClick = function() {
       return $('#loadImageButton').click(loadAndStoreImageFromUrlText);
     };
@@ -101,17 +101,52 @@
       return loadImageIfImagePasted(event);
     };
     loadImageIfImagePasted = function(event) {
-      var clipboardData, item, itemIsImage, items, _i, _len;
+      var clipboardData, imagePasted, items;
       clipboardData = event.clipboardData || event.originalEvent.clipboardData;
       items = clipboardData.items;
+      imagePasted = imageAmongPastedItems(items);
+      if (imagePasted && imagePastedWithWebUrl(items)) {
+        return loadImageFromPastedWebImage(items);
+      } else if (imagePasted) {
+        return loadImageFromPastedImageFile(items);
+      }
+    };
+    imageAmongPastedItems = function(items) {
+      var item, _i, _len;
       for (_i = 0, _len = items.length; _i < _len; _i++) {
         item = items[_i];
-        itemIsImage = item.type.indexOf("image") !== -1;
-        if (itemIsImage) {
-          loadImageFromImageFile(item);
-          return;
+        if (item.type.indexOf("image") === 0) {
+          return true;
         }
       }
+      return false;
+    };
+    imagePastedWithWebUrl = function(items) {
+      return items[0].type === "text/html" && items[1].type.indexOf("image") === 0;
+    };
+    loadImageFromPastedWebImage = function(items) {
+      var htmlImageItem;
+      htmlImageItem = items[0];
+      return htmlImageItem.getAsString(loadImageFromPastedWebImageHTML);
+    };
+    loadImageFromPastedWebImageHTML = function(htmlString) {
+      var htmlObject, imageSource;
+      htmlObject = $(htmlString);
+      imageSource = htmlObject.filter('img')[0].src;
+      return loadAndStoreImage(imageSource);
+    };
+    loadImageFromPastedImageFile = function(items) {
+      var item, _i, _len, _results;
+      _results = [];
+      for (_i = 0, _len = items.length; _i < _len; _i++) {
+        item = items[_i];
+        if (item.type.indexOf("image") === 0) {
+          _results.push(loadImageFromImageFile(item));
+        } else {
+          _results.push(void 0);
+        }
+      }
+      return _results;
     };
     loadImageFromImageFile = function(item) {
       var imageFile, imageReader;
