@@ -43,10 +43,10 @@ jQuery(document).ready(function initialize()
         }
     }).keyup(function(e)
     {
-        if (focused.length > 0)
+        /*if (focused.length > 0)
         {
             copyPasteToListG(focused);
-        }
+        }*/
         if (e.keyCode == ctrlKey) ctrlDown = false;
     });
     
