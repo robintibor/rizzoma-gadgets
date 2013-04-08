@@ -24,39 +24,13 @@ jQuery(document).ready(function initialize()
     list = new listObject();
     $("#addLine").hover(function(){ $(this).css( "color", "#6CADEC" );}, function(){$(this).css( "color","#B6C4CF" );});
     $("#addLine").click(function(){list.addNewLine(true);});
+    $("#outDiv").scroll(function(){drawIconsForEachCollumn();});
+    $(document).keypress(function(e) {
+        if(e.which == 13) {
+           list.addNewLine(true);
+           var id = "#"+list.lines[list.lines.length - 1].cells[0].cellId;
+           $(id).focus();
+        }
+    });
 });
 
-function removeLine(id)
-{
-
-    for (var i = 0; i < list.lines.length; i++)
-    {
-       if (list.lines[i].lineID == id){
-           list.lines.splice(i, 1);
-           break;
-       }
-    }
-    id = "#"+id;
-    $(id).remove();
-    gadgets.window.adjustHeight($('body').height());
-}
-
-function updateGadgetWidth()
-{
-    var listBoxWidth = $("#listBox").width();
-    var gadgetWidth =  $("body").width();
-    console.log("lw="+listBoxWidth);
-    console.log("gw="+gadgetWidth);
-    if (gadgetWidth <= listBoxWidth)
-    {
-        //var styleStr = "overflow-x:scroll; width:"+gadgetWidth+"px;";
-        //console.log(styleStr);
-        gadgetWidth+="px";
-        listBoxWidth+=200;
-        listBoxWidth+="px";
-        $("#inDiv").css('width', listBoxWidth);
-        $("#outDiv").css('width', gadgetWidth);
-        $("#outDiv").css('overflow-x', "scroll");
-        gadgets.window.adjustHeight($('body').height());
-    }
-}

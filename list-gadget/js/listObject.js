@@ -3,6 +3,7 @@ function listObject(){
     // Variables
     this.lines = new Array();
     this.lineMagicID=0;
+    this.collumnMagicID=0;
     // Methods
     this.addNewLine = function(saveToWave)
     {
@@ -15,21 +16,29 @@ function listObject(){
             clId = (((this.lines.length) % 2) + 1);
             this.lines[this.lines.length-1].initLine(id, clId, this.lines[this.lines.length-2].htmlRef);
             for (var i=0; i < this.lines[this.lines.length - 2].cells.length; i++)
-                this.lines[this.lines.length-1].addNewCell();
+            {
+                this.lines[this.lines.length-1].addNewCell(this.lines[this.lines.length - 2].cells[i].columnId);
+                // take width from line before
+                var cellId = "#" + this.lines[this.lines.length-1].cells[i].cellId;
+                var titleCellId = "#line0cell" + i; 
+                $(cellId).width($(titleCellId).width());
+            }
             if (saveToWave)
                 saveLinesToWave();
         }
         else
         {
             this.lines[this.lines.length-1].initTitleLine();
-            this.lines[this.lines.length-1].addNewCell();
+            this.lines[this.lines.length-1].addNewCell(this.collumnMagicID);
+            this.collumnMagicID++;
         }
         gadgets.window.adjustHeight($('body').height());
+        updateId();
     }
     // load line, that allready exist. For example by loading frome wave
-    this.loadLine = function(lineId, cellsToLoad)
+    this.loadLine = function(lineId, cellsToLoad, magicLId)
     {
-        console.log("lId->"+lineId);
+        //console.log("lId->"+lineId);
         this.lines.push(new lineObject());
         if (lineId == "line0")
         {
@@ -39,17 +48,19 @@ function listObject(){
         {
             var clId = (((this.lines.length) % 2) + 1);
             this.lines[this.lines.length-1].loadLine(lineId, cellsToLoad, clId, 
-                                this.lines[this.lines.length-2].htmlRef);
+                                this.lines[this.lines.length-2].htmlRef, magicLId);
         }            
         gadgets.window.adjustHeight($('body').height());
     }
     this.addNewColumn = function()
     {
         for (var i=0; i < this.lines.length; i++){
-            this.lines[i].addNewCell();
+            this.lines[i].addNewCell(this.collumnMagicID);
         }
+        this.collumnMagicID++;
         saveLinesToWave();
-        updateGadgetWidth();
+        updateGadgetWidth(true);
+        drawIconsForEachCollumn()
     }
     
 }
@@ -61,11 +72,16 @@ function lineObject(){
     this.htmlRef;
     this.classId;
     this.lineID;
+    this.magicLineId;
     // Methods
     this.initTitleLine =  function()
     {
         this.classId = 0;
-        var str ='<div id="line0"><span id="line0Add" style="cursor:pointer; color:#B6C4CF" class="icon-plus"></span></div>';
+        this.magicLineId = 0;
+        var str = '<div id="line0">'
+                    + '<input id="counterline0"; style="width:29px; border-right:0px solid #E6ECF1; border-bottom:1px solid #7F93A3; margin-right:1px; padding-right:0px; padding-left:0px;" class="cells0"; value="id"; disabled>'
+                    + '<span title="add new column" id="line0Add" style="cursor:pointer; color:#B6C4CF" class="icon-plus"></span>'
+                +'</div>';
         $('#listBox').append(str);
         $("#line0Add").hover(function(){ $(this).css( "color", "#6CADEC" );}, function(){$(this).css( "color","#B6C4CF" );});
         $("#line0Add").click(function(){list.addNewColumn();});
@@ -75,7 +91,11 @@ function lineObject(){
     this.loadTitleLine =  function(cellsToAdd)
     {
         this.classId = 0;
-        var str ='<div id="line0"><span id="line0Add" style="cursor:pointer; color:#B6C4CF" class="icon-plus"></span></div>';
+        this.magicLineId = 0;
+        var str ='<div id="line0">'
+                    +'<input id="counterline0"; style="width:29px; border-right:0px solid #E6ECF1; border-bottom:1px solid #7F93A3; margin-right:1px;  padding-right:0px; padding-left:0px;" class="cells0"; value="id"; disabled>'
+                    +'<span title="add new column" id="line0Add" style="cursor:pointer; color:#B6C4CF" class="icon-plus"></span>'
+                +'</div>';
         $('#listBox').append(str);
         $("#line0Add").hover(function(){ $(this).css( "color", "#6CADEC" );}, function(){$(this).css( "color","#B6C4CF" );});
         $("#line0Add").click(function(){list.addNewColumn();});
@@ -85,9 +105,13 @@ function lineObject(){
     }
     this.initLine = function(id, classId, lineBefore)
     {
+        this.magicLineId = parseInt(id);
         this.classId = classId;
         id = "line"+id;
-        var str ='<div id="'+ id +'"><span id="'+id+'Add" style="cursor:pointer;color:#B6C4CF" class="icon-close"></span></div>';
+        var str ='<div id="'+ id +'">'
+                    +'<input id="counter'+id+'"; style="border-top: 0px solid #E6ECF1; border-right:0px solid #E6ECF1; border-bottom:1px solid #7F93A3; margin-right:1px; width:29px; padding-right:0px; padding-left:0px;" class="cells0"; disabled>'
+                    +'<span title="remove line" id="'+id+'Add" style="cursor:pointer;color:#B6C4CF" class="icon-close">'
+                +'</span></div>';
         $(lineBefore).after(str);
         this.lineID = id;
         id='#'+id;
@@ -99,10 +123,14 @@ function lineObject(){
         var pt = this.lineID;
         $(id).click(function(){removeLine(pt); saveLinesToWave();});
     }
-    this.loadLine =  function(id, cellsToAdd, clID, lineBefore)
+    this.loadLine =  function(id, cellsToAdd, clID, lineBefore, magicId)
     {
+        this.magicLineId = parseInt(magicId);
         this.classId = clID;
-        var str ='<div id="'+ id +'"><span id="'+id+'Add" style="cursor:pointer;color:#B6C4CF" class="icon-close"></span></div>';
+        var str ='<div id="'+ id +'">'
+                    +'<input id="counter'+id+'"; style=" border-top: 0px solid #E6ECF1; border-right:0px solid #E6ECF1; border-bottom:1px solid #7F93A3; margin-right:1px; width:29px; padding-right:0px; padding-left:0px;" class="cells0"; disabled>'
+                    +'<span title="remove line" id="'+id+'Add" style="cursor:pointer;color:#B6C4CF" class="icon-close">'
+                +'</span></div>';
         $(lineBefore).after(str);
         this.lineID = id;
         id='#'+id;
@@ -115,12 +143,11 @@ function lineObject(){
         $(id).click(function(){removeLine(pt); saveLinesToWave();});
         this.loadCells(cellsToAdd);
     }
-    this.addNewCell = function()
+    this.addNewCell = function(id)
     {
-        var id = this.cells.length;
         this.cells.push(new cellObject());
         var adderId = "#" + this.lineID + "Add";
-        this.cells[id].init(id, adderId, this.classId, this.lineID);
+        this.cells[this.cells.length - 1].init(id, adderId, this.classId, this.lineID);
     }
     this.loadCells = function(cellsToAdd)
     {
@@ -145,11 +172,13 @@ function cellObject(){
     // Variables
     // Methods
     this.styleClassId;
+    this.columnId;
     this.cellId;
     this.text="";
     this.changed = false;
     this.init =  function(idC, addBefore, clId, lineId)
     {
+        this.columnId = idC;
         this.styleClassId = clId;
         var classId = "cells" + clId;
         var idCell = lineId + "cell"+idC;
@@ -160,15 +189,26 @@ function cellObject(){
         var pt = this;
         $(idCell).keyup(function(){
             pt.text = $(this).val(); 
-            console.log("Text->"+pt.text);
-            saveLinesToWave();
+            //console.log("Text->"+pt.text);
             pt.changed = true;
+            saveLinesToWave();
         });
-//        $(idCell).hover(function(){$(idCell).css( "background-color", "#6CADEC" );}, function(){$(idCell).css( "background-color","" );})
+        $(idCell).blur(function(){
+            pt.changed = false;
+            saveLinesToWave();
+        });
+        var closerId = "#Closer_" + this.columnId;
+        var sorterId = "#Sorter_" + this.columnId;
+        $(idCell).mouseover(function(){
+            $(closerId).show();
+            $(sorterId).show();
+            makeHiddenAllCollumnsButNotGivenOne(pt.columnId);
+        });
 
     }
     this.loadCell = function(obj, addBefore, clId)
     {
+        this.columnId = obj.columnId;
         this.styleClassId = clId;        
         var classId = "cells" + clId;
         var idCell = obj.cellId;
@@ -182,7 +222,7 @@ function cellObject(){
         $(idCell).val(obj.text);
         $(idCell).keyup(function(){
             pt.text = $(this).val(); 
-            console.log("Text->"+pt.text);
+            //console.log("Text->"+pt.text);
             pt.changed = true;
             saveLinesToWave();
         });
@@ -190,11 +230,24 @@ function cellObject(){
             pt.changed = false;
             saveLinesToWave();
         });
+        var closerId = "#Closer_" + this.columnId;
+        var sorterId = "#Sorter_" + this.columnId;
+        $(idCell).mouseover(function(){
+            $(closerId).show();
+            $(sorterId).show();
+            makeHiddenAllCollumnsButNotGivenOne(pt.columnId);
+        });
     }
     this.setClass = function(styleId){
         this.styleClassId = styleId;
         var classId = "cells" + styleId;
         var id = "#" + this.cellId;
         $(id).attr('class', classId);
+    }
+    this.setText = function(text){
+        var idCell = this.cellId;
+        idCell= "#" + idCell;
+        this.text = text;
+        $(idCell).val(text);
     }
 }
