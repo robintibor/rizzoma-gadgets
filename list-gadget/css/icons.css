@@ -51,13 +51,13 @@ you can use the generic selector below, but it's slower:
 
 .icon-close:before {
     content: "\e001";
-    font-size:10px;
+    font-size:12px;
     margin:7px;
     margin-right: 15px;
 }
 .icon-close1:before {
     content: "\e001";
-    font-size:10px;
+    font-size:9px;
     margin:5px;
     margin-right: 15px;
 }
@@ -69,41 +69,41 @@ you can use the generic selector below, but it's slower:
 }
 .icon-arrow-down:before {
 	content: "\e004";
-    font-size:10px;
+    font-size:9px;
     margin-left:12px;
 }
 .icon-arrow-up:before {
 	content: "\e005";
-    font-size:10px;
+    font-size:9px;
     margin-left:12px;
 }
 .icon-stop:before {
 	content: "\e006";
-    font-size:10px;
+    font-size:9px;
     margin-left:12px;
 }
 .icon-minus:before {
 	content: "\e007";
-    font-size:10px;
+    font-size:9px;
     margin-left:12px;
 }
 .icon-arrow-left:before {
 	content: "\e008";
-    font-size:10px;
+    font-size:9px;
     margin-left:12px;
 }
 .icon-arrow-right:before {
 	content: "\e009";
-    font-size:10px;
+    font-size:9px;
     margin-left:12px;
 }
 .icon-switch:before {
 	content: "\e00a";
-    font-size:10px;
+    font-size:9px;
     margin-left:12px;
 }
 .icon-embed:before {
 	content: "\e00b";
-    font-size:10px;
+    font-size:9px;
     margin-left:12px;
 }

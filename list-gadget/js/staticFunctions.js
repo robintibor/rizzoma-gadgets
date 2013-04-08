@@ -267,3 +267,8 @@ function updateId()
         $(id).val(i);
     }
 }
+function copyPasteToListG(leftTopId)
+{
+    var buf = $(leftTopId).val().split('\n');
+    console.log(buf);
+}

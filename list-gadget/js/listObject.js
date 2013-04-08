@@ -79,7 +79,7 @@ function lineObject(){
         this.classId = 0;
         this.magicLineId = 0;
         var str = '<div id="line0">'
-                    + '<input id="counterline0"; style="width:29px; border-right:0px solid #E6ECF1; border-bottom:1px solid #7F93A3; margin-right:1px; padding-right:0px; padding-left:0px;" class="cells0"; value="id"; disabled>'
+                    + '<input id="counterline0"; style="width:29px; border-right:0px solid #E6ECF1; border-bottom:1px solid white; margin-right:1px; padding-right:0px; padding-left:0px;" class="cells0"; value=""; disabled>'
                     + '<span title="add new column" id="line0Add" style="cursor:pointer; color:#B6C4CF" class="icon-plus"></span>'
                 +'</div>';
         $('#listBox').append(str);
@@ -93,7 +93,7 @@ function lineObject(){
         this.classId = 0;
         this.magicLineId = 0;
         var str ='<div id="line0">'
-                    +'<input id="counterline0"; style="width:29px; border-right:0px solid #E6ECF1; border-bottom:1px solid #7F93A3; margin-right:1px;  padding-right:0px; padding-left:0px;" class="cells0"; value="id"; disabled>'
+                    +'<input id="counterline0"; style="width:29px; border-right:0px solid #E6ECF1; border-bottom:1px solid white; margin-right:1px;  padding-right:0px; padding-left:0px;" class="cells0"; value=""; disabled>'
                     +'<span title="add new column" id="line0Add" style="cursor:pointer; color:#B6C4CF" class="icon-plus"></span>'
                 +'</div>';
         $('#listBox').append(str);
