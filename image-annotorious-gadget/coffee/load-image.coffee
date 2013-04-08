@@ -7,7 +7,13 @@ jQuery(document).ready(($) ->
   
   loadAndStoreImageFromUrlText = ->
     urlText = $('#imageUrlText').val()
-    loadAndStoreImage(urlText)
+    if (urlHasText(urlText))
+      loadAndStoreImage(urlText)
+    else 
+      displayWarningToUser("Textbox empty! :( Please enter an URL, then click <b>Load Image</b> :)")
+  
+  urlHasText = (urlText) ->
+    return urlText != ""
   
   loadAndStoreImage = (imageSource) ->
     imageAnnotationGadget.wave.storeImageSource(imageSource)
@@ -80,11 +86,35 @@ jQuery(document).ready(($) ->
   loadImageIfImagePasted = (event) ->
     clipboardData = event.clipboardData  || event.originalEvent.clipboardData
     items = clipboardData.items
+    imagePasted = imageAmongPastedItems(items)
+    if (imagePasted and imagePastedWithWebUrl(items))
+        loadImageFromPastedWebImage(items)   
+    else if (imagePasted)
+      loadImageFromPastedImageFile(items)
+
+  imageAmongPastedItems = (items) ->
     for item in items
-      itemIsImage = item.type.indexOf("image") != -1
-      if (itemIsImage)
+      if item.type.indexOf("image") == 0
+        return true
+    return false
+
+  imagePastedWithWebUrl = (items) ->
+    return items[0].type == "text/html" and items[1].type.indexOf("image") == 0
+
+  loadImageFromPastedWebImage = (items) ->
+    htmlImageItem = items[0]
+    # get htmlstring and use callback to actually load image! :)
+    htmlImageItem.getAsString(loadImageFromPastedWebImageHTML)
+
+  loadImageFromPastedWebImageHTML = (htmlString) ->
+    htmlObject = $(htmlString)
+    imageSource = htmlObject.filter('img')[0].src
+    loadAndStoreImage(imageSource)
+  
+  loadImageFromPastedImageFile = (items) ->
+    for item in items
+      if (item.type.indexOf("image") == 0)
         loadImageFromImageFile(item)
-        return
 
   loadImageFromImageFile = (item) ->
     imageFile = item.getAsFile()
@@ -102,7 +132,10 @@ jQuery(document).ready(($) ->
     return sourceInKiloBytes < 500
   
   showSizeWarningToUser = ->
-    jQuery('#imageTooBigText').text('Image too big for pasting directly, paste image into rizzoma and copy URL instead :)')
+    displayWarningToUser('Image too big for pasting directly, paste image into rizzoma and copy URL instead :)')
+
+  displayWarningToUser = (warningText) ->
+    jQuery('#imageTooBigText').html(warningText)
 
   loadAndStoreImageOnButtonClick()
   loadImageOnPaste()
