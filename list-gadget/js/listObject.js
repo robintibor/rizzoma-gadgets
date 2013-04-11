@@ -109,7 +109,7 @@ function lineObject(){
         this.classId = classId;
         id = "line"+id;
         var str ='<div id="'+ id +'">'
-                    +'<input id="counter'+id+'"; style="border-top: 0px solid #E6ECF1; border-right:0px solid #E6ECF1; border-bottom:1px solid #7F93A3; margin-right:1px; width:29px; padding-right:0px; padding-left:0px;" class="cells0"; disabled>'
+                    +'<input id="counter'+id+'"; style="border-top: 0px solid #E6ECF1; border-right:0px solid #E6ECF1; border-bottom:1px solid #7F93A3; margin-right:1px; width:29px; padding-right:0px; padding-left:0px;" class="cells0"; readonly>'
                     +'<span title="remove line" id="'+id+'Add" style="cursor:pointer;color:#B6C4CF" class="icon-close">'
                 +'</span></div>';
         $(lineBefore).after(str);
@@ -128,7 +128,7 @@ function lineObject(){
         this.magicLineId = parseInt(magicId);
         this.classId = clID;
         var str ='<div id="'+ id +'">'
-                    +'<input id="counter'+id+'"; style=" border-top: 0px solid #E6ECF1; border-right:0px solid #E6ECF1; border-bottom:1px solid #7F93A3; margin-right:1px; width:29px; padding-right:0px; padding-left:0px;" class="cells0"; disabled>'
+                    +'<input id="counter'+id+'"; style="border-top: 0px solid #E6ECF1; border-right:0px solid #E6ECF1; border-bottom:1px solid #7F93A3; margin-right:1px; width:29px; padding-right:0px; padding-left:0px;" class="cells0"; readonly>'
                     +'<span title="remove line" id="'+id+'Add" style="cursor:pointer;color:#B6C4CF" class="icon-close">'
                 +'</span></div>';
         $(lineBefore).after(str);

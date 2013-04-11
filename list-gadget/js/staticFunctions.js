@@ -57,6 +57,7 @@ function adjustCellsWidth(columnId, text, cellId)
         }
     var fooObj =  $('#bufDivUnvisible');
     var newWidth = 0;
+    text = text.replace(/ /g, "*");
     var result = cellId.search(/#line0.+/);
     if (result == -1)
         newWidth = $('#bufDivUnvisible').attr('class', 'bufClass2').html(text).width();
@@ -202,10 +203,11 @@ function sortGivenCollumn(clId, AtoZ)
             
             var isnum1 = parseFloat(a[collumnIndex]);
             var isnum2 = parseFloat(b[collumnIndex]);
+            //console.log(isnum1+" "+isnum2);
             if (!isNaN(isnum1) && !isNaN(isnum2))
-                return isnum1 > isnum2;
+                return (isnum1 > isnum2)?1:((isnum1==isnum2)?0:-1);
             else
-                return a[collumnIndex] > b[collumnIndex];
+                return (a[collumnIndex] >  b[collumnIndex])?1:((a[collumnIndex]== b[collumnIndex])?0:-1);
         } );
     else
         buf.sort(function(a,b) {
@@ -213,9 +215,9 @@ function sortGivenCollumn(clId, AtoZ)
             var isnum1 = parseFloat(a[collumnIndex]);
             var isnum2 = parseFloat(b[collumnIndex]);
             if (!isNaN(isnum1) && !isNaN(isnum2))
-                return isnum1 < isnum2;
+                return (isnum1 < isnum2) ? 1 : ((isnum1==isnum2) ? 0 : -1);
             else
-                return a[collumnIndex] < b[collumnIndex];
+                return (a[collumnIndex] <  b[collumnIndex])?1:((a[collumnIndex]== b[collumnIndex])?0:-1);
         } );
 
     /*console.log("collumnIndex "+ collumnIndex);
@@ -271,4 +273,13 @@ function copyPasteToListG(leftTopId)
 {
     var buf = $(leftTopId).val().split('\n');
     console.log(buf);
+}
+function test(id)
+{
+    $('body').append('<div id="divTest" style="position:absolute; width:1000px; height:600px; opacity: 0.5;background-color: #000;z-index: 1;"></div>');
+    var divId = "#"+"divTest"+id;
+    $(divId).attr("style", "position:absolute; width:1000px; height:600px; opacity:0.5;");
+    $(divId).left(id*30+100);
+    $(divId).top(id*30+100);
+    
 }
