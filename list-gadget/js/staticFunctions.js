@@ -121,6 +121,8 @@ function drawIconsForEachCollumn()
                     $(this).attr('title', "sort descending");
                     var id = $(this).attr("id").split('_');
                     sortGivenCollumn(id[1], true);
+                    submitSortToWave(1, id[1]);
+                    submitSortToWave(1, id[1]);
                 }
                 else if ($(this).attr('class') == 'icon-arrow-up')
                 {
@@ -128,12 +130,16 @@ function drawIconsForEachCollumn()
                     $(this).attr('title', "back to insertion order");
                     var id = $(this).attr("id").split('_');
                     sortGivenCollumn(id[1], false);
+                    submitSortToWave(2, id[1]);
+                    submitSortToWave(2, id[1]);
                 } else
                 {
                     $(this).attr('class', "icon-arrow-down");
                     $(this).attr('title', "sort ascending");
                     var id = $(this).attr("id").split('_');
                     sortGivenCollumn(-1, true);
+                     submitSortToWave(0, id[1]);
+                     submitSortToWave(0, id[1]);
                 }
             });
             
@@ -141,7 +147,7 @@ function drawIconsForEachCollumn()
             $(closerIdObj).click(function(){
                 var id = $(this).attr("id").split('_');
                 removeGivenCollumn(id[1], true);
-                saveLinesToWave();
+                submitRemoveColumnToWave();
             });
             //$(closerIdObj).text( "left: " + x + ", top: " + y );
         } else 
@@ -234,7 +240,6 @@ function sortGivenCollumn(clId, AtoZ)
         }
         list.lines[i].magicLineId = buf[i - 1][buf[0].length - 1];
     }
-    saveLinesToWave();
 }
 function removeGivenCollumn(clId)
 {
@@ -251,7 +256,7 @@ function removeGivenCollumn(clId)
     }
     for (var i = 0; i < list.lines.length; i++)
     {
-        var cellObjStr = "#" + list.lines[i].lineID + "cell" + clId;
+        var cellObjStr = "#"+list.lines[i].cells[collumnIndex].cellId;
         //console.log("removeCollumn");
         //console.log(list.lines[i].cells);
         $(cellObjStr).remove();
@@ -267,19 +272,11 @@ function updateId()
     {
         var id = "#counter" + list.lines[i].lineID;
         $(id).val(i);
+        /*var cellClass = (((i+1) % 2) + 1);
+        //if (cellClass != list.lines[i].cells[0].styleClassId)
+        {
+            for (var j=0; j < list.lines[i].cells.length; j++)
+                list.lines[i].cells[j].setClass(cellClass);
+        }*/
     }
-}
-function copyPasteToListG(leftTopId)
-{
-    var buf = $(leftTopId).val().split('\n');
-    console.log(buf);
-}
-function test(id)
-{
-    $('body').append('<div id="divTest" style="position:absolute; width:1000px; height:600px; opacity: 0.5;background-color: #000;z-index: 1;"></div>');
-    var divId = "#"+"divTest"+id;
-    $(divId).attr("style", "position:absolute; width:1000px; height:600px; opacity:0.5;");
-    $(divId).left(id*30+100);
-    $(divId).top(id*30+100);
-    
 }

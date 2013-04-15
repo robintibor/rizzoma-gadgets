@@ -1,5 +1,5 @@
 <Module>
-<ModulePrefs title="List Gadget V2.0" height="60">
+<ModulePrefs title="List Gadget V2.5" height="60">
 <Require feature="wave"/>
 <Require feature="dynamic-height"/>
 </ModulePrefs>

@@ -2,6 +2,8 @@
 function listObject(){
     // Variables
     this.lines = new Array();
+    this.columnsOrder = new Array();
+    this.linesOrder = new Array();
     this.lineMagicID=0;
     this.collumnMagicID=0;
     // Methods
@@ -17,50 +19,70 @@ function listObject(){
             this.lines[this.lines.length-1].initLine(id, clId, this.lines[this.lines.length-2].htmlRef);
             for (var i=0; i < this.lines[this.lines.length - 2].cells.length; i++)
             {
-                this.lines[this.lines.length-1].addNewCell(this.lines[this.lines.length - 2].cells[i].columnId);
+                this.lines[this.lines.length-1].addNewCell(this.lines[this.lines.length - 2].cells[i].columnId, null);
                 // take width from line before
                 var cellId = "#" + this.lines[this.lines.length-1].cells[i].cellId;
                 var titleCellId = "#line0cell" + i; 
                 $(cellId).width($(titleCellId).width());
             }
             if (saveToWave)
-                saveLinesToWave();
+                submitNewLineToWave();
         }
         else
         {
             this.lines[this.lines.length-1].initTitleLine();
-            this.lines[this.lines.length-1].addNewCell(this.collumnMagicID);
+            this.lines[this.lines.length-1].addNewCell(this.collumnMagicID,null);
             this.collumnMagicID++;
+            submitNewColumnToWave();
         }
         gadgets.window.adjustHeight($('body').height());
         updateId();
     }
     // load line, that allready exist. For example by loading frome wave
-    this.loadLine = function(lineId, cellsToLoad, magicLId)
+    this.loadLine = function(lineId, cellsToLoad, magicLId, lineBefore, index)
     {
         //console.log("lId->"+lineId);
-        this.lines.push(new lineObject());
         if (lineId == "line0")
         {
+            this.lines.push(new lineObject());
             this.lines[this.lines.length - 1].loadTitleLine(cellsToLoad);
         }
         else
         {
-            var clId = (((this.lines.length) % 2) + 1);
-            this.lines[this.lines.length-1].loadLine(lineId, cellsToLoad, clId, 
+            var clId = (((this.lines.length+1) % 2) + 1);
+            if (lineBefore == null)
+            {
+                this.lines.push(new lineObject());
+                this.lines[this.lines.length-1].loadLine(lineId, cellsToLoad, clId, 
                                 this.lines[this.lines.length-2].htmlRef, magicLId);
+            }
+            else
+            {
+                this.lines.splice(index, new lineObject());
+                this.lines[index].loadLine(lineId, cellsToLoad, clId, 
+                                lineBefore, magicLId);
+            }
         }            
         gadgets.window.adjustHeight($('body').height());
     }
-    this.addNewColumn = function()
+    this.addNewColumn = function(saveToWave)
     {
         for (var i=0; i < this.lines.length; i++){
             this.lines[i].addNewCell(this.collumnMagicID);
         }
         this.collumnMagicID++;
-        saveLinesToWave();
+        if (saveToWave)
+            submitNewColumnToWave();
         updateGadgetWidth(true);
         drawIconsForEachCollumn()
+    }
+    this.insertColumn = function(id, idAfter)
+    {
+        for (var i=0; i < this.lines.length; i++){
+            this.lines[i].addNewCell(id, idAfter);
+        }
+        updateGadgetWidth(true);
+        drawIconsForEachCollumn();
     }
     
 }
@@ -84,7 +106,7 @@ function lineObject(){
                 +'</div>';
         $('#listBox').append(str);
         $("#line0Add").hover(function(){ $(this).css( "color", "#6CADEC" );}, function(){$(this).css( "color","#B6C4CF" );});
-        $("#line0Add").click(function(){list.addNewColumn();});
+        $("#line0Add").click(function(){list.addNewColumn(true);});
         this.htmlRef = "#line0"
         this.lineID = "line0";
     }
@@ -98,7 +120,7 @@ function lineObject(){
                 +'</div>';
         $('#listBox').append(str);
         $("#line0Add").hover(function(){ $(this).css( "color", "#6CADEC" );}, function(){$(this).css( "color","#B6C4CF" );});
-        $("#line0Add").click(function(){list.addNewColumn();});
+        $("#line0Add").click(function(){list.addNewColumn(true);});
         this.htmlRef = "#line0"
         this.lineID = "line0";
         this.loadCells(cellsToAdd);
@@ -121,7 +143,7 @@ function lineObject(){
         $(this.htmlRef).hover(function(){$(id).show();}, function(){$(id).hide();})
         $(id).hover(function(){$(id).css( "color", "#6CADEC" );}, function(){$(id).css( "color","#B6C4CF" );})
         var pt = this.lineID;
-        $(id).click(function(){removeLine(pt); saveLinesToWave();});
+        $(id).click(function(){removeLine(pt); submitRemoveLineToWave();});
     }
     this.loadLine =  function(id, cellsToAdd, clID, lineBefore, magicId)
     {
@@ -140,14 +162,28 @@ function lineObject(){
         $(this.htmlRef).hover(function(){$(id).show();}, function(){$(id).hide();})
         $(id).hover(function(){$(id).css( "color", "#6CADEC" );}, function(){$(id).css( "color","#B6C4CF" );})
         var pt = this.lineID;
-        $(id).click(function(){removeLine(pt); saveLinesToWave();});
+        $(id).click(function(){removeLine(pt); submitRemoveLineToWave();});
         this.loadCells(cellsToAdd);
     }
-    this.addNewCell = function(id)
+    this.addNewCell = function(id, idAfter)
     {
-        this.cells.push(new cellObject());
-        var adderId = "#" + this.lineID + "Add";
-        this.cells[this.cells.length - 1].init(id, adderId, this.classId, this.lineID);
+        var adderId = "";
+        var num = this.cells.length;
+        if (idAfter==null)
+        {
+            adderId = "#" + this.lineID + "Add";
+            this.cells.push(new cellObject());
+        }
+        else
+        {
+            adderId = "#" + this.cells[idAfter].cellId;
+            if (idAfter > 0)
+                num = idAfter;
+            else
+                num = 0;
+            this.cells.splice(num, new cellObject());
+        }
+        this.cells[num].init(id, adderId, this.classId, this.lineID);
     }
     this.loadCells = function(cellsToAdd)
     {
@@ -156,7 +192,7 @@ function lineObject(){
             var id = this.cells.length;
             this.cells.push(new cellObject());
             var adderId = "#" + this.lineID + "Add";
-            this.cells[this.cells.length-1].loadCell(cellsToAdd[i], adderId, this.classId);
+            this.cells[this.cells.length-1].loadCell(cellsToAdd[i], adderId, this.classId, this.lineID);
         }
     }
     this.loadCell = function(cellToAdd)
@@ -164,7 +200,7 @@ function lineObject(){
         var id = this.cells.length;
         this.cells.push(new cellObject());
         var adderId = "#" + this.lineID + "Add";
-        this.cells[this.cells.length-1].loadCell(cellToAdd, adderId, this.classId);
+        this.cells[this.cells.length-1].loadCell(cellToAdd, adderId, this.classId, this.lineID);
     }
 }
 //______________________________________________________________________________
@@ -187,15 +223,24 @@ function cellObject(){
         this.cellId = idCell;
         idCell = "#" + idCell;
         var pt = this;
+        adjustCellsWidth(this.columnId, this.text, "#"+ this.cellId);
         $(idCell).keyup(function(){
             pt.text = $(this).val(); 
             //console.log("Text->"+pt.text);
             pt.changed = true;
-            saveLinesToWave();
+            var id = 0;
+            for (var i=0; i < list.lines.length; i++)
+            if (list.lines[i].lineID == lineId)
+            {
+                id = i;
+                break;
+            }
+            adjustCellsWidth(pt.columnId, pt.text, "#"+ pt.cellId);
+            submitCellToWave(list.lines[id].magicLineId, pt);
         });
         $(idCell).blur(function(){
             pt.changed = false;
-            saveLinesToWave();
+            //submitCellToWave(list.lines[id].magicLineId ,pt);
         });
         var closerId = "#Closer_" + this.columnId;
         var sorterId = "#Sorter_" + this.columnId;
@@ -206,7 +251,7 @@ function cellObject(){
         });
 
     }
-    this.loadCell = function(obj, addBefore, clId)
+    this.loadCell = function(obj, addBefore, clId, lineId)
     {
         this.columnId = obj.columnId;
         this.styleClassId = clId;        
@@ -220,15 +265,24 @@ function cellObject(){
         var pt = this;
         this.text = obj.text;
         $(idCell).val(obj.text);
+        adjustCellsWidth(this.columnId, this.text, "#"+ this.cellId);
         $(idCell).keyup(function(){
             pt.text = $(this).val(); 
             //console.log("Text->"+pt.text);
             pt.changed = true;
-            saveLinesToWave();
+            var id = 0;
+            for (var i=0; i < list.lines.length; i++)
+            if (list.lines[i].lineID == lineId)
+            {
+                id = i;
+                break;
+            }
+            adjustCellsWidth(pt.columnId, pt.text, "#"+ pt.cellId);
+            submitCellToWave(list.lines[id].magicLineId ,pt);
         });
         $(idCell).blur(function(){
             pt.changed = false;
-            saveLinesToWave();
+            //submitCellToWave(list.lines[id].magicLineId ,pt);
         });
         var closerId = "#Closer_" + this.columnId;
         var sorterId = "#Sorter_" + this.columnId;
@@ -249,5 +303,6 @@ function cellObject(){
         idCell= "#" + idCell;
         this.text = text;
         $(idCell).val(text);
+        adjustCellsWidth(this.columnId, this.text, "#"+ this.cellId);
     }
 }

@@ -22,8 +22,9 @@ jQuery(document).ready(function initialize()
     gadgetWidth+="px";
     $("#inDiv").css('width', gadgetWidth);
     list = new listObject();
+    wave.setStateCallback(updateGadget);
     $("#addLine").hover(function(){ $(this).css( "color", "#6CADEC" );}, function(){$(this).css( "color","#B6C4CF" );});
-    $("#addLine").click(function(){list.addNewLine(true);});
+    $("#addLine").click(function(){list.addNewLine(true); });
     $("#outDiv").scroll(function(){drawIconsForEachCollumn();});
     var ctrlDown = false;
     var ctrlKey = 17, vKey = 86, cKey = 67, cEnter = 13;
