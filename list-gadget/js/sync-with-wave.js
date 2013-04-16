@@ -131,6 +131,7 @@ function loadGadget()
                 {
                     cells.push(cell);
                     cells[cells.length-1].columnId = columns[j];
+                    cells[cells.length-1].cellId = "line"+lines[i]+"cell"+columns[j];
                 }
                 else
                 {
@@ -246,6 +247,7 @@ function updateGadget()
                             {
                                 cells.push(cell);
                                 cells[cells.length-1].columnId = columnIds[j];
+                                cells[cells.length-1].cellId = "line"+lineIds[i]+"cell"+columnIds[j];
                             }
                             else
                             {
@@ -272,32 +274,7 @@ function updateGadget()
                 }
             }
         }
-        /*if(action == 0) // new text-entry
-        {
-            var lineId = state.get("y");
-            var columnId = state.get("x");
-            var cellId = lineId+"_"+columnId;
-            var cell = JSON.parse(state.get(cellId));
-            var yId = 0;
-            var xId = 0;
-            for (var i=0; i < list.lines.length; i++)
-                if (list.lines[i].magicLineId == lineId)
-                {
-                    yId = i;
-                    break;
-                }
-            for (var i=0; i < list.lines[0].cells.length; i++)
-                if (list.lines[0].cells[i].columnId == columnId)
-                {
-                    xId = i;
-                    break;
-                }
-            list.lines[yId].cells[xId].setText(cell.text);
-            adjustCellsWidth(list.lines[yId].cells[xId].columnId,
-                             list.lines[yId].cells[xId].text, 
-                             "#"+ list.lines[yId].cells[xId].cellId);
-            updateGadgetWidth();                             
-        } else */ if (action == 5) // sort
+        if (action == 5) // sort
         {
             var sortState = parseInt(state.get("sortState"));
             var cToSort = state.get("cToSort");
@@ -314,10 +291,12 @@ function updateGadget()
             var lId = list.lines[i].magicLineId;
             var cellClass = (((i+1) % 2) + 1);
             list.lines[i].classId = cellClass;
+            var buf = new Array();
             for (var j=0; j < list.lines[i].cells.length; j++)
             {
                 var cId = list.lines[i].cells[j].columnId;
                 var cellId = lId+"_"+cId;
+                buf.push(cellId);
                 var cell = JSON.parse(state.get(cellId));
                 if (cell !== null) 
                 {
@@ -331,7 +310,10 @@ function updateGadget()
                 else
                     list.lines[i].cells[j].setClass(0);
             }
+            console.log(buf);
+            console.log(list.lines[i].cells);
         }
+        console.log("__________________________");
         list.lineMagicID = state.get("lineMagicID");
         list.collumnMagicID = state.get("collumnMagicID");
     }
