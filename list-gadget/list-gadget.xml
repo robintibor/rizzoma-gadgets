@@ -14,11 +14,11 @@
         <div id="inDiv">
             <div id="listBox"></div>
             <div id="addLine" title="add new line" style="width:30px; margin-left:8px; cursor:pointer; color:#B6C4CF"; class="icon-plus1"></div>
-            <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
-            <script src="https://c9.io/ikset/rizzoma-gadgets/workspace/list-gadget/js/init.js"></script>
-            <script src="https://c9.io/ikset/rizzoma-gadgets/workspace/list-gadget/js/staticFunctions.js"></script>
-            <script src="https://c9.io/ikset/rizzoma-gadgets/workspace/list-gadget/js/listObject.js"></script>
-            <script src="https://c9.io/ikset/rizzoma-gadgets/workspace/list-gadget/js/sync-with-wave.js"></script>
+            <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+            <script type="text/javascript" src="https://c9.io/ikset/rizzoma-gadgets/workspace/list-gadget/js/init.js"></script>
+            <script type="text/javascript" src="https://c9.io/ikset/rizzoma-gadgets/workspace/list-gadget/js/staticFunctions.js"></script>
+            <script type="text/javascript" src="https://c9.io/ikset/rizzoma-gadgets/workspace/list-gadget/js/listObject.js"></script>
+            <script type="text/javascript" src="https://c9.io/ikset/rizzoma-gadgets/workspace/list-gadget/js/sync-with-wave.js"></script>
         </div>
         <div id="bufDivUnvisible" class="bufClass1"></div>
     </div>
