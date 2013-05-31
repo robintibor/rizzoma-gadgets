@@ -1,11 +1,11 @@
 (function() {
-  var adjustHeightOfGadget, giveWrongUrlWarning, googleDocGadget, loadGoogleDocFromTextBox, loadGoogleDocOnEnter, loadGoogleDocOnPaste, removeTextField, setIFrameSource, showIFrameAndGoogleDocMenuButton, updateQueryString;
+  var adjustHeightOfGadget, giveWrongUrlWarning, googleDocGadget, loadGoogleDocFromTextBox, loadGoogleDocOnEnter, loadGoogleDocOnPaste, removeTextField, setIFrameSource, showIFrameAndGoogleDocMenuButton;
 
   googleDocGadget = window.googleDocGadget || {};
 
   window.googleDocGadget = googleDocGadget;
 
-  updateQueryString = function(key, value, url) {
+  googleDocGadget.updateQueryString = function(key, value, url) {
     var hash, re, separator;
     if (!url) {
       url = window.location.href;
@@ -13,9 +13,9 @@
     re = new RegExp("([?|&])" + key + "=.*?(&|#|$)(.*)", "gi");
     if (re.test(url)) {
       if (typeof value !== "undefined" && value !== null) {
-        url.replace(re, '$1' + key + "=" + value + '$2$3');
+        url = url.replace(re, '$1' + key + "=" + value + '$2$3');
       } else {
-        url.replace(re, "$1$3").replace(/(&|\?)$/, "");
+        url = url.replace(re, "$1$3").replace(/(&|\?)$/, "");
       }
     } else {
       if (typeof value !== "undefined" && value !== null) {
@@ -52,7 +52,7 @@
     var enteredUrl, googleDocLink, googleDocLinkForMinimalUI;
     enteredUrl = $('#googleDocUrlText').val();
     googleDocLink = enteredUrl.trim();
-    googleDocLinkForMinimalUI = updateQueryString("rm", "minimal", googleDocLink);
+    googleDocLinkForMinimalUI = googleDocGadget.updateQueryString("rm", "minimal", googleDocLink);
     googleDocGadget.loadGoogleDoc(googleDocLinkForMinimalUI);
     return googleDocGadget.storeGoogleDocUrlInWave(googleDocLinkForMinimalUI);
   };

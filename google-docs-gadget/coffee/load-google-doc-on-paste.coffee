@@ -2,14 +2,14 @@ googleDocGadget = window.googleDocGadget || {}
 window.googleDocGadget = googleDocGadget
 
 # from http://stackoverflow.com/a/11654596/1469195, then changed to coffeescript
-updateQueryString = (key, value, url) ->
+googleDocGadget.updateQueryString = (key, value, url) ->
   url = window.location.href  unless url
   re = new RegExp("([?|&])" + key + "=.*?(&|#|$)(.*)", "gi")
   if (re.test(url))
     if (typeof value isnt "undefined" and value isnt null)
-      url.replace(re, '$1' + key + "=" + value + '$2$3')
+      url = url.replace(re, '$1' + key + "=" + value + '$2$3')
     else
-      url.replace(re, "$1$3").replace(/(&|\?)$/, "")
+      url = url.replace(re, "$1$3").replace(/(&|\?)$/, "")
   else
     if (typeof value isnt "undefined" and value isnt null)
       separator = (if url.indexOf("?") isnt -1 then "&" else "?")
@@ -34,7 +34,7 @@ loadGoogleDocOnPaste = ->
 loadGoogleDocFromTextBox = ->
   enteredUrl = $('#googleDocUrlText').val()
   googleDocLink = enteredUrl.trim()
-  googleDocLinkForMinimalUI = updateQueryString("rm", "minimal", googleDocLink)
+  googleDocLinkForMinimalUI = googleDocGadget.updateQueryString("rm", "minimal", googleDocLink)
   googleDocGadget.loadGoogleDoc(googleDocLinkForMinimalUI)
   googleDocGadget.storeGoogleDocUrlInWave(googleDocLinkForMinimalUI)
   
