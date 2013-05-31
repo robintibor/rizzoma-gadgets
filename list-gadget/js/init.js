@@ -22,41 +22,50 @@ jQuery(document).ready(function initialize()
     gadgetWidth+="px";
     $("#inDiv").css('width', gadgetWidth);
     list = new listObject();
+    wave.setStateCallback(updateGadget);
     $("#addLine").hover(function(){ $(this).css( "color", "#6CADEC" );}, function(){$(this).css( "color","#B6C4CF" );});
-    $("#addLine").click(function(){list.addNewLine(true);});
+    $("#addLine").click(function(){list.addNewLine(true); });
+    $("#outDiv").scroll(function(){drawIconsForEachCollumn();});
+    var ctrlDown = false;
+    var ctrlKey = 17, vKey = 86, cKey = 67, cEnter = 13;
+    var focused;
+    $(document).keydown(function(e)
+    {
+        if (e.keyCode == ctrlKey) ctrlDown = true;
+        else if (e.keyCode == vKey && ctrlDown)
+        {
+            focused = "#" + $(':focus').attr('id');
+        }
+        else if (e.keyCode == cEnter)
+        {
+           list.addNewLine(true);
+           var id = "#"+list.lines[list.lines.length - 1].cells[0].cellId;
+           $(id).focus();
+        }
+    }).keyup(function(e)
+    {
+        /*if (focused.length > 0)
+        {
+            copyPasteToListG(focused);
+        }*/
+        if (e.keyCode == ctrlKey) ctrlDown = false;
+    });
+    
+   /* $(document).keypress(function(e) {
+        var ctrlKey = 17, vKey = 86, cKey = 67, cEnter = 13;
+        if(e.which == cEnter) {
+           list.addNewLine(true);
+           var id = "#"+list.lines[list.lines.length - 1].cells[0].cellId;
+           $(id).focus();
+        }
+        var ctrlDown = false;
+    $(document).keydown(function(e)
+    {
+        if (e.keyCode == ctrlKey) ctrlDown = true;
+    }).keyup(function(e)
+    {
+        if (e.keyCode == ctrlKey) ctrlDown = false;
+    });
+    });*/
 });
 
-function removeLine(id)
-{
-
-    for (var i = 0; i < list.lines.length; i++)
-    {
-       if (list.lines[i].lineID == id){
-           list.lines.splice(i, 1);
-           break;
-       }
-    }
-    id = "#"+id;
-    $(id).remove();
-    gadgets.window.adjustHeight($('body').height());
-}
-
-function updateGadgetWidth()
-{
-    var listBoxWidth = $("#listBox").width();
-    var gadgetWidth =  $("body").width();
-    console.log("lw="+listBoxWidth);
-    console.log("gw="+gadgetWidth);
-    if (gadgetWidth <= listBoxWidth)
-    {
-        //var styleStr = "overflow-x:scroll; width:"+gadgetWidth+"px;";
-        //console.log(styleStr);
-        gadgetWidth+="px";
-        listBoxWidth+=200;
-        listBoxWidth+="px";
-        $("#inDiv").css('width', listBoxWidth);
-        $("#outDiv").css('width', gadgetWidth);
-        $("#outDiv").css('overflow-x', "scroll");
-        gadgets.window.adjustHeight($('body').height());
-    }
-}
