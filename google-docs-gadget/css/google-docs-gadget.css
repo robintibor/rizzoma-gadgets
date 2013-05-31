@@ -1,0 +1,21 @@
+body {
+  overflow-x: scroll;
+}
+
+#googleDocUrlText {
+  display:none; /* just for the start until doc has been loaded from wave or not */
+  font-size: 20px;
+  padding: 15px;
+  text-align: center;
+  width: 25em;
+  margin-left: 10px;
+}
+
+#googleDocDiv {
+  display:none;
+}
+
+#googleDocIFrame {
+  width: 100%;
+  height: 450px;
+}
