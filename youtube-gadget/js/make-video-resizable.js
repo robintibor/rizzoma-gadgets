@@ -1,5 +1,5 @@
 (function() {
-  var removeOldWidthAndHeightValues, youtubeGadget;
+  var makeVideoUnresizable, removeOldWidthAndHeightValues, videoIsResizable, youtubeGadget;
 
   youtubeGadget = window.youtubeGadget || {};
 
@@ -21,6 +21,16 @@
   };
 
   youtubeGadget.makeVideoUnresizable = function() {
+    if (videoIsResizable()) {
+      return makeVideoUnresizable();
+    }
+  };
+
+  videoIsResizable = function() {
+    return $('#youtubePlayerWithButtons').hasClass('youtubePlayerResizable');
+  };
+
+  makeVideoUnresizable = function() {
     $('#youtubePlayerWithButtons').removeClass('youtubePlayerResizable');
     $('#youtubePlayerWithButtons').resizable('destroy');
     return removeOldWidthAndHeightValues();
