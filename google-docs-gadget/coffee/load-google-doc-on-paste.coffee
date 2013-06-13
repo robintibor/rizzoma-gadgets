@@ -41,11 +41,11 @@ loadGoogleDocFromTextBox = ->
 googleDocGadget.loadGoogleDoc = (googleDocLink) ->
   removeTextField()
   setIFrameSource(googleDocLink)
-  showIFrameAndGoogleDocMenuButton()
+  showIFrame()
   adjustHeightOfGadget()
 
 setIFrameSource = (googleDocLink) ->
-  return $("#googleDocIFrame").attr("src", googleDocLink)
+  $("#googleDocIFrame").attr("src", googleDocLink)
 
 removeTextField = ->
   $('#googleDocUrlText').remove()
@@ -53,7 +53,7 @@ removeTextField = ->
 giveWrongUrlWarning =  (url) ->
   alert("Could not use #{url}, please check if #{url} is a google doc url :)")
 
-showIFrameAndGoogleDocMenuButton = ->
+showIFrame = ->
   $('#googleDocDiv').show()
 
 adjustHeightOfGadget = ->
