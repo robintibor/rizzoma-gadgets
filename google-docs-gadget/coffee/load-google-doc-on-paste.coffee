@@ -44,14 +44,11 @@ googleDocGadget.loadGoogleDoc = (googleDocLink) ->
   showIFrame()
   adjustHeightOfGadget()
 
-setIFrameSource = (googleDocLink) ->
-  $("#googleDocIFrame").attr("src", googleDocLink)
-
 removeTextField = ->
   $('#googleDocUrlText').remove()
 
-giveWrongUrlWarning =  (url) ->
-  alert("Could not use #{url}, please check if #{url} is a google doc url :)")
+setIFrameSource = (googleDocLink) ->
+  $("#googleDocIFrame").attr("src", googleDocLink)
 
 showIFrame = ->
   $('#googleDocDiv').show()

@@ -1,5 +1,5 @@
 (function() {
-  var adjustHeightOfGadget, giveWrongUrlWarning, googleDocGadget, loadGoogleDocFromTextBox, loadGoogleDocOnEnter, loadGoogleDocOnPaste, removeTextField, setIFrameSource, showIFrame;
+  var adjustHeightOfGadget, googleDocGadget, loadGoogleDocFromTextBox, loadGoogleDocOnEnter, loadGoogleDocOnPaste, removeTextField, setIFrameSource, showIFrame;
 
   googleDocGadget = window.googleDocGadget || {};
 
@@ -64,16 +64,12 @@
     return adjustHeightOfGadget();
   };
 
-  setIFrameSource = function(googleDocLink) {
-    return $("#googleDocIFrame").attr("src", googleDocLink);
-  };
-
   removeTextField = function() {
     return $('#googleDocUrlText').remove();
   };
 
-  giveWrongUrlWarning = function(url) {
-    return alert("Could not use " + url + ", please check if " + url + " is a google doc url :)");
+  setIFrameSource = function(googleDocLink) {
+    return $("#googleDocIFrame").attr("src", googleDocLink);
   };
 
   showIFrame = function() {
