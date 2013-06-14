@@ -1,5 +1,5 @@
 (function() {
-  var adjustHeightOfGadget, googleDocGadget, loadGoogleDocFromTextBox, loadGoogleDocOnEnter, loadGoogleDocOnPaste, removeTextField, setIFrameSource, showIFrame;
+  var adjustHeightOfGadget, googleDocGadget, loadGoogleDocFromTextBox, loadGoogleDocOnEnter, loadGoogleDocOnPaste, removeTextField, setIFrameSource, showIFrame, showIFrameOnLoad;
 
   googleDocGadget = window.googleDocGadget || {};
 
@@ -59,9 +59,8 @@
 
   googleDocGadget.loadGoogleDoc = function(googleDocLink) {
     removeTextField();
-    setIFrameSource(googleDocLink);
-    showIFrame();
-    return adjustHeightOfGadget();
+    showIFrameOnLoad();
+    return setIFrameSource(googleDocLink);
   };
 
   removeTextField = function() {
@@ -72,8 +71,13 @@
     return $("#googleDocIFrame").attr("src", googleDocLink);
   };
 
+  showIFrameOnLoad = function() {
+    return $("#googleDocIFrame").load(showIFrame);
+  };
+
   showIFrame = function() {
-    return $('#googleDocDiv').show();
+    $('#googleDocIFrame').show();
+    return adjustHeightOfGadget();
   };
 
   adjustHeightOfGadget = function() {

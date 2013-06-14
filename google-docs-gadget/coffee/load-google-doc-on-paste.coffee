@@ -40,9 +40,8 @@ loadGoogleDocFromTextBox = ->
   
 googleDocGadget.loadGoogleDoc = (googleDocLink) ->
   removeTextField()
+  showIFrameOnLoad()
   setIFrameSource(googleDocLink)
-  showIFrame()
-  adjustHeightOfGadget()
 
 removeTextField = ->
   $('#googleDocUrlText').remove()
@@ -50,8 +49,12 @@ removeTextField = ->
 setIFrameSource = (googleDocLink) ->
   $("#googleDocIFrame").attr("src", googleDocLink)
 
+showIFrameOnLoad = ->
+  $("#googleDocIFrame").load(showIFrame)
+
 showIFrame = ->
-  $('#googleDocDiv').show()
+   $('#googleDocIFrame').show()
+   adjustHeightOfGadget()
 
 adjustHeightOfGadget = ->
   gadgets.window.adjustHeight()
