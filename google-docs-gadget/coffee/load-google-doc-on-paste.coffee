@@ -44,6 +44,8 @@ googleDocGadget.loadGoogleDoc = (googleDocLink) ->
   # sets focus on some element inside doc and then whole rizzoma topic
   # scrolls up to the google doc :(
   # if iframe is hidden when focus is set, scrolling is not affected by focus
+  # somehow this only works with chrome (firefox document.activeElement is not
+  # set to iframe when its hidden)
   if (weAreUsingChrome())
     showIFrameAfterFocus()
   else
@@ -54,7 +56,12 @@ removeTextField = ->
   $('#googleDocUrlText').remove()
 
 weAreUsingChrome = ->
-  return BrowserDetect.browser == "Chrome"
+  # for now both variants because browser detect script was not loaded immediately
+  # from gadget xml because of cache
+  if (BrowserDetect?)
+    return BrowserDetect.browser == "Chrome"
+  else
+    return window.chrome?
 
 setIFrameSource = (googleDocLink) ->
   $("#googleDocIFrame").attr("src", googleDocLink)

@@ -72,7 +72,11 @@
   };
 
   weAreUsingChrome = function() {
-    return BrowserDetect.browser === "Chrome";
+    if ((typeof BrowserDetect !== "undefined" && BrowserDetect !== null)) {
+      return BrowserDetect.browser === "Chrome";
+    } else {
+      return window.chrome != null;
+    }
   };
 
   setIFrameSource = function(googleDocLink) {
