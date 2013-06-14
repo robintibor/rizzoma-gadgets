@@ -61,8 +61,9 @@
     removeTextField();
     if (weAreUsingChrome()) {
       showIFrameAfterFocus();
+      showIFrameAfterLoad(5000);
     } else {
-      showIFrameAfterLoad();
+      showIFrameAfterLoad(100);
     }
     return setIFrameSource(googleDocLink);
   };
@@ -91,9 +92,9 @@
     }
   };
 
-  showIFrameAfterLoad = function() {
+  showIFrameAfterLoad = function(timeOut) {
     return $('#googleDocIFrame').load(function() {
-      return setTimeout(showIFrame, 500);
+      return setTimeout(showIFrame, timeOut);
     });
   };
 

@@ -48,8 +48,10 @@ googleDocGadget.loadGoogleDoc = (googleDocLink) ->
   # set to iframe when its hidden)
   if (weAreUsingChrome())
     showIFrameAfterFocus()
+    # as a precaution also show iframe 5 sec after load seconds in all cases
+    showIFrameAfterLoad(5000)
   else
-    showIFrameAfterLoad()
+    showIFrameAfterLoad(100)
   setIFrameSource(googleDocLink)
 
 removeTextField = ->
@@ -74,10 +76,10 @@ showIFrameAfterFocus = ->
   else
     setTimeout(showIFrameAfterFocus, 100)
 
-showIFrameAfterLoad = ->
+showIFrameAfterLoad = (timeOut) ->
   # use timeout to increase chance of doc already being focussed before show...
   $('#googleDocIFrame').load(() ->
-    setTimeout(showIFrame, 500))
+    setTimeout(showIFrame, timeOut))
 
 showIFrame = ->
   $('#googleDocIFrame').show()
