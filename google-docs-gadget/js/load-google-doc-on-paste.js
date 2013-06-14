@@ -1,5 +1,5 @@
 (function() {
-  var adjustHeightOfGadget, googleDocGadget, loadGoogleDocFromTextBox, loadGoogleDocOnEnter, loadGoogleDocOnPaste, removeTextField, setIFrameSource, showIFrame, showIFrameAfterFocus;
+  var adjustHeightOfGadget, googleDocGadget, loadGoogleDocFromTextBox, loadGoogleDocOnEnter, loadGoogleDocOnPaste, removeTextField, setIFrameSource, showIFrame, showIFrameAfterFocus, showIFrameAfterLoad, weAreUsingChrome;
 
   googleDocGadget = window.googleDocGadget || {};
 
@@ -59,12 +59,20 @@
 
   googleDocGadget.loadGoogleDoc = function(googleDocLink) {
     removeTextField();
-    showIFrameAfterFocus();
+    if (weAreUsingChrome()) {
+      showIFrameAfterFocus();
+    } else {
+      showIFrameAfterLoad();
+    }
     return setIFrameSource(googleDocLink);
   };
 
   removeTextField = function() {
     return $('#googleDocUrlText').remove();
+  };
+
+  weAreUsingChrome = function() {
+    return BrowserDetect.browser === "Chrome";
   };
 
   setIFrameSource = function(googleDocLink) {
@@ -77,6 +85,12 @@
     } else {
       return setTimeout(showIFrameAfterFocus, 100);
     }
+  };
+
+  showIFrameAfterLoad = function() {
+    return $('#googleDocIFrame').load(function() {
+      return setTimeout(showIFrame, 500);
+    });
   };
 
   showIFrame = function() {

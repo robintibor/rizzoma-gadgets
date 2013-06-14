@@ -13,6 +13,7 @@
     <div id="googleDocDiv">
       <iframe id='googleDocIFrame' frameborder='0'> </iframe>
     </div>
+    <script src="https://c9.io/robintibor/rizzoma-gadget/workspace/google-docs-gadget/js/lib/browser-detect.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
     <script src="https://c9.io/robintibor/rizzoma-gadget/workspace/google-docs-gadget/js/load-google-doc-on-paste.js"></script>
     <script src="https://c9.io/robintibor/rizzoma-gadget/workspace/google-docs-gadget/js/sync-google-doc-url-with-wave.js"></script>
