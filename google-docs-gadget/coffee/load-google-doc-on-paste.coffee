@@ -40,7 +40,11 @@ loadGoogleDocFromTextBox = ->
   
 googleDocGadget.loadGoogleDoc = (googleDocLink) ->
   removeTextField()
-  showIFrameOnLoad()
+  # iframe should only be shown after focus because google doc javascript
+  # sets focus on some element inside doc and then whole rizzoma topic
+  # scrolls up to the google doc :(
+  # if iframe is hidden when focus is set, scrolling is not affected by focus
+  showIFrameAfterFocus()
   setIFrameSource(googleDocLink)
 
 removeTextField = ->
@@ -49,12 +53,17 @@ removeTextField = ->
 setIFrameSource = (googleDocLink) ->
   $("#googleDocIFrame").attr("src", googleDocLink)
 
-showIFrameOnLoad = ->
-  $("#googleDocIFrame").load(showIFrame)
+showIFrameAfterFocus = ->
+  # focus event does not fire from iframes, therefore i poll document.activeElement
+  # http://stackoverflow.com/questions/5456239/detecting-when-an-iframe-gets-or-loses-focus
+  if document.activeElement == $('#googleDocIFrame')[0]
+    showIFrame()
+  else
+    setTimeout(showIFrameAfterFocus, 100)
 
 showIFrame = ->
-   $('#googleDocIFrame').show()
-   adjustHeightOfGadget()
+  $('#googleDocIFrame').show()
+  adjustHeightOfGadget()
 
 adjustHeightOfGadget = ->
   gadgets.window.adjustHeight()
