@@ -65,6 +65,7 @@
     } else {
       showIFrameAfterLoad(100);
     }
+    setTimeout(showIFrame, 14000);
     return setIFrameSource(googleDocLink);
   };
 

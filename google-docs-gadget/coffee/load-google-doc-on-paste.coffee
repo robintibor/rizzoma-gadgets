@@ -52,6 +52,8 @@ googleDocGadget.loadGoogleDoc = (googleDocLink) ->
     showIFrameAfterLoad(5000)
   else
     showIFrameAfterLoad(100)
+  # as a precaution always show iframe after 14 sec
+  setTimeout(showIFrame, 14000)
   setIFrameSource(googleDocLink)
 
 removeTextField = ->
@@ -81,6 +83,7 @@ showIFrameAfterLoad = (timeOut) ->
   $('#googleDocIFrame').load(() ->
     setTimeout(showIFrame, timeOut))
 
+# can be called repeatedly without problems
 showIFrame = ->
   $('#googleDocIFrame').show()
   adjustHeightOfGadget()
