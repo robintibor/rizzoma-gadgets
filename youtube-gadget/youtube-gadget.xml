@@ -33,7 +33,7 @@
     <script src="https://c9.io/robintibor/rizzoma-gadget/workspace/youtube-gadget/js/sync-video-with-wave.js"></script>
     <script type="text/javascript" src="//www.youtube.com/iframe_api"></script>
     <script src="https://c9.io/robintibor/rizzoma-gadget/workspace/youtube-gadget/js/load-video.js"></script>
-    <script src="https://c9.io/robintibor/rizzoma-gadget/workspace/youtube-gadget/js/create-start-end-buttons.js"></script>
+    <script src="https://c9.io/robintibor/rizzoma-gadget/workspace/youtube-gadget/js/make-start-end-time-settable.js"></script>
     <script src="https://c9.io/robintibor/rizzoma-gadget/workspace/youtube-gadget/js/toggle-edit-mode.js"></script>
   </body>
 ]]>

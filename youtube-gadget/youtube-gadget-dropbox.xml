@@ -33,7 +33,7 @@
     <script src="https://dl.dropbox.com/u/34637013/publish/rizzoma-gadgets/youtube-gadget/js/sync-video-with-wave.js"></script>
     <script type="text/javascript" src="//www.youtube.com/iframe_api"></script>
     <script src="https://dl.dropbox.com/u/34637013/publish/rizzoma-gadgets/youtube-gadget/js/load-video.js"></script>
-    <script src="https://dl.dropbox.com/u/34637013/publish/rizzoma-gadgets/youtube-gadget/js/create-start-end-buttons.js"></script>
+    <script src="https://dl.dropbox.com/u/34637013/publish/rizzoma-gadgets/youtube-gadget/js/make-start-end-time-settable.js"></script>
     <script src="https://dl.dropbox.com/u/34637013/publish/rizzoma-gadgets/youtube-gadget/js/toggle-edit-mode.js"></script>
   </body>
 ]]>
