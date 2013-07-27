@@ -11,8 +11,22 @@ body {
   margin-left: 10px;
 }
 
-#googleDocIFrame {
+
+#googleDocDiv {
   height: 450px;
+}
+
+#googleDocIFrame {
+  height: 100%;
   width: 100%;
   display:none;
+}
+
+.ui-resizable-handle {
+  background-color: #64a8eb;
+  box-shadow: 3px 3px 3px #76A8D9;
+}
+
+.resizing #googleDocIFrame {
+  pointer-events: none;
 }

@@ -1,5 +1,5 @@
 (function() {
-  var adjustHeightOfGadget, googleDocGadget, loadGoogleDocFromTextBox, loadGoogleDocOnEnter, loadGoogleDocOnPaste, removeTextField, setIFrameSource, showIFrame, showIFrameAfterFocus, showIFrameAfterLoad, weAreUsingChrome;
+  var adjustHeightOfGadget, googleDocGadget, loadGoogleDocFromTextBox, loadGoogleDocOnEnter, loadGoogleDocOnPaste, removeTextField, setDocHeight, setIFrameSource, showIFrame, showIFrameAfterFocus, showIFrameAfterLoad, weAreUsingChrome;
 
   googleDocGadget = window.googleDocGadget || {};
 
@@ -49,15 +49,16 @@
   };
 
   loadGoogleDocFromTextBox = function() {
-    var enteredUrl, googleDocLink, googleDocLinkForMinimalUI;
+    var defaultHeight, enteredUrl, googleDocLink, googleDocLinkForMinimalUI;
+    defaultHeight = 450;
     enteredUrl = $('#googleDocUrlText').val();
     googleDocLink = enteredUrl.trim();
     googleDocLinkForMinimalUI = googleDocGadget.updateQueryString("rm", "minimal", googleDocLink);
-    googleDocGadget.loadGoogleDoc(googleDocLinkForMinimalUI);
+    googleDocGadget.loadGoogleDoc(googleDocLinkForMinimalUI, defaultHeight);
     return googleDocGadget.storeGoogleDocUrlInWave(googleDocLinkForMinimalUI);
   };
 
-  googleDocGadget.loadGoogleDoc = function(googleDocLink) {
+  googleDocGadget.loadGoogleDoc = function(googleDocLink, height) {
     removeTextField();
     if (weAreUsingChrome()) {
       showIFrameAfterFocus();
@@ -66,7 +67,8 @@
       showIFrameAfterLoad(100);
     }
     setTimeout(showIFrame, 14000);
-    return setIFrameSource(googleDocLink);
+    setIFrameSource(googleDocLink);
+    return setDocHeight(height);
   };
 
   removeTextField = function() {
@@ -85,6 +87,10 @@
     return $("#googleDocIFrame").attr("src", googleDocLink);
   };
 
+  setDocHeight = function(height) {
+    return $("#googleDocDiv").height(height);
+  };
+
   showIFrameAfterFocus = function() {
     if (document.activeElement === $('#googleDocIFrame')[0]) {
       return showIFrame();
@@ -101,7 +107,10 @@
 
   showIFrame = function() {
     $('#googleDocIFrame').show();
-    return adjustHeightOfGadget();
+    adjustHeightOfGadget();
+    if (!googleDocGadget.docIsResizable()) {
+      return googleDocGadget.makeDocResizable();
+    }
   };
 
   adjustHeightOfGadget = function() {

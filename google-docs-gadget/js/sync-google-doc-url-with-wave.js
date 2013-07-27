@@ -1,5 +1,5 @@
 (function() {
-  var docStoredInWave, getGoogleDocUrlFromWave, googleDocGadget, loadGoogleDocFromWave, tryToLoadGoogleDocFromWave;
+  var docStoredInWave, getGoogleDocUrlFromWave, getHeightFromWave, googleDocGadget, loadGoogleDocFromWave, tryToLoadGoogleDocFromWave;
 
   googleDocGadget = window.googleDocGadget || {};
 
@@ -20,17 +20,26 @@
   };
 
   loadGoogleDocFromWave = function() {
-    var googleDocUrl;
+    var googleDocUrl, height;
     googleDocUrl = getGoogleDocUrlFromWave();
-    return googleDocGadget.loadGoogleDoc(googleDocUrl);
+    height = getHeightFromWave();
+    return googleDocGadget.loadGoogleDoc(googleDocUrl, height);
   };
 
   getGoogleDocUrlFromWave = function() {
     return wave.getState().get("googleDocUrl");
   };
 
+  getHeightFromWave = function() {
+    return wave.getState().get("height") || 450;
+  };
+
   googleDocGadget.storeGoogleDocUrlInWave = function(googleDocUrl) {
     return wave.getState().submitValue("googleDocUrl", googleDocUrl);
+  };
+
+  googleDocGadget.saveHeightToWave = function(height) {
+    return wave.getState().submitValue("height", height);
   };
 
   wave.setStateCallback(tryToLoadGoogleDocFromWave);

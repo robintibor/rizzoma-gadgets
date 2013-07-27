@@ -32,13 +32,14 @@ loadGoogleDocOnPaste = ->
   )
 
 loadGoogleDocFromTextBox = ->
+  defaultHeight = 450
   enteredUrl = $('#googleDocUrlText').val()
   googleDocLink = enteredUrl.trim()
   googleDocLinkForMinimalUI = googleDocGadget.updateQueryString("rm", "minimal", googleDocLink)
-  googleDocGadget.loadGoogleDoc(googleDocLinkForMinimalUI)
+  googleDocGadget.loadGoogleDoc(googleDocLinkForMinimalUI, defaultHeight)
   googleDocGadget.storeGoogleDocUrlInWave(googleDocLinkForMinimalUI)
   
-googleDocGadget.loadGoogleDoc = (googleDocLink) ->
+googleDocGadget.loadGoogleDoc = (googleDocLink, height) ->
   removeTextField()
   # iframe should only be shown after focus because google doc javascript
   # sets focus on some element inside doc and then whole rizzoma topic
@@ -55,6 +56,7 @@ googleDocGadget.loadGoogleDoc = (googleDocLink) ->
   # as a precaution always show iframe after 14 sec
   setTimeout(showIFrame, 14000)
   setIFrameSource(googleDocLink)
+  setDocHeight(height)
 
 removeTextField = ->
   $('#googleDocUrlText').remove()
@@ -69,6 +71,9 @@ weAreUsingChrome = ->
 
 setIFrameSource = (googleDocLink) ->
   $("#googleDocIFrame").attr("src", googleDocLink)
+
+setDocHeight = (height) ->
+  $("#googleDocDiv").height(height)
 
 showIFrameAfterFocus = ->
   # focus event does not fire from iframes, therefore i poll document.activeElement
@@ -87,6 +92,8 @@ showIFrameAfterLoad = (timeOut) ->
 showIFrame = ->
   $('#googleDocIFrame').show()
   adjustHeightOfGadget()
+  if (not googleDocGadget.docIsResizable())
+    googleDocGadget.makeDocResizable()
 
 adjustHeightOfGadget = ->
   gadgets.window.adjustHeight()
