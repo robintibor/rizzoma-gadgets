@@ -11,10 +11,6 @@ body {
   margin-left: 10px;
 }
 
-#modeButtonsDiv button {
-  display:none;
-}
-
 .youtubePlayerResizable {
   padding: 0px 15px 15px 0px;
   margin-bottom: 35px;

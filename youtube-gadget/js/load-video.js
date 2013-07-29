@@ -48,12 +48,9 @@
       return $('#youtubeUrlText').remove();
     };
     loadYoutubePlayerFromVideoIdAndMakeEditable = function(youtubeVideoId) {
-      var makeNewPlayerEditable, videoEnd, videoStart;
+      var videoEnd, videoStart;
       videoStart = videoEnd = null;
-      makeNewPlayerEditable = function() {
-        return youtubeGadget.enterEditMode();
-      };
-      return youtubeGadget.loadPlayerWithVideoId(youtubeVideoId, 640, 390, videoStart, videoEnd, makeNewPlayerEditable);
+      return youtubeGadget.loadPlayerWithVideoId(youtubeVideoId, 640, 390, videoStart, videoEnd, youtubeGadget.enterEditMode);
     };
     giveWrongUrlWarning = function(url) {
       return alert("Could not use " + url + ", please check if " + url + " is a youtube video url :)");

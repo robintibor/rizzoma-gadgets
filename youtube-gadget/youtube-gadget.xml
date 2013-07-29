@@ -11,10 +11,6 @@
   </head>
   <body>
     <input id="youtubeUrlText" type="text" placeholder="Enter Youtube URL Here..."/>
-    <div id="modeButtonsDiv">
-      <button id="editVideoButton">Edit</button>
-      <button id="finishedEditingVideoButton">Done</button>
-    </div>
     <div id ="youtubePlayerWithButtons">
       <!-- 1. The <iframe> (and video player) will replace this <div id="youtubePlayer"> tag. -->
       <div id="youtubePlayer"></div>

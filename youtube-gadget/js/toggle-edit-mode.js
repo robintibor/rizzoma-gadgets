@@ -1,20 +1,37 @@
 (function() {
-  var makePlayerUneditable, onClickOfDoneButtonEnterViewMode, onClickOfEditButtonEnterEditMode, removeOldYoutubePlayer, youtubeGadget;
+  var CURRENT_MODE, EDIT_MODE, VIEW_MODE, enterNewMode, handleBlipModeChange, makePlayerUneditable, reactToBlipModeChange, removeOldYoutubePlayer, youtubeGadget;
 
   youtubeGadget = window.youtubeGadget || {};
 
   window.youtubeGadget = youtubeGadget;
 
-  onClickOfEditButtonEnterEditMode = function() {
-    return $('#editVideoButton').click(youtubeGadget.enterEditMode);
+  VIEW_MODE = 1;
+
+  EDIT_MODE = 2;
+
+  CURRENT_MODE = VIEW_MODE;
+
+  reactToBlipModeChange = function() {
+    return wave.setModeCallback(handleBlipModeChange);
   };
 
-  onClickOfDoneButtonEnterViewMode = function() {
-    return $('#finishedEditingVideoButton').click(function() {
+  handleBlipModeChange = function() {
+    var mode;
+    mode = wave.getMode();
+    if (mode !== CURRENT_MODE) {
+      enterNewMode(mode);
+      return CURRENT_MODE = mode;
+    }
+  };
+
+  enterNewMode = function(mode) {
+    if (mode === EDIT_MODE) {
+      return youtubeGadget.enterEditMode();
+    } else if (mode === VIEW_MODE) {
       removeOldYoutubePlayer();
       youtubeGadget.loadVideoFromWave();
       return youtubeGadget.enterViewMode();
-    });
+    }
   };
 
   removeOldYoutubePlayer = function() {
@@ -23,14 +40,10 @@
   };
 
   youtubeGadget.enterEditMode = function() {
-    $('#editVideoButton').hide();
-    $('#finishedEditingVideoButton').show();
     return youtubeGadget.makePlayerEditable();
   };
 
   youtubeGadget.enterViewMode = function() {
-    $('#finishedEditingVideoButton').hide();
-    $('#editVideoButton').show();
     return makePlayerUneditable();
   };
 
@@ -49,8 +62,6 @@
     return youtubeGadget.adjustHeightOfGadget();
   };
 
-  onClickOfEditButtonEnterEditMode();
-
-  onClickOfDoneButtonEnterViewMode();
+  reactToBlipModeChange();
 
 }).call(this);

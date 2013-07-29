@@ -1,28 +1,35 @@
 youtubeGadget = window.youtubeGadget || {}
 window.youtubeGadget = youtubeGadget
 
-onClickOfEditButtonEnterEditMode = ->
-  $('#editVideoButton').click(youtubeGadget.enterEditMode)
+VIEW_MODE = 1
+EDIT_MODE = 2
+CURRENT_MODE = VIEW_MODE # should always start in view mode
 
-onClickOfDoneButtonEnterViewMode = ->
-  $('#finishedEditingVideoButton').click(() ->
+reactToBlipModeChange = ->
+  wave.setModeCallback(handleBlipModeChange)
+  
+handleBlipModeChange = ->
+  mode = wave.getMode()
+  if (mode isnt CURRENT_MODE)
+    enterNewMode(mode)
+    CURRENT_MODE = mode
+
+enterNewMode = (mode) ->
+  if (mode == EDIT_MODE)
+    youtubeGadget.enterEditMode()
+  else if (mode == VIEW_MODE)
     removeOldYoutubePlayer()
     youtubeGadget.loadVideoFromWave()
     youtubeGadget.enterViewMode()
-  )
 
 removeOldYoutubePlayer = ->
   youtubeGadget.youtubePlayer.destroy()
   $('youtubePlayerWithButtons').prepend("<div id='youtubePlayer'></div>")
 
 youtubeGadget.enterEditMode = ->
-  $('#editVideoButton').hide()
-  $('#finishedEditingVideoButton').show()
   youtubeGadget.makePlayerEditable()
 
 youtubeGadget.enterViewMode = ->
-  $('#finishedEditingVideoButton').hide()
-  $('#editVideoButton').show()
   makePlayerUneditable()
 
 youtubeGadget.makePlayerEditable = ->
@@ -37,5 +44,4 @@ makePlayerUneditable = ->
   youtubeGadget.hideStartEndButtons()
   youtubeGadget.adjustHeightOfGadget()
 
-onClickOfEditButtonEnterEditMode()
-onClickOfDoneButtonEnterViewMode()
+reactToBlipModeChange()
