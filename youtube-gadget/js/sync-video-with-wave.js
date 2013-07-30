@@ -9,9 +9,9 @@
     var videoShouldBeLoaded;
     videoShouldBeLoaded = videoIdStoredInWave() && !youtubeGadget.videoLoaded();
     if (videoShouldBeLoaded && youtubeApiReady()) {
-      return youtubeGadget.loadVideoFromWave();
+      return youtubeGadget.loadVideoFromWave(youtubeGadget.enterCurrentMode);
     } else if (videoShouldBeLoaded && !youtubeApiReady()) {
-      return setTimeout(youtubeGadget.loadVideoFromWave, 1000);
+      return setTimeout(tryToLoadVideoFromWave, 1000);
     } else if (!videoIdStoredInWave()) {
       return youtubeGadget.showUrlEnterBox();
     }
@@ -25,15 +25,17 @@
     return YT.Player != null;
   };
 
-  youtubeGadget.loadVideoFromWave = function() {
+  youtubeGadget.loadVideoFromWave = function(callback) {
     var videoEnd, videoHeight, videoId, videoStart, videoWidth;
     videoId = getVideoIdFromWave();
     videoWidth = getVideoWidthFromWave();
     videoHeight = getVideoHeightFromWave();
     videoStart = youtubeGadget.getVideoStartFromWave();
     videoEnd = youtubeGadget.getVideoEndFromWave();
-    youtubeGadget.loadPlayerWithVideoId(videoId, videoWidth, videoHeight, videoStart, videoEnd, youtubeGadget.adjustHeightOfGadget);
-    return youtubeGadget.enterViewMode();
+    return youtubeGadget.loadPlayerWithVideoId(videoId, videoWidth, videoHeight, videoStart, videoEnd, function() {
+      youtubeGadget.adjustHeightOfGadget();
+      return callback();
+    });
   };
 
   getVideoIdFromWave = function() {

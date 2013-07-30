@@ -23,6 +23,7 @@ onClickStoreTimesToWave = ->
   )
   
 getCurrentPlayBackTime = ->
+  # playback time in seconds...
   return Math.round(youtubeGadget.youtubePlayer.getCurrentTime())
 
 setTimesOfButtons = (startTime, endTime) ->
@@ -61,4 +62,96 @@ getVideoLengthInSeconds = ->
 youtubeGadget.hideStartEndButtons = ->
   $('.timeButtons').hide()
 
+showTimesWhenTimeTextChanged = ->
+  $('#startTimeText').on('input', handleStartTimeTextChange)
+  $('#endTimeText').on('input', handleEndTimeTextChange)
+
+handleStartTimeTextChange = ->
+  handleTimeTextChange($('#startTimeText'), $('#startTimeFeedback'))
+
+handleEndTimeTextChange = ->
+  handleTimeTextChange($('#endTimeText'), $('#endTimeFeedback'))
+
+handleTimeTextChange = (inputTimeTextElement, feedbackElement) ->
+  timeText = inputTimeTextElement.text()
+  timeEnteredCorrectly = isTimeFormatCorrect(timeText)
+  if (timeEnteredCorrectly)
+    timeEntered = extractTimeFromString(timeText)
+    showEnteredTime(timeEntered, feedbackElement)
+  else
+    showTimeEnteredWrongFormatMessage(feedbackElement)
+
+showEnteredTime = (time, element) ->
+  hourOrHours = if time.hour != 1 then "hours" else "hour"
+  humanReadableTime = "#{time.hours} #{hourOrHours} #{time.minutes} min #{time.seconds} sec"
+  element.text(humanReadableTime)
+
+isTimeFormatCorrect = (timeString) ->
+  # I allow minutes hours seconds to be bigger than 60 for simplicity...
+  # Also they will be converted corretly to seconds anyways.. and
+  # stored as seconds
+  return /^(?:[0-9]{1,2}:){0,2}[0-9]{1,2}$/.test(timeString)
+
+extractTimeInSeconds = (timeString) ->
+  hoursMinutesAndSeconds = extractTimeFromString(timeString)
+  seconds = convertToSeconds(hoursMinutesAndSeconds)
+  return seconds
+
+extractTimeFromString = (timeString) ->
+  timeArrays = timeString.split(":")
+  [first, mid..., last] = timeArrays
+  # hour only given when timearray has 3 elements
+  hours = if timeArrays.length > 2 then first else "0"
+  # if hour given, minutes are in middle, otherwise minutes are in first place of array
+  minutes = if timeArrays.length > 2 then mid[0] else if timeArrays.length > 1 then first else "0"
+  # if hour or minute given, seconds are last element, otherwise first
+  seconds = if timeArrays.length > 1 then last else first
+  return {
+    hours: parseInt(hours),
+    minutes: parseInt(minutes),
+    seconds: parseInt(seconds)
+  }
   
+showTimeEnteredWrongFormatMessage = (element) ->
+  element.text("Use hh:mm:ss")
+  
+  
+saveTimesWhenTextFieldUnfocussed = ->
+  $('#startTimeText').on('blur', saveEnteredStartTime)
+  $('#endTimeText').on('blur', saveEnteredEndTime)
+
+saveEnteredStartTime = ->
+  saveEnteredTime($('#startTimeText'), $('#startTimeFeedback'), youtubeGadget.storeStartTimeInWave)
+
+saveEnteredEndTime = ->
+  saveEnteredTime($('#endTimeText'), $('#endTimeFeedback'), youtubeGadget.storeEndTimeInWave)
+  
+saveEnteredTime = (inputElement, feedbackElement, storeFunction) ->
+  if (isTimeFormatCorrect(inputElement.text()))
+    timeInSeconds = extractTimeInSeconds(inputElement.text())
+    storeFunction(timeInSeconds)
+    feedbackElement.text("Saved")
+
+convertToSeconds = (hoursMinutesAndSeconds) ->
+  return hoursMinutesAndSeconds.hours * 3600 + hoursMinutesAndSeconds.minutes * 60 + 
+    hoursMinutesAndSeconds.seconds
+
+saveTimesWhenEnterPressedOnTextField = ->
+  $('#startTimeText').keydown((event) ->
+    enterPressed = event.which == 13
+    if (enterPressed)
+      event.preventDefault()
+      saveEnteredStartTime()
+  )
+  $('#endTimeText').keydown((event) ->
+    enterPressed = event.which == 13
+    if (enterPressed)
+      event.preventDefault()
+      saveEnteredEndTime()
+  )
+
+youtubeGadget.makeStartEndTimeSettable = (startTime, endTime) ->
+  youtubeGadget.showStartAndEndButtons(startTime, endTime)
+  showTimesWhenTimeTextChanged()
+  saveTimesWhenTextFieldUnfocussed()
+  saveTimesWhenEnterPressedOnTextField()

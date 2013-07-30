@@ -1,5 +1,5 @@
 (function() {
-  var CURRENT_MODE, EDIT_MODE, VIEW_MODE, enterNewMode, handleBlipModeChange, makePlayerUneditable, reactToBlipModeChange, removeOldYoutubePlayer, youtubeGadget;
+  var CURRENT_MODE, EDIT_MODE, VIEW_MODE, enterNewMode, makePlayerUneditable, reactToBlipModeChange, removeOldYoutubePlayer, youtubeGadget;
 
   youtubeGadget = window.youtubeGadget || {};
 
@@ -9,13 +9,13 @@
 
   EDIT_MODE = 2;
 
-  CURRENT_MODE = VIEW_MODE;
+  CURRENT_MODE = 1;
 
   reactToBlipModeChange = function() {
-    return wave.setModeCallback(handleBlipModeChange);
+    return wave.setModeCallback(youtubeGadget.enterCurrentMode);
   };
 
-  handleBlipModeChange = function() {
+  youtubeGadget.enterCurrentMode = function() {
     var mode;
     mode = wave.getMode();
     if (mode !== CURRENT_MODE) {
@@ -29,8 +29,7 @@
       return youtubeGadget.enterEditMode();
     } else if (mode === VIEW_MODE) {
       removeOldYoutubePlayer();
-      youtubeGadget.loadVideoFromWave();
-      return youtubeGadget.enterViewMode();
+      return youtubeGadget.loadVideoFromWave(youtubeGadget.enterViewMode);
     }
   };
 
@@ -52,7 +51,7 @@
     videoStart = youtubeGadget.getVideoStartFromWave();
     videoEnd = youtubeGadget.getVideoEndFromWave();
     youtubeGadget.makeVideoResizable();
-    youtubeGadget.showStartAndEndButtons(videoStart, videoEnd);
+    youtubeGadget.makeStartEndTimeSettable(videoStart, videoEnd);
     return youtubeGadget.adjustHeightOfGadget();
   };
 

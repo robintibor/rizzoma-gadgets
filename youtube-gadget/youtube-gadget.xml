@@ -14,12 +14,15 @@
     <div id ="youtubePlayerWithButtons">
       <!-- 1. The <iframe> (and video player) will replace this <div id="youtubePlayer"> tag. -->
       <div id="youtubePlayer"></div>
+      
       <div class="timeButtons">
         <button id ="startTimeButton">Now → Start time</button>
-        <span id="startTimeText" class="timeText">0:00</span>
+        <span id="startTimeText" class="timeText" contenteditable="true">0:00</span>
+        <span  class="timeFeedback" id="startTimeFeedback"></span>
         <span id="endTimeSpan">
           <button id ="endTimeButton">Now → End time</button>
-          <span id="endTimeText" class="timeText">0:00</span>
+          <span id="endTimeText" class="timeText" contenteditable="true">0:00</span>
+          <span class="timeFeedback" id="endTimeFeedback"></span>
         </span>
       </div>
     </div>

@@ -3,12 +3,12 @@ window.youtubeGadget = youtubeGadget
 
 VIEW_MODE = 1
 EDIT_MODE = 2
-CURRENT_MODE = VIEW_MODE # should always start in view mode
+CURRENT_MODE = 1
 
 reactToBlipModeChange = ->
-  wave.setModeCallback(handleBlipModeChange)
+  wave.setModeCallback(youtubeGadget.enterCurrentMode)
   
-handleBlipModeChange = ->
+youtubeGadget.enterCurrentMode = ->
   mode = wave.getMode()
   if (mode isnt CURRENT_MODE)
     enterNewMode(mode)
@@ -19,8 +19,7 @@ enterNewMode = (mode) ->
     youtubeGadget.enterEditMode()
   else if (mode == VIEW_MODE)
     removeOldYoutubePlayer()
-    youtubeGadget.loadVideoFromWave()
-    youtubeGadget.enterViewMode()
+    youtubeGadget.loadVideoFromWave(youtubeGadget.enterViewMode)
 
 removeOldYoutubePlayer = ->
   youtubeGadget.youtubePlayer.destroy()
@@ -36,7 +35,7 @@ youtubeGadget.makePlayerEditable = ->
     videoStart = youtubeGadget.getVideoStartFromWave()
     videoEnd = youtubeGadget.getVideoEndFromWave()
     youtubeGadget.makeVideoResizable()
-    youtubeGadget.showStartAndEndButtons(videoStart, videoEnd)
+    youtubeGadget.makeStartEndTimeSettable(videoStart, videoEnd)
     youtubeGadget.adjustHeightOfGadget()
 
 makePlayerUneditable = ->
