@@ -17,10 +17,10 @@
 
   youtubeGadget.enterCurrentMode = function() {
     var mode;
+    console.log("now changing mode from " + CURRENT_MODE + " to " + (wave.getMode()));
     mode = wave.getMode();
     if (mode !== CURRENT_MODE) {
-      enterNewMode(mode);
-      return CURRENT_MODE = mode;
+      return enterNewMode(mode);
     }
   };
 
@@ -28,8 +28,7 @@
     if (mode === EDIT_MODE) {
       return youtubeGadget.enterEditMode();
     } else if (mode === VIEW_MODE) {
-      removeOldYoutubePlayer();
-      return youtubeGadget.loadVideoFromWave(youtubeGadget.enterViewMode);
+      return youtubeGadget.enterViewMode();
     }
   };
 
@@ -39,11 +38,22 @@
   };
 
   youtubeGadget.enterEditMode = function() {
-    return youtubeGadget.makePlayerEditable();
+    if (youtubeGadget.videoLoaded()) {
+      youtubeGadget.makePlayerEditable();
+    } else {
+      youtubeGadget.showUrlEnterBox();
+    }
+    return CURRENT_MODE = EDIT_MODE;
   };
 
   youtubeGadget.enterViewMode = function() {
-    return makePlayerUneditable();
+    if (youtubeGadget.videoLoaded()) {
+      removeOldYoutubePlayer();
+      youtubeGadget.loadVideoFromWave(makePlayerUneditable);
+    } else {
+      youtubeGadget.hideUrlEnterBox();
+    }
+    return CURRENT_MODE = VIEW_MODE;
   };
 
   youtubeGadget.makePlayerEditable = function() {

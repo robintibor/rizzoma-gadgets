@@ -9,27 +9,35 @@ reactToBlipModeChange = ->
   wave.setModeCallback(youtubeGadget.enterCurrentMode)
   
 youtubeGadget.enterCurrentMode = ->
+  console.log("now changing mode from #{CURRENT_MODE} to #{wave.getMode()}")
   mode = wave.getMode()
   if (mode isnt CURRENT_MODE)
     enterNewMode(mode)
-    CURRENT_MODE = mode
 
 enterNewMode = (mode) ->
   if (mode == EDIT_MODE)
     youtubeGadget.enterEditMode()
   else if (mode == VIEW_MODE)
-    removeOldYoutubePlayer()
-    youtubeGadget.loadVideoFromWave(youtubeGadget.enterViewMode)
+    youtubeGadget.enterViewMode()
 
 removeOldYoutubePlayer = ->
   youtubeGadget.youtubePlayer.destroy()
   $('youtubePlayerWithButtons').prepend("<div id='youtubePlayer'></div>")
 
 youtubeGadget.enterEditMode = ->
-  youtubeGadget.makePlayerEditable()
+  if (youtubeGadget.videoLoaded())
+    youtubeGadget.makePlayerEditable()
+  else
+    youtubeGadget.showUrlEnterBox()
+  CURRENT_MODE = EDIT_MODE
 
 youtubeGadget.enterViewMode = ->
-  makePlayerUneditable()
+  if (youtubeGadget.videoLoaded())
+    removeOldYoutubePlayer()
+    youtubeGadget.loadVideoFromWave(makePlayerUneditable)
+  else
+    youtubeGadget.hideUrlEnterBox()
+  CURRENT_MODE = VIEW_MODE
 
 youtubeGadget.makePlayerEditable = ->
     videoStart = youtubeGadget.getVideoStartFromWave()

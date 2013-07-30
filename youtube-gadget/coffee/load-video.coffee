@@ -82,6 +82,9 @@ jQuery(document).ready(($) ->
   youtubeGadget.showUrlEnterBox = ->
     jQuery('#youtubeUrlText').show()
 
+  youtubeGadget.hideUrlEnterBox = ->
+    jQuery('#youtubeUrlText').hide()
+    
   youtubeGadget.adjustHeightOfGadget = ->
     gadgets.window.adjustHeight()
 

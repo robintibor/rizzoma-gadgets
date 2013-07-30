@@ -95,6 +95,9 @@
     youtubeGadget.showUrlEnterBox = function() {
       return jQuery('#youtubeUrlText').show();
     };
+    youtubeGadget.hideUrlEnterBox = function() {
+      return jQuery('#youtubeUrlText').hide();
+    };
     youtubeGadget.adjustHeightOfGadget = function() {
       return gadgets.window.adjustHeight();
     };
