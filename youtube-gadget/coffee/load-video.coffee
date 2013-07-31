@@ -43,9 +43,8 @@ jQuery(document).ready(($) ->
   
   loadYoutubePlayerFromVideoIdAndMakeEditable = (youtubeVideoId) ->
     videoStart = videoEnd = null # do not know start and end times :)
-    makeNewPlayerEditable = () ->
-      youtubeGadget.enterEditMode()
-    youtubeGadget.loadPlayerWithVideoId(youtubeVideoId, 640, 390, videoStart, videoEnd, makeNewPlayerEditable)
+    # youtubeGadget.enterEditMode will be called when player has finished loading
+    youtubeGadget.loadPlayerWithVideoId(youtubeVideoId, 640, 390, videoStart, videoEnd, youtubeGadget.enterEditMode)
 
   giveWrongUrlWarning =  (url) ->
     alert("Could not use #{url}, please check if #{url} is a youtube video url :)")
@@ -83,6 +82,9 @@ jQuery(document).ready(($) ->
   youtubeGadget.showUrlEnterBox = ->
     jQuery('#youtubeUrlText').show()
 
+  youtubeGadget.hideUrlEnterBox = ->
+    jQuery('#youtubeUrlText').hide()
+    
   youtubeGadget.adjustHeightOfGadget = ->
     gadgets.window.adjustHeight()
 

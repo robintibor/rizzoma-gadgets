@@ -1,20 +1,32 @@
 (function() {
-  var makePlayerUneditable, onClickOfDoneButtonEnterViewMode, onClickOfEditButtonEnterEditMode, removeOldYoutubePlayer, youtubeGadget;
+  var CURRENT_MODE, EDIT_MODE, VIEW_MODE, enterNewMode, makePlayerUneditable, reactToBlipModeChange, removeOldYoutubePlayer, youtubeGadget;
 
   youtubeGadget = window.youtubeGadget || {};
 
   window.youtubeGadget = youtubeGadget;
 
-  onClickOfEditButtonEnterEditMode = function() {
-    return $('#editVideoButton').click(youtubeGadget.enterEditMode);
+  VIEW_MODE = 1;
+
+  EDIT_MODE = 2;
+
+  CURRENT_MODE = 1;
+
+  reactToBlipModeChange = function() {
+    return wave.setModeCallback(youtubeGadget.enterCurrentMode);
   };
 
-  onClickOfDoneButtonEnterViewMode = function() {
-    return $('#finishedEditingVideoButton').click(function() {
-      removeOldYoutubePlayer();
-      youtubeGadget.loadVideoFromWave();
+  youtubeGadget.enterCurrentMode = function() {
+    var mode;
+    mode = wave.getMode();
+    return enterNewMode(mode);
+  };
+
+  enterNewMode = function(mode) {
+    if (mode === EDIT_MODE) {
+      return youtubeGadget.enterEditMode();
+    } else if (mode === VIEW_MODE) {
       return youtubeGadget.enterViewMode();
-    });
+    }
   };
 
   removeOldYoutubePlayer = function() {
@@ -23,15 +35,24 @@
   };
 
   youtubeGadget.enterEditMode = function() {
-    $('#editVideoButton').hide();
-    $('#finishedEditingVideoButton').show();
-    return youtubeGadget.makePlayerEditable();
+    if (youtubeGadget.videoLoaded()) {
+      youtubeGadget.makePlayerEditable();
+    } else {
+      youtubeGadget.showUrlEnterBox();
+    }
+    return CURRENT_MODE = EDIT_MODE;
   };
 
   youtubeGadget.enterViewMode = function() {
-    $('#finishedEditingVideoButton').hide();
-    $('#editVideoButton').show();
-    return makePlayerUneditable();
+    if (youtubeGadget.videoLoaded() && youtubeGadget.videoSyncedWithWave()) {
+      makePlayerUneditable();
+    } else if (youtubeGadget.videoLoaded() && (!youtubeGadget.videoSyncedWithWave())) {
+      removeOldYoutubePlayer();
+      youtubeGadget.loadVideoFromWave(makePlayerUneditable);
+    } else {
+      youtubeGadget.hideUrlEnterBox();
+    }
+    return CURRENT_MODE = VIEW_MODE;
   };
 
   youtubeGadget.makePlayerEditable = function() {
@@ -39,7 +60,7 @@
     videoStart = youtubeGadget.getVideoStartFromWave();
     videoEnd = youtubeGadget.getVideoEndFromWave();
     youtubeGadget.makeVideoResizable();
-    youtubeGadget.showStartAndEndButtons(videoStart, videoEnd);
+    youtubeGadget.makeStartEndTimeSettable(videoStart, videoEnd);
     return youtubeGadget.adjustHeightOfGadget();
   };
 
@@ -49,8 +70,6 @@
     return youtubeGadget.adjustHeightOfGadget();
   };
 
-  onClickOfEditButtonEnterEditMode();
-
-  onClickOfDoneButtonEnterViewMode();
+  reactToBlipModeChange();
 
 }).call(this);

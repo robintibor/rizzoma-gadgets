@@ -1,41 +1,55 @@
 youtubeGadget = window.youtubeGadget || {}
 window.youtubeGadget = youtubeGadget
 
-onClickOfEditButtonEnterEditMode = ->
-  $('#editVideoButton').click(youtubeGadget.enterEditMode)
+VIEW_MODE = 1
+EDIT_MODE = 2
+CURRENT_MODE = 1
 
-onClickOfDoneButtonEnterViewMode = ->
-  $('#finishedEditingVideoButton').click(() ->
-    removeOldYoutubePlayer()
-    youtubeGadget.loadVideoFromWave()
+reactToBlipModeChange = ->
+  wave.setModeCallback(youtubeGadget.enterCurrentMode)
+  
+youtubeGadget.enterCurrentMode = ->
+  mode = wave.getMode()
+  enterNewMode(mode)
+
+enterNewMode = (mode) ->
+  if (mode == EDIT_MODE)
+    youtubeGadget.enterEditMode()
+  else if (mode == VIEW_MODE)
     youtubeGadget.enterViewMode()
-  )
 
 removeOldYoutubePlayer = ->
   youtubeGadget.youtubePlayer.destroy()
   $('youtubePlayerWithButtons').prepend("<div id='youtubePlayer'></div>")
 
 youtubeGadget.enterEditMode = ->
-  $('#editVideoButton').hide()
-  $('#finishedEditingVideoButton').show()
-  youtubeGadget.makePlayerEditable()
+  if (youtubeGadget.videoLoaded())
+    youtubeGadget.makePlayerEditable()
+  else
+    youtubeGadget.showUrlEnterBox()
+  CURRENT_MODE = EDIT_MODE
 
 youtubeGadget.enterViewMode = ->
-  $('#finishedEditingVideoButton').hide()
-  $('#editVideoButton').show()
-  makePlayerUneditable()
+  if (youtubeGadget.videoLoaded() and youtubeGadget.videoSyncedWithWave())
+    makePlayerUneditable()
+  else if (youtubeGadget.videoLoaded() and (not youtubeGadget.videoSyncedWithWave()))
+    removeOldYoutubePlayer()
+    youtubeGadget.loadVideoFromWave(makePlayerUneditable)
+  else
+    youtubeGadget.hideUrlEnterBox()
+  CURRENT_MODE = VIEW_MODE
 
 youtubeGadget.makePlayerEditable = ->
     videoStart = youtubeGadget.getVideoStartFromWave()
     videoEnd = youtubeGadget.getVideoEndFromWave()
     youtubeGadget.makeVideoResizable()
-    youtubeGadget.showStartAndEndButtons(videoStart, videoEnd)
+    youtubeGadget.makeStartEndTimeSettable(videoStart, videoEnd)
     youtubeGadget.adjustHeightOfGadget()
+
 
 makePlayerUneditable = ->
   youtubeGadget.makeVideoUnresizable()
   youtubeGadget.hideStartEndButtons()
   youtubeGadget.adjustHeightOfGadget()
 
-onClickOfEditButtonEnterEditMode()
-onClickOfDoneButtonEnterViewMode()
+reactToBlipModeChange()
