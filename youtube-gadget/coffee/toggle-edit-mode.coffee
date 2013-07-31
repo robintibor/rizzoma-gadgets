@@ -9,7 +9,6 @@ reactToBlipModeChange = ->
   wave.setModeCallback(youtubeGadget.enterCurrentMode)
   
 youtubeGadget.enterCurrentMode = ->
-  console.log("now changing mode from #{CURRENT_MODE} to #{wave.getMode()}")
   mode = wave.getMode()
   if (mode isnt CURRENT_MODE)
     enterNewMode(mode)
