@@ -1,6 +1,18 @@
 youtubeGadget = window.youtubeGadget || {}
 window.youtubeGadget = youtubeGadget
 
+
+youtubeGadget.makeStartEndTimeSettable = (startTime, endTime) ->
+  if (not startEndTimeSettable())
+    youtubeGadget.showStartAndEndButtons(startTime, endTime)
+    showTimesWhenTimeTextChanged()
+    saveTimesWhenTextFieldUnfocussed()
+    saveTimesWhenEnterPressedOnTextField()
+
+startEndTimeSettable = ->
+  # for now, just determine if start/endtime settable by visiblity of timebuttons
+  return $('.timeButtons').is(":visible")
+
 youtubeGadget.showStartAndEndButtons = (startTime, endTime) ->
   setTimesOfButtons(startTime, endTime)
   showTimeButtons()
@@ -149,9 +161,3 @@ saveTimesWhenEnterPressedOnTextField = ->
       event.preventDefault()
       saveEnteredEndTime()
   )
-
-youtubeGadget.makeStartEndTimeSettable = (startTime, endTime) ->
-  youtubeGadget.showStartAndEndButtons(startTime, endTime)
-  showTimesWhenTimeTextChanged()
-  saveTimesWhenTextFieldUnfocussed()
-  saveTimesWhenEnterPressedOnTextField()

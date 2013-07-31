@@ -6,18 +6,20 @@
   window.youtubeGadget = youtubeGadget;
 
   youtubeGadget.makeVideoResizable = function() {
-    $('#youtubePlayerWithButtons').addClass('youtubePlayerResizable');
-    return $('#youtubePlayerWithButtons').resizable({
-      aspectRatio: true,
-      alsoResize: "#youtubePlayer",
-      minWidth: 350,
-      resize: function(event, ui) {
-        return youtubeGadget.adjustHeightOfGadget();
-      },
-      stop: function(event, ui) {
-        return youtubeGadget.saveNewPlayerSizeToWave(ui.size);
-      }
-    });
+    if (!videoIsResizable()) {
+      $('#youtubePlayerWithButtons').addClass('youtubePlayerResizable');
+      return $('#youtubePlayerWithButtons').resizable({
+        aspectRatio: true,
+        alsoResize: "#youtubePlayer",
+        minWidth: 350,
+        resize: function(event, ui) {
+          return youtubeGadget.adjustHeightOfGadget();
+        },
+        stop: function(event, ui) {
+          return youtubeGadget.saveNewPlayerSizeToWave(ui.size);
+        }
+      });
+    }
   };
 
   youtubeGadget.makeVideoUnresizable = function() {

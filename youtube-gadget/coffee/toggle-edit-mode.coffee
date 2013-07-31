@@ -10,8 +10,7 @@ reactToBlipModeChange = ->
   
 youtubeGadget.enterCurrentMode = ->
   mode = wave.getMode()
-  if (mode isnt CURRENT_MODE)
-    enterNewMode(mode)
+  enterNewMode(mode)
 
 enterNewMode = (mode) ->
   if (mode == EDIT_MODE)
@@ -46,6 +45,7 @@ youtubeGadget.makePlayerEditable = ->
     youtubeGadget.makeVideoResizable()
     youtubeGadget.makeStartEndTimeSettable(videoStart, videoEnd)
     youtubeGadget.adjustHeightOfGadget()
+
 
 makePlayerUneditable = ->
   youtubeGadget.makeVideoUnresizable()

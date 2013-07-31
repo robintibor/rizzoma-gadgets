@@ -17,11 +17,8 @@
 
   youtubeGadget.enterCurrentMode = function() {
     var mode;
-    console.log("now changing mode from " + CURRENT_MODE + " to " + (wave.getMode()));
     mode = wave.getMode();
-    if (mode !== CURRENT_MODE) {
-      return enterNewMode(mode);
-    }
+    return enterNewMode(mode);
   };
 
   enterNewMode = function(mode) {

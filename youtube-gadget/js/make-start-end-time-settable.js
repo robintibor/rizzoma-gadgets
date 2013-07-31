@@ -1,10 +1,23 @@
 (function() {
-  var convertToSeconds, convertVideoSecondsToString, extractTimeFromString, extractTimeInSeconds, getCurrentPlayBackTime, getVideoLengthInSeconds, handleEndTimeTextChange, handleStartTimeTextChange, handleTimeTextChange, isTimeFormatCorrect, onClickStoreTimesToWave, pad, saveEnteredEndTime, saveEnteredStartTime, saveEnteredTime, saveTimesWhenEnterPressedOnTextField, saveTimesWhenTextFieldUnfocussed, setEndTimeOfButton, setStartTimeOfButton, setTimesOfButtons, showEnteredTime, showTimeButtons, showTimeEnteredWrongFormatMessage, showTimesWhenTimeTextChanged, youtubeGadget,
+  var convertToSeconds, convertVideoSecondsToString, extractTimeFromString, extractTimeInSeconds, getCurrentPlayBackTime, getVideoLengthInSeconds, handleEndTimeTextChange, handleStartTimeTextChange, handleTimeTextChange, isTimeFormatCorrect, onClickStoreTimesToWave, pad, saveEnteredEndTime, saveEnteredStartTime, saveEnteredTime, saveTimesWhenEnterPressedOnTextField, saveTimesWhenTextFieldUnfocussed, setEndTimeOfButton, setStartTimeOfButton, setTimesOfButtons, showEnteredTime, showTimeButtons, showTimeEnteredWrongFormatMessage, showTimesWhenTimeTextChanged, startEndTimeSettable, youtubeGadget,
     __slice = [].slice;
 
   youtubeGadget = window.youtubeGadget || {};
 
   window.youtubeGadget = youtubeGadget;
+
+  youtubeGadget.makeStartEndTimeSettable = function(startTime, endTime) {
+    if (!startEndTimeSettable()) {
+      youtubeGadget.showStartAndEndButtons(startTime, endTime);
+      showTimesWhenTimeTextChanged();
+      saveTimesWhenTextFieldUnfocussed();
+      return saveTimesWhenEnterPressedOnTextField();
+    }
+  };
+
+  startEndTimeSettable = function() {
+    return $('.timeButtons').is(":visible");
+  };
 
   youtubeGadget.showStartAndEndButtons = function(startTime, endTime) {
     setTimesOfButtons(startTime, endTime);
@@ -193,13 +206,6 @@
         return saveEnteredEndTime();
       }
     });
-  };
-
-  youtubeGadget.makeStartEndTimeSettable = function(startTime, endTime) {
-    youtubeGadget.showStartAndEndButtons(startTime, endTime);
-    showTimesWhenTimeTextChanged();
-    saveTimesWhenTextFieldUnfocussed();
-    return saveTimesWhenEnterPressedOnTextField();
   };
 
 }).call(this);
