@@ -32,7 +32,9 @@ youtubeGadget.enterEditMode = ->
   CURRENT_MODE = EDIT_MODE
 
 youtubeGadget.enterViewMode = ->
-  if (youtubeGadget.videoLoaded())
+  if (youtubeGadget.videoLoaded() and youtubeGadget.videoSyncedWithWave())
+    makePlayerUneditable()
+  else if (youtubeGadget.videoLoaded() and (not youtubeGadget.videoSyncedWithWave()))
     removeOldYoutubePlayer()
     youtubeGadget.loadVideoFromWave(makePlayerUneditable)
   else

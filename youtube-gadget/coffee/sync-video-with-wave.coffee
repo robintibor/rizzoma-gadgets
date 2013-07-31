@@ -54,5 +54,22 @@ youtubeGadget.storeStartTimeInWave = (startTime) ->
 
 youtubeGadget.storeEndTimeInWave = (endTime) ->
   wave.getState().submitValue("videoEnd", endTime)
+  
+youtubeGadget.videoSyncedWithWave = ->
+  videoStartTime = getVideoStartTime()
+  videoEndTime = getVideoEndTime()
+  return videoStartTime == youtubeGadget.getVideoStartFromWave() and videoEndTime == youtubeGadget.getVideoEndFromWave()
 
+getVideoStartTime = ->
+  if /start=([0-9]+)/.test(youtubeGadget.youtubePlayer.getIframe().src)
+    return parseInt(youtubeGadget.youtubePlayer.getIframe().src.match(/start=([0-9]+)/)[1])
+  else
+    return null
+  
+getVideoEndTime = ->
+  if /end=([0-9]+)/.test(youtubeGadget.youtubePlayer.getIframe().src)
+    return parseInt(youtubeGadget.youtubePlayer.getIframe().src.match(/end=([0-9]+)/)[1])
+  else
+    return null
+    
 wave.setStateCallback(tryToLoadVideoFromWave)

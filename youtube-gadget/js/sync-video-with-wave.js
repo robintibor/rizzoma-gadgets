@@ -1,5 +1,5 @@
 (function() {
-  var getVideoHeightFromWave, getVideoIdFromWave, getVideoWidthFromWave, tryToLoadVideoFromWave, videoIdStoredInWave, youtubeApiReady, youtubeGadget;
+  var getVideoEndTime, getVideoHeightFromWave, getVideoIdFromWave, getVideoStartTime, getVideoWidthFromWave, tryToLoadVideoFromWave, videoIdStoredInWave, youtubeApiReady, youtubeGadget;
 
   youtubeGadget = window.youtubeGadget || {};
 
@@ -73,6 +73,29 @@
 
   youtubeGadget.storeEndTimeInWave = function(endTime) {
     return wave.getState().submitValue("videoEnd", endTime);
+  };
+
+  youtubeGadget.videoSyncedWithWave = function() {
+    var videoEndTime, videoStartTime;
+    videoStartTime = getVideoStartTime();
+    videoEndTime = getVideoEndTime();
+    return videoStartTime === youtubeGadget.getVideoStartFromWave() && videoEndTime === youtubeGadget.getVideoEndFromWave();
+  };
+
+  getVideoStartTime = function() {
+    if (/start=([0-9]+)/.test(youtubeGadget.youtubePlayer.getIframe().src)) {
+      return parseInt(youtubeGadget.youtubePlayer.getIframe().src.match(/start=([0-9]+)/)[1]);
+    } else {
+      return null;
+    }
+  };
+
+  getVideoEndTime = function() {
+    if (/end=([0-9]+)/.test(youtubeGadget.youtubePlayer.getIframe().src)) {
+      return parseInt(youtubeGadget.youtubePlayer.getIframe().src.match(/end=([0-9]+)/)[1]);
+    } else {
+      return null;
+    }
   };
 
   wave.setStateCallback(tryToLoadVideoFromWave);

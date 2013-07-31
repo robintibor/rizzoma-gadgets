@@ -47,7 +47,9 @@
   };
 
   youtubeGadget.enterViewMode = function() {
-    if (youtubeGadget.videoLoaded()) {
+    if (youtubeGadget.videoLoaded() && youtubeGadget.videoSyncedWithWave()) {
+      makePlayerUneditable();
+    } else if (youtubeGadget.videoLoaded() && (!youtubeGadget.videoSyncedWithWave())) {
       removeOldYoutubePlayer();
       youtubeGadget.loadVideoFromWave(makePlayerUneditable);
     } else {
