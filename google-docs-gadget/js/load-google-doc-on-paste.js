@@ -1,5 +1,5 @@
 (function() {
-  var adjustHeightOfGadget, googleDocGadget, loadGoogleDocFromTextBox, loadGoogleDocOnEnter, loadGoogleDocOnPaste, removeTextField, setDocHeight, setIFrameSource, showIFrame, showIFrameAfterFocus, showIFrameAfterLoad, weAreUsingChrome;
+  var googleDocGadget, loadGoogleDocFromTextBox, loadGoogleDocOnEnter, loadGoogleDocOnPaste, removeTextField, setDocHeight, setIFrameSource, showIFrame, showIFrameAfterFocus, showIFrameAfterLoad, weAreUsingChrome;
 
   googleDocGadget = window.googleDocGadget || {};
 
@@ -107,13 +107,6 @@
 
   showIFrame = function() {
     $('#googleDocIFrame').show();
-    adjustHeightOfGadget();
-    if (!googleDocGadget.docIsResizable()) {
-      return googleDocGadget.makeDocResizable();
-    }
-  };
-
-  adjustHeightOfGadget = function() {
     return gadgets.window.adjustHeight();
   };
 

@@ -91,11 +91,6 @@ showIFrameAfterLoad = (timeOut) ->
 # can be called repeatedly without problems
 showIFrame = ->
   $('#googleDocIFrame').show()
-  adjustHeightOfGadget()
-  if (not googleDocGadget.docIsResizable())
-    googleDocGadget.makeDocResizable()
-
-adjustHeightOfGadget = ->
   gadgets.window.adjustHeight()
 
 # for loading at start if no url is present in wave (see sync with wave file)

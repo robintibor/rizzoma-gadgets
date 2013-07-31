@@ -16,6 +16,10 @@ body {
   height: 450px;
 }
 
+#googleDocDiv.ui-resizable {
+  margin-bottom: 25px;
+}
+
 #googleDocIFrame {
   height: 100%;
   width: 100%;
@@ -27,6 +31,19 @@ body {
   box-shadow: 3px 3px 3px #76A8D9;
 }
 
-.resizing #googleDocIFrame {
+.viewMode #googleDocIFrame {
   pointer-events: none;
 }
+
+/* in edit mode google doc shoudl be in resizable div */
+.editMode #googleDocIFrame {
+  pointer-events: auto;
+}
+
+/* for proper resizing ignore mousein/mouseout into iframe on reisze */
+
+.editMode .resizing #googleDocIFrame {
+  pointer-events: none;
+}
+
+

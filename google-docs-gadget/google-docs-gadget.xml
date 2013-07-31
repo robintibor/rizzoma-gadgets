@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/themes/base/jquery-ui.css" type="text/css"/>
     <link rel="stylesheet" type="text/css" href="https://c9.io/robintibor/rizzoma-gadget/workspace/google-docs-gadget/css/google-docs-gadget.css"/>
   </head>
-  <body>
+  <body class="viewMode">
     <input id="googleDocUrlText" type="text" placeholder="Enter Google Doc URL Here..."/>
     <div id="googleDocDiv">
       <iframe id='googleDocIFrame' frameborder='0'> </iframe>
@@ -20,6 +20,7 @@
     <script src="https://c9.io/robintibor/rizzoma-gadget/workspace/google-docs-gadget/js/load-google-doc-on-paste.js"></script>
     <script src="https://c9.io/robintibor/rizzoma-gadget/workspace/google-docs-gadget/js/sync-google-doc-url-with-wave.js"></script>
     <script src="https://c9.io/robintibor/rizzoma-gadget/workspace/google-docs-gadget/js/make-google-doc-resizable.js"></script>
+    <script src="https://c9.io/robintibor/rizzoma-gadget/workspace/google-docs-gadget/js/toggle-edit-view-mode.js"></script>
   </body>
 ]]>
 </Content>
