@@ -83,7 +83,7 @@
   };
 
   getVideoStartTime = function() {
-    if (/start=([0-9]+)/.test(youtubeGadget.youtubePlayer.getIframe().src)) {
+    if ((youtubeGadget.youtubePlayer.getIframe != null) && /start=([0-9]+)/.test(youtubeGadget.youtubePlayer.getIframe().src)) {
       return parseInt(youtubeGadget.youtubePlayer.getIframe().src.match(/start=([0-9]+)/)[1]);
     } else {
       return null;
@@ -91,7 +91,7 @@
   };
 
   getVideoEndTime = function() {
-    if (/end=([0-9]+)/.test(youtubeGadget.youtubePlayer.getIframe().src)) {
+    if ((youtubeGadget.youtubePlayer.getIframe != null) && /end=([0-9]+)/.test(youtubeGadget.youtubePlayer.getIframe().src)) {
       return parseInt(youtubeGadget.youtubePlayer.getIframe().src.match(/end=([0-9]+)/)[1]);
     } else {
       return null;

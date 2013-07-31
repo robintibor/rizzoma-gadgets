@@ -61,13 +61,15 @@ youtubeGadget.videoSyncedWithWave = ->
   return videoStartTime == youtubeGadget.getVideoStartFromWave() and videoEndTime == youtubeGadget.getVideoEndFromWave()
 
 getVideoStartTime = ->
-  if /start=([0-9]+)/.test(youtubeGadget.youtubePlayer.getIframe().src)
+  # Acrtionscrit player does not have getIfrae, for now ignoring this case
+  if youtubeGadget.youtubePlayer.getIframe? and /start=([0-9]+)/.test(youtubeGadget.youtubePlayer.getIframe().src)
     return parseInt(youtubeGadget.youtubePlayer.getIframe().src.match(/start=([0-9]+)/)[1])
   else
     return null
   
 getVideoEndTime = ->
-  if /end=([0-9]+)/.test(youtubeGadget.youtubePlayer.getIframe().src)
+  # Actionscript player does not have getIfrae, for now ignoring this case
+  if youtubeGadget.youtubePlayer.getIframe? and /end=([0-9]+)/.test(youtubeGadget.youtubePlayer.getIframe().src)
     return parseInt(youtubeGadget.youtubePlayer.getIframe().src.match(/end=([0-9]+)/)[1])
   else
     return null
