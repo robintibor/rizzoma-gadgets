@@ -127,22 +127,28 @@ extractTimeFromString = (timeString) ->
 showTimeEnteredWrongFormatMessage = (element) ->
   element.text("Use hh:mm:ss")
   
-  
 saveTimesWhenTextFieldUnfocussed = ->
   $('#startTimeText').on('blur', saveEnteredStartTime)
   $('#endTimeText').on('blur', saveEnteredEndTime)
 
 saveEnteredStartTime = ->
-  saveEnteredTime($('#startTimeText'), $('#startTimeFeedback'), youtubeGadget.storeStartTimeInWave)
+  saveEnteredTime($('#startTimeText'), $('#startTimeFeedback'),
+    youtubeGadget.getVideoStartFromWave, youtubeGadget.storeStartTimeInWave)
 
 saveEnteredEndTime = ->
-  saveEnteredTime($('#endTimeText'), $('#endTimeFeedback'), youtubeGadget.storeEndTimeInWave)
+  saveEnteredTime($('#endTimeText'), $('#endTimeFeedback'), 
+    youtubeGadget.getVideoEndFromWave, youtubeGadget.storeEndTimeInWave)
   
-saveEnteredTime = (inputElement, feedbackElement, storeFunction) ->
+saveEnteredTime = (inputElement, feedbackElement, getFunction, storeFunction) ->
+  # check whether entered timestirng is a correct timestring
+  # and whether entered time is actually different froms tored time
+  # if yes, store it
   if (isTimeFormatCorrect(inputElement.text()))
-    timeInSeconds = extractTimeInSeconds(inputElement.text())
-    storeFunction(timeInSeconds)
-    feedbackElement.text("Saved")
+    enteredTimeInSeconds = extractTimeInSeconds(inputElement.text())
+    storedTimeInSeconds = getFunction()
+    if (enteredTimeInSeconds != storedTimeInSeconds)
+      storeFunction(enteredTimeInSeconds)
+      feedbackElement.text("Saved")
 
 convertToSeconds = (hoursMinutesAndSeconds) ->
   return hoursMinutesAndSeconds.hours * 3600 + hoursMinutesAndSeconds.minutes * 60 + 

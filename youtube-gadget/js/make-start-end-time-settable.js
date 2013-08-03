@@ -169,19 +169,22 @@
   };
 
   saveEnteredStartTime = function() {
-    return saveEnteredTime($('#startTimeText'), $('#startTimeFeedback'), youtubeGadget.storeStartTimeInWave);
+    return saveEnteredTime($('#startTimeText'), $('#startTimeFeedback'), youtubeGadget.getVideoStartFromWave, youtubeGadget.storeStartTimeInWave);
   };
 
   saveEnteredEndTime = function() {
-    return saveEnteredTime($('#endTimeText'), $('#endTimeFeedback'), youtubeGadget.storeEndTimeInWave);
+    return saveEnteredTime($('#endTimeText'), $('#endTimeFeedback'), youtubeGadget.getVideoEndFromWave, youtubeGadget.storeEndTimeInWave);
   };
 
-  saveEnteredTime = function(inputElement, feedbackElement, storeFunction) {
-    var timeInSeconds;
+  saveEnteredTime = function(inputElement, feedbackElement, getFunction, storeFunction) {
+    var enteredTimeInSeconds, storedTimeInSeconds;
     if (isTimeFormatCorrect(inputElement.text())) {
-      timeInSeconds = extractTimeInSeconds(inputElement.text());
-      storeFunction(timeInSeconds);
-      return feedbackElement.text("Saved");
+      enteredTimeInSeconds = extractTimeInSeconds(inputElement.text());
+      storedTimeInSeconds = getFunction();
+      if (enteredTimeInSeconds !== storedTimeInSeconds) {
+        storeFunction(enteredTimeInSeconds);
+        return feedbackElement.text("Saved");
+      }
     }
   };
 
