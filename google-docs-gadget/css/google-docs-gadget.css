@@ -31,15 +31,6 @@ body {
   box-shadow: 3px 3px 3px #76A8D9;
 }
 
-.viewMode #googleDocIFrame {
-  pointer-events: none;
-}
-
-/* in edit mode google doc shoudl be in resizable div */
-.editMode #googleDocIFrame {
-  pointer-events: auto;
-}
-
 /* for proper resizing ignore mousein/mouseout into iframe on reisze */
 
 .editMode .resizing #googleDocIFrame {
