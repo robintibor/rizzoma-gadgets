@@ -1,5 +1,4 @@
 (function() {
-
   jQuery(document).ready(function($) {
     var createPlayerVariables, extractYoutubeVideoId, giveWrongUrlWarning, loadYoutubePlayerByUrlInTextBox, loadYoutubePlayerFromVideoIdAndMakeEditable, loadYoutubeUrlOnEnter, loadYoutubeUrlOnPaste, removeTextField, urlIsYoutubeVideo, youtubeGadget, youtubePlayer;
     youtubeGadget = window.youtubeGadget || {};
@@ -80,7 +79,10 @@
     };
     createPlayerVariables = function(videoStart, videoEnd) {
       var playerVariables;
-      playerVariables = {};
+      playerVariables = {
+        modestbranding: 1,
+        rel: 0
+      };
       if (videoStart != null) {
         playerVariables.start = videoStart;
       }

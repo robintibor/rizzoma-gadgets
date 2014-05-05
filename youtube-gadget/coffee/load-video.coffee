@@ -69,7 +69,10 @@ jQuery(document).ready(($) ->
       )
 
   createPlayerVariables = (videoStart, videoEnd) ->
-    playerVariables = {}
+    playerVariables = {
+        modestbranding: 1,
+        rel: 0 # do not show related videos when video has finished playing
+    } 
     if videoStart?
       playerVariables.start = videoStart
     if videoEnd?
