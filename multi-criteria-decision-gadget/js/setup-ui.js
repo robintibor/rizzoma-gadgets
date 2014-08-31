@@ -11,7 +11,7 @@
     console.log("criterias", criterias);
     console.log("votes", votes);
     addTableHeader(options);
-    return addTableBody(criterias, options.length);
+    return addTableBody(criterias, Object.keys(options).length);
   };
 
   addTableHeader = function(options) {
@@ -30,13 +30,15 @@
   addTableBody = function(criterias, numberOfOptions) {
     var criterionId, criterionName, i, tableBody, tableRow, _i;
     tableBody = $("<tbody></tbody>");
+    console.log("number of options", numberOfOptions);
     for (criterionId in criterias) {
       if (!__hasProp.call(criterias, criterionId)) continue;
       criterionName = criterias[criterionId];
       tableRow = $('<tr></tr>');
       tableRow.append("<td contenteditable = 'true'>" + criterionName + "</td>");
       for (i = _i = 0; 0 <= numberOfOptions ? _i < numberOfOptions : _i > numberOfOptions; i = 0 <= numberOfOptions ? ++_i : --_i) {
-        tableRow.append("<td><div class='slider'></div><div class='slider-value'></div></td>");
+        console.log("appending slider cell");
+        tableRow.append("<td><div class='slider'></div><div class='slider-value'>0</div></td>");
       }
       tableBody.append(tableRow);
     }

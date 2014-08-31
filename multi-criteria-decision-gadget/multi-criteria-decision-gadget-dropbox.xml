@@ -7,7 +7,7 @@
 <![CDATA[
   <head>
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/themes/base/jquery-ui.css" type="text/css"/>
-    <link rel="stylesheet" href="https://preview.c9.io/robintibor/rizzoma-gadget/multi-criteria-decision-gadget/css/gadget.css?_c9_id=livepreview0&_c9_host=https://ide.c9.io" type="text/css"/>
+    <link rel="stylesheet" href="https://dl.dropboxusercontent.com/u/34637013/publish/rizzoma-gadgets-testversions/multi-criteria-decision-gadget/css/gadget.css" type="text/css"/>
   </head>
   <body>
     <table id="decision-table">
@@ -28,9 +28,12 @@
     
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.0/jquery-ui.min.js"></script>
-    <script src="https://preview.c9.io/robintibor/rizzoma-gadget/multi-criteria-decision-gadget/js/sync-state.js?_c9_id=livepreview0&_c9_host=https://ide.c9.io"></script>
-    <script src="https://preview.c9.io/robintibor/rizzoma-gadget/multi-criteria-decision-gadget/js/setup-ui.js?_c9_id=livepreview0&_c9_host=https://ide.c9.io"></script>
-    <script src="https://preview.c9.io/robintibor/rizzoma-gadget/multi-criteria-decision-gadget/js/controller.js?_c9_id=livepreview0&_c9_host=https://ide.c9.io"></script>
+    <script src="https://dl.dropboxusercontent.com/u/34637013/publish/rizzoma-gadgets-testversions/multi-criteria-decision-gadget/js/sync-state.js"></script>
+    <script src="https://dl.dropboxusercontent.com/u/34637013/publish/rizzoma-gadgets-testversions/multi-criteria-decision-gadget/js/setup-ui.js"></script>
+    <script src="https://dl.dropboxusercontent.com/u/34637013/publish/rizzoma-gadgets-testversions/multi-criteria-decision-gadget/js/controller.js"></script>
+
+    
+    
   </body>
 ]]>
 </Content>

@@ -1,0 +1,12 @@
+.ui-slider {
+width:100px;
+}
+.ui-slider .ui-slider-handle {
+    width: 1em;
+    height: 1em;
+    top: -15%;
+    margin-left: -15%;
+}
+tbody tr td:first-child {
+    padding-right: 15px;
+}

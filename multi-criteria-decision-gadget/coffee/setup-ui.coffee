@@ -6,7 +6,7 @@ mcdgadget.createTableInUI = (options, criterias, votes) ->
     console.log("criterias", criterias)
     console.log("votes", votes)
     addTableHeader(options)
-    addTableBody(criterias, options.length)
+    addTableBody(criterias, Object.keys(options).length)
 
 addTableHeader = (options) ->
     tableHeader = $("<thead><tr><th></th></tr></thead>")
@@ -21,11 +21,13 @@ addTableHeader = (options) ->
     
 addTableBody = (criterias, numberOfOptions) ->
     tableBody = $("<tbody></tbody>")
+    console.log("number of options", numberOfOptions)
     for own criterionId, criterionName of criterias
         tableRow = $('<tr></tr>')
         tableRow.append("<td contenteditable = 'true'>#{criterionName}</td>")
         for i in [0...numberOfOptions]
-            tableRow.append("<td><div class='slider'></div><div class='slider-value'></div></td>")
+            console.log("appending slider cell")
+            tableRow.append("<td><div class='slider'></div><div class='slider-value'>0</div></td>")
     
         tableBody.append(tableRow)
     
