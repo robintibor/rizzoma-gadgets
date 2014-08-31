@@ -5,12 +5,12 @@ criteriaIdToName = {}
 tableCreatedBefore = false
 
 handleNewState = () ->
-    console.log("hi, this is a new state")
     if (not stateIsEmpty())
         if (tableCreatedBefore)
             updateTable()
         else
             createTable()
+            tableCreatedBefore = true
     else
         createFirstState()
 
@@ -19,7 +19,7 @@ stateIsEmpty = ->
 
 createFirstState = () ->
     firstState = {
-        crit_1: "First Criterion",
+        crit_1: "First Criterion", crit_2: "Second Criterion",
         opt_1: "First Option",
     }
     wave.getState().submitDelta(firstState)
@@ -27,5 +27,22 @@ createFirstState = () ->
 createTable = ->
     state = wave.getState()
     mcdgadget.createTable(state)
+
+updateTable = ->
+    state = wave.getState()
+    mcdgadget.updateTable(state)
+
+mcdgadget.updateVote = (criterionAndOption, newValue) ->
+    userId = wave.getViewer().getId()
+    if (not userInfoStored(userId))
+        storeUserInfo(userId)
+    wave.getState().submitValue("#{userId}|#{criterionAndOption}", newValue)
+
+userInfoStored = (userId) ->
+    return wave.getState().get(userId)?
+
+storeUserInfo = (userId) ->
+    userName = wave.getParticipantById(userId).getDisplayName()
+    wave.getState().submitValue(userId, userName)
 
 wave.setStateCallback(handleNewState)

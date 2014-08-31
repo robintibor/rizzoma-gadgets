@@ -11,26 +11,14 @@
   </head>
   <body>
     <table id="decision-table">
-    <!--
-        <thead>
-            <tr><th></th><th contenteditable="true">Option A</th></tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td contenteditable="true">Criteria A</td>
-                <td>
-                    <div class="slider"></div> 
-                    <div class="slider-value">0</div>
-                </td>
-            </tr>
-        </tbody> -->
     </table>
     
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.0/jquery-ui.min.js"></script>
-    <script src="https://dl.dropboxusercontent.com/u/34637013/publish/rizzoma-gadgets-testversions/multi-criteria-decision-gadget/js/sync-state.js"></script>
     <script src="https://dl.dropboxusercontent.com/u/34637013/publish/rizzoma-gadgets-testversions/multi-criteria-decision-gadget/js/setup-ui.js"></script>
     <script src="https://dl.dropboxusercontent.com/u/34637013/publish/rizzoma-gadgets-testversions/multi-criteria-decision-gadget/js/controller.js"></script>
+    <script src="https://dl.dropboxusercontent.com/u/34637013/publish/rizzoma-gadgets-testversions/multi-criteria-decision-gadget/js/setup-events.js"></script>
+    <script src="https://dl.dropboxusercontent.com/u/34637013/publish/rizzoma-gadgets-testversions/multi-criteria-decision-gadget/js/sync-state.js"></script>
 
     
     

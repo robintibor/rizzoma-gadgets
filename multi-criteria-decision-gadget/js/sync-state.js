@@ -1,5 +1,5 @@
 (function() {
-  var createFirstState, createTable, criteriaIdToName, handleNewState, mcdgadget, stateIsEmpty, tableCreatedBefore;
+  var createFirstState, createTable, criteriaIdToName, handleNewState, mcdgadget, stateIsEmpty, storeUserInfo, tableCreatedBefore, updateTable, userInfoStored;
 
   window.mcdgadget = window.mcdgadget || {};
 
@@ -10,12 +10,12 @@
   tableCreatedBefore = false;
 
   handleNewState = function() {
-    console.log("hi, this is a new state");
     if (!stateIsEmpty()) {
       if (tableCreatedBefore) {
         return updateTable();
       } else {
-        return createTable();
+        createTable();
+        return tableCreatedBefore = true;
       }
     } else {
       return createFirstState();
@@ -30,6 +30,7 @@
     var firstState;
     firstState = {
       crit_1: "First Criterion",
+      crit_2: "Second Criterion",
       opt_1: "First Option"
     };
     return wave.getState().submitDelta(firstState);
@@ -39,6 +40,31 @@
     var state;
     state = wave.getState();
     return mcdgadget.createTable(state);
+  };
+
+  updateTable = function() {
+    var state;
+    state = wave.getState();
+    return mcdgadget.updateTable(state);
+  };
+
+  mcdgadget.updateVote = function(criterionAndOption, newValue) {
+    var userId;
+    userId = wave.getViewer().getId();
+    if (!userInfoStored(userId)) {
+      storeUserInfo(userId);
+    }
+    return wave.getState().submitValue("" + userId + "|" + criterionAndOption, newValue);
+  };
+
+  userInfoStored = function(userId) {
+    return wave.getState().get(userId) != null;
+  };
+
+  storeUserInfo = function(userId) {
+    var userName;
+    userName = wave.getParticipantById(userId).getDisplayName();
+    return wave.getState().submitValue(userId, userName);
   };
 
   wave.setStateCallback(handleNewState);

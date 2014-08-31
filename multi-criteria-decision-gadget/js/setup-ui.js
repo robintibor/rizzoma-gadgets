@@ -1,5 +1,5 @@
 (function() {
-  var addTableBody, addTableHeader, mcdgadget,
+  var addTableBody, addTableHeader, addVotes, mcdgadget,
     __hasProp = {}.hasOwnProperty;
 
   window.mcdgadget = window.mcdgadget || {};
@@ -7,18 +7,15 @@
   mcdgadget = window.mcdgadget;
 
   mcdgadget.createTableInUI = function(options, criterias, votes) {
-    console.log("options", options);
-    console.log("criterias", criterias);
-    console.log("votes", votes);
     addTableHeader(options);
-    return addTableBody(criterias, Object.keys(options).length);
+    addTableBody(criterias, options);
+    return addVotes(votes);
   };
 
   addTableHeader = function(options) {
     var optionId, optionName, tableHeader, tableRow;
     tableHeader = $("<thead><tr><th></th></tr></thead>");
     tableRow = tableHeader.find('tr');
-    console.log(tableRow);
     for (optionId in options) {
       if (!__hasProp.call(options, optionId)) continue;
       optionName = options[optionId];
@@ -27,18 +24,18 @@
     return $('#decision-table').append(tableHeader);
   };
 
-  addTableBody = function(criterias, numberOfOptions) {
-    var criterionId, criterionName, i, tableBody, tableRow, _i;
+  addTableBody = function(criterias, options) {
+    var criterionId, criterionName, optionId, optionName, tableBody, tableRow;
     tableBody = $("<tbody></tbody>");
-    console.log("number of options", numberOfOptions);
     for (criterionId in criterias) {
       if (!__hasProp.call(criterias, criterionId)) continue;
       criterionName = criterias[criterionId];
       tableRow = $('<tr></tr>');
-      tableRow.append("<td contenteditable = 'true'>" + criterionName + "</td>");
-      for (i = _i = 0; 0 <= numberOfOptions ? _i < numberOfOptions : _i > numberOfOptions; i = 0 <= numberOfOptions ? ++_i : --_i) {
-        console.log("appending slider cell");
-        tableRow.append("<td><div class='slider'></div><div class='slider-value'>0</div></td>");
+      tableRow.append("<th contenteditable = 'true'>" + criterionName + "</th>");
+      for (optionId in options) {
+        if (!__hasProp.call(options, optionId)) continue;
+        optionName = options[optionId];
+        tableRow.append("<td data-criterion-option-id='" + criterionId + "|" + optionId + "'>                <div class='average-vote'>0</div>                <div class='slider-container'><div class='slider'></div><div class='slider-value'>0</div></div></td>");
       }
       tableBody.append(tableRow);
     }
@@ -47,31 +44,30 @@
       min: -5,
       max: 5,
       slide: function(event, ui) {
-        return $(".slider-value").text(ui.value);
+        return $(event.target).next().text(ui.value);
       }
     });
     return $('#decision-table').append(tableBody);
-    /*"<tbody>
-            <tr>
-                <td contenteditable="true">Criteria A</td>
-                <td>
-                    <div class="slider"></div> 
-                    <div class="slider-value">0</div>
-                </td>
-            </tr>
-        </tbody>
-    "
-    */
-
   };
 
-  $('.slider').slider({
-    value: 0,
-    min: -5,
-    max: 5,
-    slide: function(event, ui) {
-      return $(".slider-value").text(ui.value);
+  addVotes = function(votes) {
+    var criterionOptionId, hueValue, table, tableCell, voteData, _results;
+    table = $('#decision-table');
+    _results = [];
+    for (criterionOptionId in votes) {
+      if (!__hasProp.call(votes, criterionOptionId)) continue;
+      voteData = votes[criterionOptionId];
+      tableCell = table.find("td[data-criterion-option-id='" + criterionOptionId + "']");
+      tableCell.find('.average-vote').text(voteData.averageVote);
+      hueValue = 180 + ((60 * -voteData.averageVote) / 5);
+      tableCell.css('background-color', "hsla(" + hueValue + ", 100%, 50%, 0.6)");
+      _results.push(tableCell.css('color', "hsla(" + hueValue + ", 70%, 25%, 1)"));
     }
-  });
+    return _results;
+  };
+
+  mcdgadget.updateTableInUI = function(criterias, options, votes) {
+    return addVotes(votes);
+  };
 
 }).call(this);

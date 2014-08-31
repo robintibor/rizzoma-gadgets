@@ -1,0 +1,21 @@
+<html>
+<head>
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/themes/base/jquery-ui.css" type="text/css"/>
+    <link rel="stylesheet" href="../css/gadget.css" type="text/css"/>
+</head>
+<body>
+    <table id="decision-table"></table>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.0/jquery-ui.min.js"></script>
+    <script src="../js/setup-ui.js"></script>
+    <script type="text/javascript">
+        var options = { opt_1: "First Option", opt_2:"Second Option"};
+        var criteria = {crit_1: "First Criterion", crit_2: "Second Criterion"};
+        var votes = {'crit_1|opt_1': {averageVote: 3.7},
+            'crit_1|opt_2': {averageVote: -3.2},            
+            'crit_2|opt_2': {averageVote: 5},        
+            };
+        window.mcdgadget.createTableInUI(options, criteria, votes);
+    </script>
+</body>
+</html>
