@@ -1,0 +1,54 @@
+<Module>
+<ModulePrefs title="Youtube Gadget">
+<Require feature="wave"/>
+<Require feature="dynamic-height"/>
+</ModulePrefs>
+<Content type="html">
+<![CDATA[
+  <head>
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/themes/base/jquery-ui.css" type="text/css"/>
+    <!--<link rel="stylesheet" href="https://c9.io/robintibor/rizzoma-gadget/workspace/youtube-gadget/css/youtube-gadget.css" type="text/css"/>-->
+    <style>
+      .ui-slider {
+        width:100px;
+      }
+        .ui-slider .ui-slider-handle {
+            width: 1em;
+            height: 1em;
+            top: -15%;
+            margin-left: -15%;
+        }
+        tbody tr td:first-child {
+            padding-right: 15px;
+        }
+    </style>
+  </head>
+  <body>
+    <table id="decision-table">
+    <!--
+        <thead>
+            <tr><th></th><th contenteditable="true">Option A</th></tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td contenteditable="true">Criteria A</td>
+                <td>
+                    <div class="slider"></div> 
+                    <div class="slider-value">0</div>
+                </td>
+            </tr>
+        </tbody> -->
+    </table>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.0/jquery-ui.min.js"></script>
+    <script src="https://preview.c9.io/robintibor/rizzoma-gadget/multi-criteria-decision-gadget/js/sync-state.js?_c9_id=livepreview0&_c9_host=https://ide.c9.io"></script>
+    <script src="https://preview.c9.io/robintibor/rizzoma-gadget/multi-criteria-decision-gadget/js/setup-ui.js?_c9_id=livepreview0&_c9_host=https://ide.c9.io"></script>
+    <script src="https://preview.c9.io/robintibor/rizzoma-gadget/multi-criteria-decision-gadget/js/controller.js?_c9_id=livepreview0&_c9_host=https://ide.c9.io"></script>
+
+    
+    
+  </body>
+]]>
+</Content>
+</Module>

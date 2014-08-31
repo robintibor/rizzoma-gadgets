@@ -1,14 +1,19 @@
 (function() {
-  var $, filterCssFilesByUrl, filterScriptsByUrl, findCssTags, findScriptTags, fs, mapHTMLTagsToFileContents, readInlineReplacementsForCssFiles, readInlineReplacementsForScripts, replaceScriptAndCssTagsByInliningInFile,
+  var $, filterCssFilesByUrl, filterScriptsByUrl, findCssTags, findScriptTags, fs, jsdom, mapHTMLTagsToFileContents, readInlineReplacementsForCssFiles, readInlineReplacementsForScripts, replaceScriptAndCssTagsByInliningInFile,
     __hasProp = {}.hasOwnProperty;
 
   fs = require('fs');
 
-  $ = require('jquery');
+  jsdom = require("jsdom").jsdom;
+
+  $ = null;
 
   replaceScriptAndCssTagsByInliningInFile = function(fileName, urlPrefix) {
-    var cssFileContent, cssFileReplacements, cssFileTag, cssMatches, cssMatchesToReplace, fileContent, scriptFileContent, scriptMatches, scriptMatchesToReplace, scriptReplacements, scriptTag;
+    var cssFileContent, cssFileReplacements, cssFileTag, cssMatches, cssMatchesToReplace, doc, fileContent, scriptFileContent, scriptMatches, scriptMatchesToReplace, scriptReplacements, scriptTag, window;
     fileContent = fs.readFileSync(fileName, 'utf-8');
+    doc = jsdom(fileContent);
+    window = doc.parentWindow;
+    $ = require('jquery')(window);
     scriptMatches = findScriptTags(fileContent);
     cssMatches = findCssTags(fileContent);
     scriptMatchesToReplace = filterScriptsByUrl(scriptMatches, urlPrefix);
@@ -68,7 +73,7 @@
     for (_i = 0, _len = htmlTags.length; _i < _len; _i++) {
       htmlTag = htmlTags[_i];
       fileUrl = $(htmlTag).attr(attribute);
-      relativeFileName = fileUrl.match(/\/rizzoma-gadgets\/(.*)/)[1];
+      relativeFileName = fileUrl.match(/\/rizzoma-gadget[s]{0,1}\/([^?#]*)/)[1];
       fileContent = fs.readFileSync(relativeFileName, 'utf-8');
       filesToContents[htmlTag] = fileContent;
     }

@@ -1,8 +1,12 @@
 fs = require('fs')
-$ = require('jquery')
+jsdom = require("jsdom").jsdom; 
+$ = null
 
 replaceScriptAndCssTagsByInliningInFile = (fileName, urlPrefix) ->
   fileContent = fs.readFileSync(fileName, 'utf-8')
+  doc = jsdom(fileContent);
+  window = doc.parentWindow;
+  $ = require('jquery')(window)
   scriptMatches = findScriptTags(fileContent)
   cssMatches = findCssTags(fileContent)
   scriptMatchesToReplace =  filterScriptsByUrl(scriptMatches, urlPrefix)
