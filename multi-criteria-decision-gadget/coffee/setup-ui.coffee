@@ -5,6 +5,7 @@ mcdgadget.createTableInUI = (options, criterias, votes) ->
     addTableHeader(options)
     addTableBody(criterias, options)
     addVotes(votes)
+    gadgets.window.adjustHeight()
 
 addTableHeader = (options) ->
     tableHeader = $("<thead><tr><th></th></tr></thead>")

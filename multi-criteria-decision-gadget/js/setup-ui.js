@@ -9,7 +9,8 @@
   mcdgadget.createTableInUI = function(options, criterias, votes) {
     addTableHeader(options);
     addTableBody(criterias, options);
-    return addVotes(votes);
+    addVotes(votes);
+    return gadgets.window.adjustHeight();
   };
 
   addTableHeader = function(options) {
