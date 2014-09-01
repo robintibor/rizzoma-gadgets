@@ -44,7 +44,7 @@ addVotes = (votes) ->
     table = $('#decision-table')
     for own criterionOptionId, voteData of votes
         tableCell = table.find("td[data-criterion-option-id='#{criterionOptionId}']")
-        tableCell.find('.average-vote').text(voteData.averageVote)
+        tableCell.find('.average-vote').text(+voteData.averageVote.toFixed(1))
         # hue scale goes from +5(blue) at 240 to -5 (red) at 360 
         hueValue = 180 + ((60 * -voteData.averageVote) / 5) 
         tableCell.css('background-color', "hsla(#{hueValue}, 100%, 50%, 0.6)")

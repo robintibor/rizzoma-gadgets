@@ -59,7 +59,7 @@
       if (!__hasProp.call(votes, criterionOptionId)) continue;
       voteData = votes[criterionOptionId];
       tableCell = table.find("td[data-criterion-option-id='" + criterionOptionId + "']");
-      tableCell.find('.average-vote').text(voteData.averageVote);
+      tableCell.find('.average-vote').text(+voteData.averageVote.toFixed(1));
       hueValue = 180 + ((60 * -voteData.averageVote) / 5);
       tableCell.css('background-color', "hsla(" + hueValue + ", 100%, 50%, 0.6)");
       _results.push(tableCell.css('color', "hsla(" + hueValue + ", 70%, 25%, 1)"));
