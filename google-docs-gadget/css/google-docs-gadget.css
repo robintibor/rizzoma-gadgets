@@ -11,6 +11,15 @@ body {
   margin-left: 10px;
 }
 
+#newTabDiv {
+  display:none;
+  text-align: right;
+  padding: 2px;
+}
+
+#newTabLink {
+  color: #3184d6;
+}
 
 #googleDocDiv {
   height: 450px;

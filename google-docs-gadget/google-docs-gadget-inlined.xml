@@ -1,0 +1,471 @@
+<Module>
+<ModulePrefs title="Google Docs Gadget" height="60">
+<Require feature="wave"/>
+<Require feature="dynamic-height"/>
+</ModulePrefs>
+<Content type="html">
+<![CDATA[
+  <head>
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/themes/base/jquery-ui.css" type="text/css"/>
+    <!--<link rel="stylesheet" type="text/css" href="https://preview.c9users.io/robintibor/rizzoma-gadget/workspace/google-docs-gadget/css/google-docs-gadget.css"/>-->
+    <style type='text/css'>
+    body {
+  overflow-x: scroll;
+}
+
+#googleDocUrlText {
+  display:none; /* just for the start until doc has been loaded from wave or not */
+  font-size: 20px;
+  padding: 15px;
+  text-align: center;
+  width: 25em;
+  margin-left: 10px;
+}
+
+#newTabDiv {
+  display:none;
+  text-align: right;
+  padding: 2px;
+}
+
+#newTabLink {
+  color: #3184d6;
+}
+
+#googleDocDiv {
+  height: 450px;
+}
+
+#googleDocDiv.ui-resizable {
+  margin-bottom: 25px;
+}
+
+#googleDocIFrame {
+  height: 100%;
+  width: 100%;
+  display:none;
+}
+
+.ui-resizable-handle {
+  background-color: #64a8eb;
+  box-shadow: 3px 3px 3px #76A8D9;
+}
+
+/* for proper resizing ignore mousein/mouseout into iframe on reisze */
+
+.editMode .resizing #googleDocIFrame {
+  pointer-events: none;
+}
+
+
+
+    </style>
+  </head>
+  <body class="viewMode">
+    <input id="googleDocUrlText" type="text" placeholder="Enter Google Doc URL Here..."/>
+    
+    <div id="newTabDiv"> <a id="newTabLink" target="_blank">Open in new tab</a> </div>
+
+    <div id="googleDocDiv">
+      <iframe id='googleDocIFrame' frameborder='0'> </iframe>
+    </div>
+    <!--<script src="https://preview.c9users.io/robintibor/rizzoma-gadget/workspace/google-docs-gadget/js/lib/browser-detect.js"></script>-->
+    <script type='text/javascript'>
+    var BrowserDetect = {
+  init: function () {
+		this.browser = this.searchString(this.dataBrowser) || "An unknown browser";
+		this.version = this.searchVersion(navigator.userAgent)
+			|| this.searchVersion(navigator.appVersion)
+			|| "an unknown version";
+		this.OS = this.searchString(this.dataOS) || "an unknown OS";
+	},
+	searchString: function (data) {
+		for (var i=0;i<data.length;i++)	{
+			var dataString = data[i].string;
+			var dataProp = data[i].prop;
+			this.versionSearchString = data[i].versionSearch || data[i].identity;
+			if (dataString) {
+				if (dataString.indexOf(data[i].subString) != -1)
+					return data[i].identity;
+			}
+			else if (dataProp)
+				return data[i].identity;
+		}
+	},
+	searchVersion: function (dataString) {
+		var index = dataString.indexOf(this.versionSearchString);
+		if (index == -1) return;
+		return parseFloat(dataString.substring(index+this.versionSearchString.length+1));
+	},
+	dataBrowser: [
+		{
+			string: navigator.userAgent,
+			subString: "Chrome",
+			identity: "Chrome"
+		},
+		{ 	string: navigator.userAgent,
+			subString: "OmniWeb",
+			versionSearch: "OmniWeb/",
+			identity: "OmniWeb"
+		},
+		{
+			string: navigator.vendor,
+			subString: "Apple",
+			identity: "Safari",
+			versionSearch: "Version"
+		},
+		{
+			prop: window.opera,
+			identity: "Opera",
+			versionSearch: "Version"
+		},
+		{
+			string: navigator.vendor,
+			subString: "iCab",
+			identity: "iCab"
+		},
+		{
+			string: navigator.vendor,
+			subString: "KDE",
+			identity: "Konqueror"
+		},
+		{
+			string: navigator.userAgent,
+			subString: "Firefox",
+			identity: "Firefox"
+		},
+		{
+			string: navigator.vendor,
+			subString: "Camino",
+			identity: "Camino"
+		},
+		{		// for newer Netscapes (6+)
+			string: navigator.userAgent,
+			subString: "Netscape",
+			identity: "Netscape"
+		},
+		{
+			string: navigator.userAgent,
+			subString: "MSIE",
+			identity: "Explorer",
+			versionSearch: "MSIE"
+		},
+		{
+			string: navigator.userAgent,
+			subString: "Gecko",
+			identity: "Mozilla",
+			versionSearch: "rv"
+		},
+		{ 		// for older Netscapes (4-)
+			string: navigator.userAgent,
+			subString: "Mozilla",
+			identity: "Netscape",
+			versionSearch: "Mozilla"
+		}
+	],
+	dataOS : [
+		{
+			string: navigator.platform,
+			subString: "Win",
+			identity: "Windows"
+		},
+		{
+			string: navigator.platform,
+			subString: "Mac",
+			identity: "Mac"
+		},
+		{
+			   string: navigator.userAgent,
+			   subString: "iPhone",
+			   identity: "iPhone/iPod"
+	    },
+		{
+			string: navigator.platform,
+			subString: "Linux",
+			identity: "Linux"
+		}
+	]
+
+};
+BrowserDetect.init();
+    </script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.0/jquery-ui.min.js"></script>
+    <!--<script src="https://preview.c9users.io/robintibor/rizzoma-gadget/workspace/google-docs-gadget/js/load-google-doc-on-paste.js"></script>-->
+    <script type='text/javascript'>
+    (function() {
+  var googleDocGadget, loadGoogleDocFromTextBox, loadGoogleDocOnEnter, loadGoogleDocOnPaste, removeTextField, setAndShowLinkInNewTab, setDocHeight, setIFrameSource, showIFrame, showIFrameAfterFocus, showIFrameAfterLoad, weAreUsingChrome;
+
+  googleDocGadget = window.googleDocGadget || {};
+
+  window.googleDocGadget = googleDocGadget;
+
+  googleDocGadget.updateQueryString = function(key, value, url) {
+    var hash, re, separator;
+    if (!url) {
+      url = window.location.href;
+    }
+    re = new RegExp("([?|&])" + key + "=.*?(&|#|$)(.*)", "gi");
+    if (re.test(url)) {
+      if (typeof value !== "undefined" && value !== null) {
+        url = url.replace(re, '$1' + key + "=" + value + '$2$3');
+      } else {
+        url = url.replace(re, "$1$3").replace(/(&|\?)$/, "");
+      }
+    } else {
+      if (typeof value !== "undefined" && value !== null) {
+        separator = (url.indexOf("?") !== -1 ? "&" : "?");
+        hash = url.split("#");
+        url = hash[0] + separator + key + "=" + value;
+        if (hash[1]) {
+          url += "#" + hash[1];
+        }
+        url;
+
+      }
+    }
+    return url;
+  };
+
+  loadGoogleDocOnEnter = function() {
+    return $('#googleDocUrlText').keyup(function(event) {
+      var enterKeyCode;
+      enterKeyCode = 13;
+      if (event.keyCode === enterKeyCode) {
+        return loadGoogleDoc();
+      }
+    });
+  };
+
+  loadGoogleDocOnPaste = function() {
+    return $('#googleDocUrlText').on("paste", function() {
+      return setTimeout(loadGoogleDocFromTextBox, 0);
+    });
+  };
+
+  loadGoogleDocFromTextBox = function() {
+    var defaultHeight, enteredUrl, googleDocLink, googleDocLinkForMinimalUI;
+    defaultHeight = 450;
+    enteredUrl = $('#googleDocUrlText').val();
+    googleDocLink = enteredUrl.trim();
+    googleDocLinkForMinimalUI = googleDocGadget.updateQueryString("rm", "minimal", googleDocLink);
+    googleDocGadget.loadGoogleDoc(googleDocLinkForMinimalUI, defaultHeight);
+    return googleDocGadget.storeGoogleDocUrlInWave(googleDocLinkForMinimalUI);
+  };
+
+  googleDocGadget.loadGoogleDoc = function(googleDocLink, height) {
+    removeTextField();
+    if (weAreUsingChrome()) {
+      showIFrameAfterFocus();
+      showIFrameAfterLoad(5000);
+    } else {
+      showIFrameAfterLoad(100);
+    }
+    setTimeout(showIFrame, 14000);
+    setAndShowLinkInNewTab(googleDocLink);
+    setIFrameSource(googleDocLink);
+    return setDocHeight(height);
+  };
+
+  removeTextField = function() {
+    return $('#googleDocUrlText').remove();
+  };
+
+  weAreUsingChrome = function() {
+    if ((typeof BrowserDetect !== "undefined" && BrowserDetect !== null)) {
+      return BrowserDetect.browser === "Chrome";
+    } else {
+      return window.chrome != null;
+    }
+  };
+
+  setAndShowLinkInNewTab = function(googleDocLink) {
+    $("#newTabLink").attr("href", googleDocLink);
+    return $("#newTabDiv").show();
+  };
+
+  setIFrameSource = function(googleDocLink) {
+    return $("#googleDocIFrame").attr("src", googleDocLink);
+  };
+
+  setDocHeight = function(height) {
+    return $("#googleDocDiv").height(height);
+  };
+
+  showIFrameAfterFocus = function() {
+    if (document.activeElement === $('#googleDocIFrame')[0]) {
+      return showIFrame();
+    } else {
+      return setTimeout(showIFrameAfterFocus, 100);
+    }
+  };
+
+  showIFrameAfterLoad = function(timeOut) {
+    return $('#googleDocIFrame').load(function() {
+      return setTimeout(showIFrame, timeOut);
+    });
+  };
+
+  showIFrame = function() {
+    $('#googleDocIFrame').show();
+    return gadgets.window.adjustHeight();
+  };
+
+  googleDocGadget.showUrlEnterBox = function() {
+    return jQuery('#googleDocUrlText').show();
+  };
+
+  loadGoogleDocOnEnter();
+
+  loadGoogleDocOnPaste();
+
+}).call(this);
+
+    </script>
+    <!--<script src="https://preview.c9users.io/robintibor/rizzoma-gadget/workspace/google-docs-gadget/js/sync-google-doc-url-with-wave.js"></script>-->
+    <script type='text/javascript'>
+    (function() {
+  var docStoredInWave, getGoogleDocUrlFromWave, getHeightFromWave, googleDocGadget, loadGoogleDocFromWave, tryToLoadGoogleDocFromWave;
+
+  googleDocGadget = window.googleDocGadget || {};
+
+  window.googleDocGadget = googleDocGadget;
+
+  tryToLoadGoogleDocFromWave = function() {
+    var docShouldBeLoaded;
+    docShouldBeLoaded = docStoredInWave();
+    if (docStoredInWave()) {
+      return loadGoogleDocFromWave();
+    } else {
+      return googleDocGadget.showUrlEnterBox();
+    }
+  };
+
+  docStoredInWave = function() {
+    return wave.getState().get("googleDocUrl") != null;
+  };
+
+  loadGoogleDocFromWave = function() {
+    var googleDocUrl, height;
+    googleDocUrl = getGoogleDocUrlFromWave();
+    height = getHeightFromWave();
+    return googleDocGadget.loadGoogleDoc(googleDocUrl, height);
+  };
+
+  getGoogleDocUrlFromWave = function() {
+    return wave.getState().get("googleDocUrl");
+  };
+
+  getHeightFromWave = function() {
+    return wave.getState().get("height") || 450;
+  };
+
+  googleDocGadget.storeGoogleDocUrlInWave = function(googleDocUrl) {
+    return wave.getState().submitValue("googleDocUrl", googleDocUrl);
+  };
+
+  googleDocGadget.saveHeightToWave = function(height) {
+    return wave.getState().submitValue("height", height);
+  };
+
+  wave.setStateCallback(tryToLoadGoogleDocFromWave);
+
+}).call(this);
+
+    </script>
+    <!--<script src="https://preview.c9users.io/robintibor/rizzoma-gadget/workspace/google-docs-gadget/js/make-google-doc-resizable.js"></script>-->
+    <script type='text/javascript'>
+    (function() {
+  var googleDocGadget, makeDocResizable, makeDocUnresizable;
+
+  googleDocGadget = window.googleDocGadget || {};
+
+  window.googleDocGadget = googleDocGadget;
+
+  googleDocGadget.docIsResizable = function() {
+    return $('#googleDocDiv').hasClass('ui-resizable');
+  };
+
+  googleDocGadget.makeDocResizable = function() {
+    if (!googleDocGadget.docIsResizable()) {
+      return makeDocResizable();
+    }
+  };
+
+  makeDocResizable = function() {
+    return $('#googleDocDiv').resizable({
+      handles: "s",
+      grid: [1, 25],
+      create: function(event, ui) {
+        return gadgets.window.adjustHeight();
+      },
+      start: function(event, ui) {
+        gadgets.window.adjustHeight();
+        return $('#googleDocDiv').addClass('resizing');
+      },
+      resize: function(event, ui) {
+        return gadgets.window.adjustHeight();
+      },
+      stop: function(event, ui) {
+        gadgets.window.adjustHeight();
+        googleDocGadget.saveHeightToWave(ui.size.height);
+        return $('#googleDocDiv').removeClass('resizing');
+      }
+    });
+  };
+
+  googleDocGadget.makeDocUnresizable = function() {
+    if (googleDocGadget.docIsResizable()) {
+      return makeDocUnresizable();
+    }
+  };
+
+  makeDocUnresizable = function() {
+    $('#googleDocDiv').resizable('destroy');
+    return gadgets.window.adjustHeight();
+  };
+
+}).call(this);
+
+    </script>
+    <!--<script src="https://preview.c9users.io/robintibor/rizzoma-gadget/workspace/google-docs-gadget/js/toggle-edit-view-mode.js"></script>-->
+    <script type='text/javascript'>
+    (function() {
+  var EDIT_MODE, VIEW_MODE, googleDocGadget, showHideResizeBar, showHideResizeBarWhenModeChanged;
+
+  googleDocGadget = window.googleDocGadget || {};
+
+  window.googleDocGadget = googleDocGadget;
+
+  VIEW_MODE = 1;
+
+  EDIT_MODE = 2;
+
+  showHideResizeBarWhenModeChanged = function() {
+    return wave.setModeCallback(showHideResizeBar);
+  };
+
+  showHideResizeBar = function() {
+    var mode;
+    mode = wave.getMode();
+    if (mode === EDIT_MODE) {
+      googleDocGadget.makeDocResizable();
+      $('body').addClass('editMode');
+      $('body').removeClass('viewMode');
+    }
+    if (mode === VIEW_MODE) {
+      googleDocGadget.makeDocUnresizable();
+      $('body').addClass('viewMode');
+      return $('body').removeClass('editMode');
+    }
+  };
+
+  showHideResizeBarWhenModeChanged();
+
+}).call(this);
+
+    </script>
+  </body>
+]]>
+</Content>
+</Module>

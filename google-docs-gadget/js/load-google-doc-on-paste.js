@@ -1,5 +1,5 @@
 (function() {
-  var googleDocGadget, loadGoogleDocFromTextBox, loadGoogleDocOnEnter, loadGoogleDocOnPaste, removeTextField, setDocHeight, setIFrameSource, showIFrame, showIFrameAfterFocus, showIFrameAfterLoad, weAreUsingChrome;
+  var googleDocGadget, loadGoogleDocFromTextBox, loadGoogleDocOnEnter, loadGoogleDocOnPaste, removeTextField, setAndShowLinkInNewTab, setDocHeight, setIFrameSource, showIFrame, showIFrameAfterFocus, showIFrameAfterLoad, weAreUsingChrome;
 
   googleDocGadget = window.googleDocGadget || {};
 
@@ -67,6 +67,7 @@
       showIFrameAfterLoad(100);
     }
     setTimeout(showIFrame, 14000);
+    setAndShowLinkInNewTab(googleDocLink);
     setIFrameSource(googleDocLink);
     return setDocHeight(height);
   };
@@ -81,6 +82,11 @@
     } else {
       return window.chrome != null;
     }
+  };
+
+  setAndShowLinkInNewTab = function(googleDocLink) {
+    $("#newTabLink").attr("href", googleDocLink);
+    return $("#newTabDiv").show();
   };
 
   setIFrameSource = function(googleDocLink) {

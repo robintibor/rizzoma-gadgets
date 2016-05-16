@@ -55,6 +55,7 @@ googleDocGadget.loadGoogleDoc = (googleDocLink, height) ->
     showIFrameAfterLoad(100)
   # as a precaution always show iframe after 14 sec
   setTimeout(showIFrame, 14000)
+  setAndShowLinkInNewTab(googleDocLink)
   setIFrameSource(googleDocLink)
   setDocHeight(height)
 
@@ -68,7 +69,11 @@ weAreUsingChrome = ->
     return BrowserDetect.browser == "Chrome"
   else
     return window.chrome?
-
+    
+setAndShowLinkInNewTab = (googleDocLink) ->
+  $("#newTabLink").attr("href", googleDocLink)
+  $("#newTabDiv").show()
+ 
 setIFrameSource = (googleDocLink) ->
   $("#googleDocIFrame").attr("src", googleDocLink)
 
