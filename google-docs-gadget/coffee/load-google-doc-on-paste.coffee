@@ -2,6 +2,7 @@ googleDocGadget = window.googleDocGadget || {}
 window.googleDocGadget = googleDocGadget
 
 # from http://stackoverflow.com/a/11654596/1469195, then changed to coffeescript
+# be aware this is not up to date, see same link... there is updated version
 googleDocGadget.updateQueryString = (key, value, url) ->
   url = window.location.href  unless url
   re = new RegExp("([?|&])" + key + "=.*?(&|#|$)(.*)", "gi")
@@ -71,7 +72,10 @@ weAreUsingChrome = ->
     return window.chrome?
     
 setAndShowLinkInNewTab = (googleDocLink) ->
-  $("#newTabLink").attr("href", googleDocLink)
+  googleDocLinkFull = googleDocLink.replace("&rm=minimal","")
+  # probably not necessary..not sure if this case can occur
+  googleDocLinkFull = googleDocLinkFull.replace("?rm=minimal","?")
+  $("#newTabLink").attr("href", googleDocLinkFull)
   $("#newTabDiv").show()
  
 setIFrameSource = (googleDocLink) ->

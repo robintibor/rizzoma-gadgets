@@ -85,7 +85,10 @@
   };
 
   setAndShowLinkInNewTab = function(googleDocLink) {
-    $("#newTabLink").attr("href", googleDocLink);
+    var googleDocLinkFull;
+    googleDocLinkFull = googleDocLink.replace("&rm=minimal", "");
+    googleDocLinkFull = googleDocLinkFull.replace("?rm=minimal", "?");
+    $("#newTabLink").attr("href", googleDocLinkFull);
     return $("#newTabDiv").show();
   };
 
