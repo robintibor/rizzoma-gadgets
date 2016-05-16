@@ -73,7 +73,7 @@
     for (_i = 0, _len = htmlTags.length; _i < _len; _i++) {
       htmlTag = htmlTags[_i];
       fileUrl = $(htmlTag).attr(attribute);
-      relativeFileName = fileUrl.match(/\/rizzoma-gadget[s]{0,1}\/([^?#]*)/)[1];
+      relativeFileName = fileUrl.match(/\/rizzoma-gadget\/workspace\/(.*)/)[1];
       fileContent = fs.readFileSync(relativeFileName, 'utf-8');
       filesToContents[htmlTag] = fileContent;
     }

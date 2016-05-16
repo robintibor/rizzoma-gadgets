@@ -51,7 +51,9 @@ mapHTMLTagsToFileContents = (htmlTags, attribute) ->
   filesToContents = {}
   for htmlTag in htmlTags
     fileUrl = $(htmlTag).attr(attribute)
-    relativeFileName = fileUrl.match(/\/rizzoma-gadgets\/(.*)/)[1]
+    # regex here depends on url... this one /\/rizzoma-gadget\/workspace\/(.*)/
+    # is for preview c9users url style (may 2016)
+    relativeFileName = fileUrl.match(/\/rizzoma-gadget\/workspace\/(.*)/)[1]
     fileContent = fs.readFileSync(relativeFileName, 'utf-8')
     filesToContents[htmlTag] = fileContent
   return filesToContents
