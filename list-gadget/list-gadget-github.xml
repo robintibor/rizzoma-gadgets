@@ -6,8 +6,8 @@
 <Content type="html">
 <![CDATA[
   <head>
-  <link rel="stylesheet" type="text/css" href="https://dl.dropbox.com/u/62227781/list-gadget.css"/>
-  <link rel="stylesheet" type="text/css" href="https://dl.dropbox.com/u/62227781/icons.css"/>
+  <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/robintibor/rizzoma-gadgets/46ff713d693fa41c5676d12430dfdd149c39caf2/list-gadget/css/list-gadget.css"/>
+  <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/robintibor/rizzoma-gadgets/46ff713d693fa41c5676d12430dfdd149c39caf2/list-gadget/css/icons.css"/>
   </head>
   <body>
     <div style="padding-bottom:5px;" id="outDiv">
@@ -15,10 +15,10 @@
             <div id="listBox"></div>
             <div id="addLine" title="add new line" style="width:30px; margin-left:8px; cursor:pointer; color:#B6C4CF"; class="icon-plus1"></div>
             <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
-            <script type="text/javascript" src="https://dl.dropboxusercontent.com/u/62227781/js/init.js"></script>
-            <script type="text/javascript" src="https://dl.dropboxusercontent.com/u/62227781/js/staticFunctions.js"></script>
-            <script type="text/javascript" src="https://dl.dropboxusercontent.com/u/62227781/js/listObject.js"></script>
-            <script type="text/javascript" src="https://dl.dropboxusercontent.com/u/62227781/js/sync-with-wave.js"></script>
+            <script type="text/javascript" src="https://cdn.rawgit.com/robintibor/rizzoma-gadgets/46ff713d693fa41c5676d12430dfdd149c39caf2/list-gadget/js/init.js"></script>
+            <script type="text/javascript" src="https://cdn.rawgit.com/robintibor/rizzoma-gadgets/46ff713d693fa41c5676d12430dfdd149c39caf2/list-gadget/js/staticFunctions.js"></script>
+            <script type="text/javascript" src="https://cdn.rawgit.com/robintibor/rizzoma-gadgets/46ff713d693fa41c5676d12430dfdd149c39caf2/list-gadget/js/listObject.js"></script>
+            <script type="text/javascript" src="https://cdn.rawgit.com/robintibor/rizzoma-gadgets/46ff713d693fa41c5676d12430dfdd149c39caf2/list-gadget/js/sync-with-wave.js"></script>
         </div>
         <div id="bufDivUnvisible" class="bufClass1"></div>
     </div>
