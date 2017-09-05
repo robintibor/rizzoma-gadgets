@@ -7,7 +7,7 @@
 <![CDATA[
   <head>
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/themes/base/jquery-ui.css" type="text/css"/>
-    <link rel="stylesheet" href="https://dl.dropbox.com/u/34637013/publish/rizzoma-gadgets/youtube-gadget/css/youtube-gadget.css" type="text/css"/>
+    <link rel="stylesheet" href="https://raw.githubusercontent.com/robintibor/rizzoma-gadgets/master/youtube-gadget/css/youtube-gadget.css" type="text/css"/>
   </head>
   <body>
     <input id="youtubeUrlText" type="text" placeholder="Enter Youtube URL Here..."/>
